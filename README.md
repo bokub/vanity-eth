@@ -14,13 +14,13 @@ Install dependencies
 npm i
 ```
 
-Run the watcher to browserify JS as you code
+Run the watcher to browserify JS while you code
 
 ```sh
 npm run-script watch
 ```
 
-Browserify / babelify /uglify before pushing to production
+Build before pushing to production
 
 ```sh
 npm run-script build
