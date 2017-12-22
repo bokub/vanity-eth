@@ -1,10 +1,12 @@
 # Vanity ETH
 
-Online ETH vanity address generator
+Browser-based ETH vanity address generator
+
+Just type [`git.io/veth`](https://git.io/veth) to use it ⚡️
 
 ## Local usage
 
-Just clone the repo and open `index.html` with your web browser
+If for any reason you don't want to use the version hosted by Gihub pages, clone the repo and open `index.html` with your web browser
 
 ## Local development
 
