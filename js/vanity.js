@@ -6,7 +6,7 @@ const ERRORS = {
 };
 
 /**
- * Create a random wallet from a random private key
+ * Create a wallet from a random private key
  * @returns {{address: string, privKey: string}}
  */
 const getRandomWallet = () => {
@@ -37,6 +37,14 @@ const isValidVanityWallet = (wallet, input, isChecksum) => {
 	return address.substr(2, input.length) === input;
 };
 
+const computeDifficulty = (pattern, isChecksum) => {
+	return Math.pow(isChecksum ? 22 : 16, pattern.length);
+};
+
+const computeProbability = (difficulty, attempts) => {
+	return 1 - Math.pow((difficulty - 1) / difficulty, attempts);
+};
+
 /**
  * Generate a lot of wallets until one satisfies the input constraints
  * @param input
@@ -60,14 +68,14 @@ const getVanityWallet = (input, isChecksum, max) => {
 			return null;
 		}
 	}
-	if (isChecksum) {
-		_wallet.address = ethUtils.toChecksumAddress(_wallet.address);
-	}
 
+	_wallet.address = ethUtils.toChecksumAddress(_wallet.address);
 	_wallet.attempts = attempts;
 	return _wallet;
 };
 
 module.exports = {
-	getVanityWallet
+	getVanityWallet,
+	computeDifficulty,
+	computeProbability
 };

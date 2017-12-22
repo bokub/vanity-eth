@@ -8,11 +8,24 @@
     <title>Vanity ETH</title>
 </head>
 <body>
-<input type="text" value="ab" id="pattern">
-<input type="button" id="btn" value="Generate">
-<div id="counter-wrapper">
-    <div id="counter"></div>
+<div>
+    <label for="pattern">Pattern</label>
+    <input type="text" value="ab" id="pattern">
 </div>
+<div>
+    <label for="checksum">Case-sensitive</label>
+    <input type="checkbox" id="checksum" checked>
+</div>
+<button id="gen">
+    Generate
+</button>
+<button id="stop">
+    Stop
+</button>
+<div id="difficulty"></div>
+<div id="counter"></div>
+<div id="speed"></div>
+<div id="probability"></div>
 <div id="result"></div>
 <script src="js/bundle.js" type="text/javascript"></script>
 </body>
