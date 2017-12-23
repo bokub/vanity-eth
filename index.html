@@ -6,27 +6,72 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Vanity ETH</title>
+
+    <!--CSS-->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.css"/>
+    <link href="css/stylesheet.css" rel="stylesheet" type="text/css" media="all"/>
+
+    <!--Fonts-->
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic'
+          rel='stylesheet' type='text/css'>
 </head>
 <body>
-<div>
-    <label for="pattern">Pattern</label>
-    <input type="text" value="ab" id="pattern">
+<div class="container">
+    <div class="header text-center">
+        <h1><a href="#">VANITY-ETH</a></h1>
+        <p>Vanity ETH address generator</p>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel form">
+                <form>
+                    <input type="text" placeholder="Pattern" id="pattern">
+                    <div class="check">
+                        <label class="checkbox">
+                            <input type="checkbox" name="checkbox" id="checksum" checked="">
+                            <i class="left"> </i>
+                            Case-sensitive
+                        </label>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12">
+                            <input type="button" id="gen" value="Generate">
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            <input type="button" id="stop" value="Stop">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel statistics">
+                <div>Difficulty: <span id="difficulty"></span></div>
+                <div>Generated: <span id="counter"></span></div>
+                <div>Speed: <span id="speed"></span></div>
+                <!--Probability:-->
+                <div class="probability">
+                    <div class="probability-bar" id="probability-bar" style="width:0"></div>
+                </div>
+                <div class="percentage"><h5 id="probability"></h5></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div>Address: <span id="address"></span></div>
+                <div>Private key: <span id="private-key"></span></div>
+            </div>
+        </div>
+    </div>
+
 </div>
-<div>
-    <label for="checksum">Case-sensitive</label>
-    <input type="checkbox" id="checksum" checked>
-</div>
-<button id="gen">
-    Generate
-</button>
-<button id="stop">
-    Stop
-</button>
-<div id="difficulty"></div>
-<div id="counter"></div>
-<div id="speed"></div>
-<div id="probability"></div>
-<div id="result"></div>
+
+<!--JS-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
 <script src="js/bundle.js" type="text/javascript"></script>
 </body>
 </html>
