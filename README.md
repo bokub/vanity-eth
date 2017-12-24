@@ -16,7 +16,7 @@ Install dependencies
 npm i
 ```
 
-Run the watcher to browserify JS while you code
+Run the watcher to compile while you code
 
 ```sh
 npm run-script watch
