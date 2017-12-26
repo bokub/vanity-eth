@@ -20,14 +20,35 @@
 <body>
 <div class="container">
     <div class="header text-center">
-        <h1><a href="#">VANITY-ETH</a></h1>
+        <h1>VANITY-ETH</h1>
         <p>Vanity ETH address generator</p>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <h4>Usage</h4>
+                <p class="description">
+                    Vanity-ETH is a browser-based tool to generate an vanity Ethereum address.<br>
+                    Enter the prefix of your choice below, then click 'generate' to start.<br>
+                    Ethereum addresses are hexadecimal, which means your prefix can only contain numbers and letters
+                    from A to F.
+                </p>
+                <h4>How it works</h4>
+                <p class="description">
+                    You browser will generate a ton of random addresses until one of them starts with your prefix.<br>
+                    Everything is computed by your browser, so you should notice a better speed on a powerful
+                    computer.<br>
+                    Nothing ever leaves your machine, or even your browser tab.
+                </p>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-6">
             <div class="panel form">
-                <form>
-                    <input type="text" placeholder="Pattern" id="pattern">
+                <form id="form">
+                    <div class="error-text">Numbers and letters from A to F only</div>
+                    <input type="text" placeholder="Prefix" id="prefix">
                     <div class="check">
                         <label class="checkbox">
                             <input type="checkbox" name="checkbox" id="checksum" checked="">
@@ -40,7 +61,7 @@
                             <input type="button" id="gen" value="Generate">
                         </div>
                         <div class="col-lg-6 col-sm-12">
-                            <input type="button" id="stop" value="Stop">
+                            <input type="button" id="stop" value="Stop" disabled="">
                         </div>
                     </div>
                 </form>
@@ -48,26 +69,29 @@
         </div>
         <div class="col-md-6">
             <div class="panel statistics">
-                <div>Difficulty: <span id="difficulty"></span></div>
-                <div>Generated: <span id="counter"></span></div>
-                <div>Speed: <span id="speed"></span></div>
+                <div>Difficulty: <span id="difficulty" class="output">1</span></div>
+                <div>Generated: <span id="counter" class="output">0 addresses</span></div>
+                <div>Speed: <span id="speed" class="output">0 addr/s</span></div>
+                <div>Status: <span id="status" class="output">Waiting</span></div>
                 <!--Probability:-->
                 <div class="probability">
                     <div class="probability-bar" id="probability-bar" style="width:0"></div>
                 </div>
-                <div class="percentage"><h5 id="probability"></h5></div>
+                <div class="percentage">
+                    <h5 id="probability">0%</h5>
+                    <div>Probability</div>
+                </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="panel">
-                <div>Address: <span id="address"></span></div>
-                <div>Private key: <span id="private-key"></span></div>
+            <div class="panel result">
+                <div>Address: <span id="address" class="output"></span></div>
+                <div>Private key: <span id="private-key" class="output"></span></div>
             </div>
         </div>
     </div>
-
 </div>
 
 <!--JS-->

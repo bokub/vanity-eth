@@ -77,5 +77,6 @@ const getVanityWallet = (input, isChecksum, max) => {
 module.exports = {
 	getVanityWallet,
 	computeDifficulty,
-	computeProbability
+	computeProbability,
+	isValidHex
 };
