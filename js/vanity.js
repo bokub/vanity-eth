@@ -32,9 +32,22 @@ const isValidHex = hex => hex.length ? /^[0-9A-F]+$/g.test(hex.toUpperCase()) : 
  * @returns {boolean}
  */
 const isValidVanityWallet = (wallet, input, isChecksum) => {
-	let address = wallet.address;
-	address = isChecksum ? ethUtils.toChecksumAddress(address) : address;
-	return address.substr(2, input.length) === input;
+	if (!isChecksum) {
+		return wallet.address.substr(2, input.length) === input;
+	}
+	const address = ethUtils.stripHexPrefix(wallet.address).toLowerCase();
+	const hash = ethUtils.sha3(address).toString('hex');
+
+	for (let i = 0; i < input.length; i++) {
+		if (parseInt(hash[i], 16) >= 8) {
+			if (address[i].toUpperCase() !== input[i]) {
+				return false;
+			}
+		} else if (address[i] !== input[i]) {
+			return false;
+		}
+	}
+	return true;
 };
 
 const computeDifficulty = (pattern, isChecksum) => {

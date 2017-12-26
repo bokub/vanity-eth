@@ -5,6 +5,7 @@ const vanity = require('./vanity');
 let count = 0;
 let stop = false;
 let lastTick = null;
+let firstTick = null;
 let difficulty = 0;
 const step = 250;
 const elements = {};
@@ -41,7 +42,7 @@ const incrementCounter = incr => {
 	elements.counter.innerText = count.toString() + (count === 1 ? ' address' : ' addresses');
 
 	const currentTick = performance.now();
-	elements.speed.innerText = Math.floor(1000 * incr / (currentTick - lastTick)) + ' addr/s';
+	elements.speed.innerText = incr > 0 ? Math.floor(1000 * incr / (currentTick - lastTick)) + ' addr/s' : '0 addr/s';
 	lastTick = currentTick;
 };
 
@@ -52,16 +53,24 @@ const updateStats = () => {
 };
 
 const displayResult = result => {
-	incrementCounter(result ? result.attempts : 0);
+	incrementCounter(result.attempts);
+	document.getElementById('address').innerText = result.address;
+	document.getElementById('private-key').innerText = result.privKey;
+	elements.status.innerText = 'Address found';
+	console.info('Average speed: ' + Math.floor(1000 * count / (performance.now() - firstTick)) + ' addr/s');
 	updateStats();
-	document.getElementById('address').innerText = result ? result.address : '';
-	document.getElementById('private-key').innerText = result ? result.privKey : '';
-	elements.status.innerText = result ? 'Address found' : 'Running';
 };
 
-const toggleButtons = genBtn => {
-	const enabled = genBtn ? elements.genBtn : elements.stopBtn;
-	const disabled = genBtn ? elements.stopBtn : elements.genBtn;
+const clearResult = () => {
+	document.getElementById('address').innerText = '';
+	document.getElementById('private-key').innerText = '';
+	elements.status.innerText = 'Running';
+	updateStats();
+};
+
+const toggleButtons = () => {
+	const enabled = stop ? elements.genBtn : elements.stopBtn;
+	const disabled = stop ? elements.stopBtn : elements.genBtn;
 	enabled.removeAttribute('disabled');
 	disabled.setAttribute('disabled', '');
 };
@@ -69,7 +78,8 @@ const toggleButtons = genBtn => {
 const generate = input => {
 	const add = vanity.getVanityWallet(input.prefix, input.checksum, step);
 	if (add !== null) {
-		toggleButtons(true);
+		stop = true;
+		toggleButtons();
 		return displayResult(add);
 	}
 
@@ -91,19 +101,20 @@ for (const e in ids) { // eslint-disable-line guard-for-in
 
 // Add event listeners on buttons
 elements.genBtn.addEventListener('click', () => {
+	firstTick = performance.now();
 	incrementCounter(-count);
-	displayResult(null);
-	stop = false;
+	clearResult();
 
 	const input = parseInput();
-	toggleButtons(false);
+	stop = false;
+	toggleButtons();
 
 	setTimeout(() => generate(input), 0);
 });
 
 elements.stopBtn.addEventListener('click', () => {
-	toggleButtons(true);
 	stop = true;
+	toggleButtons();
 });
 
 elements.form.addEventListener('change', () => parseInput());
