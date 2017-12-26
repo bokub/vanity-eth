@@ -38,7 +38,8 @@ const isValidVanityWallet = (wallet, input, isChecksum) => {
 };
 
 const computeDifficulty = (pattern, isChecksum) => {
-	return Math.pow(isChecksum ? 22 : 16, pattern.length);
+	const ret = Math.pow(16, pattern.length);
+	return isChecksum ? (ret * Math.pow(2, pattern.replace(/[^a-f]/gi, '').length)) : ret;
 };
 
 const computeProbability = (difficulty, attempts) => {
