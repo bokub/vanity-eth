@@ -6,7 +6,7 @@ Just type [`git.io/veth`](https://git.io/veth) to use it ⚡️
 
 ## Local usage
 
-If for any reason you don't want to use the version hosted by Gihub pages, clone the repo and open `index.html` with your web browser
+If for any reason you don't want to use the version hosted by Github pages, download / clone the project and open `index.html` with your web browser
 
 ## Local development
 

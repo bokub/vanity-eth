@@ -12,7 +12,7 @@ const cleanCSS = require('gulp-clean-css');
 // Browserify
 gulp.task('browserify', cb => {
 	pump([
-		browserify('js/index.js').bundle(),
+		browserify('js/vanity.js', {standalone: 'vanity'}).bundle(),
 		source('bundle.js'),
 		gulp.dest('js')
 	], cb);
@@ -56,6 +56,6 @@ gulp.task('default', ['build-js', 'build-css']);
 
 // Watch changes and compile on the fly
 gulp.task('watch', () => {
-	gulp.watch(['js/index.js', 'js/vanity.js'], ['browserify']);
+	gulp.watch(['js/vanity.js'], ['browserify']);
 	gulp.watch(['css/stylesheet.sass'], ['sass']);
 });

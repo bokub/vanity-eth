@@ -1,6 +1,5 @@
-/* eslint-env node, browser */
-
-const vanity = require('./vanity');
+/* eslint-env browser */
+/* global vanity:false */
 
 let count = 0;
 let stop = false;
