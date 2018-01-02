@@ -1,120 +1,88 @@
 /* eslint-env browser */
-/* global vanity:false */
+/* global vanity:false, Vue:false */
 
-let count = 0;
-let stop = false;
-let lastTick = null;
-let firstTick = null;
-let difficulty = 0;
-const step = 250;
-const elements = {};
-const ids = {
-	counter: 'counter',
-	speed: 'speed',
-	probability: 'probability',
-	probabilityBar: 'probability-bar',
-	status: 'status',
-	genBtn: 'gen',
-	stopBtn: 'stop',
-	form: 'form'
-};
+// eslint-disable-next-line no-new
+new Vue({
+	el: '#app',
+	data: {
+		count: 0,
+		lastTick: null,
+		firstTick: null,
+		running: false,
+		step: 250,
+		speed: '0 addr/s',
+		status: 'Waiting',
+		result: {
+			address: '',
+			privateKey: ''
+		},
+		input: {
+			prefix: '',
+			checksum: true
+		}
+	},
 
-const parseInput = () => {
-	const input = {
-		prefix: document.getElementById('prefix').value,
-		checksum: document.getElementById('checksum').checked
-	};
+	computed: {
+		inputError() {
+			return !vanity.isValidHex(this.input.prefix);
+		},
+		difficulty() {
+			return this.inputError ? 'N/A' : vanity.computeDifficulty(this.input.prefix, this.input.checksum);
+		},
+		probability() {
+			return Math.round(10000 * vanity.computeProbability(this.difficulty, this.count)) / 100;
+		}
+	},
+	methods: {
+		incrementCounter(incr) {
+			this.count += incr;
+			const currentTick = performance.now();
+			this.speed = incr > 0 ? Math.floor(1000 * incr / (currentTick - this.lastTick)) + ' addr/s' : '0 addr/s';
+			this.lastTick = currentTick;
+		},
 
-	if (!vanity.isValidHex(input.prefix)) {
-		elements.form.className = 'error';
-		return;
+		displayResult(result) {
+			this.incrementCounter(result.attempts);
+			this.result.address = result.address;
+			this.result.privateKey = result.privKey;
+			this.status = 'Address found';
+			this.speed = Math.floor(1000 * this.count / (performance.now() - this.firstTick)) + ' addr/s';
+		},
+
+		clearResult() {
+			this.result.address = '';
+			this.result.privateKey = '';
+		},
+
+		generate() {
+			const add = vanity.getVanityWallet(this.input.prefix, this.input.checksum, this.step);
+			if (add !== null) {
+				this.running = false;
+				return this.displayResult(add);
+			}
+
+			this.incrementCounter(this.step);
+
+			if (!this.running) {
+				this.status = 'Stopped';
+				return;
+			}
+
+            // Use setTimeout to let the browser render
+			setTimeout(() => this.generate(), 0);
+		},
+
+		startGen() {
+			this.firstTick = performance.now();
+			this.incrementCounter(-this.count);
+			this.clearResult();
+			this.running = true;
+
+			setTimeout(() => this.generate(), 0);
+		},
+
+		stopGen() {
+			this.running = false;
+		}
 	}
-
-	elements.form.className = '';
-	difficulty = vanity.computeDifficulty(input.prefix, input.checksum);
-	document.getElementById('difficulty').innerText = difficulty.toString();
-	return input;
-};
-
-const incrementCounter = incr => {
-	count += incr;
-	elements.counter.innerText = count.toString() + (count === 1 ? ' address' : ' addresses');
-
-	const currentTick = performance.now();
-	elements.speed.innerText = incr > 0 ? Math.floor(1000 * incr / (currentTick - lastTick)) + ' addr/s' : '0 addr/s';
-	lastTick = currentTick;
-};
-
-const updateStats = () => {
-	const prob = Math.round(10000 * vanity.computeProbability(difficulty, count)) / 100;
-	elements.probability.innerText = prob + '%';
-	elements.probabilityBar.style.width = prob + '%';
-};
-
-const displayResult = result => {
-	incrementCounter(result.attempts);
-	document.getElementById('address').innerText = result.address;
-	document.getElementById('private-key').innerText = result.privKey;
-	elements.status.innerText = 'Address found';
-	console.info('Average speed: ' + Math.floor(1000 * count / (performance.now() - firstTick)) + ' addr/s');
-	updateStats();
-};
-
-const clearResult = () => {
-	document.getElementById('address').innerText = '';
-	document.getElementById('private-key').innerText = '';
-	elements.status.innerText = 'Running';
-	updateStats();
-};
-
-const toggleButtons = () => {
-	const enabled = stop ? elements.genBtn : elements.stopBtn;
-	const disabled = stop ? elements.stopBtn : elements.genBtn;
-	enabled.removeAttribute('disabled');
-	disabled.setAttribute('disabled', '');
-};
-
-const generate = input => {
-	const add = vanity.getVanityWallet(input.prefix, input.checksum, step);
-	if (add !== null) {
-		stop = true;
-		toggleButtons();
-		return displayResult(add);
-	}
-
-	incrementCounter(step);
-	updateStats();
-
-	if (stop) {
-		elements.status.innerText = 'Stopped';
-		return;
-	}
-
-    // Use setTimeout to let the browser render
-	setTimeout(() => generate(input), 0);
-};
-
-for (const e in ids) { // eslint-disable-line guard-for-in
-	elements[e] = document.getElementById(ids[e]);
-}
-
-// Add event listeners on buttons
-elements.genBtn.addEventListener('click', () => {
-	firstTick = performance.now();
-	incrementCounter(-count);
-	clearResult();
-
-	const input = parseInput();
-	stop = false;
-	toggleButtons();
-
-	setTimeout(() => generate(input), 0);
 });
-
-elements.stopBtn.addEventListener('click', () => {
-	stop = true;
-	toggleButtons();
-});
-
-elements.form.addEventListener('change', () => parseInput());
-elements.form.addEventListener('keyup', () => parseInput());

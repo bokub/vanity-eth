@@ -18,7 +18,7 @@
           rel='stylesheet' type='text/css'>
 </head>
 <body>
-<div class="container">
+<div class="container" id="app">
     <div class="header text-center">
         <h1>VANITY-ETH</h1>
         <p>Vanity ETH address generator</p>
@@ -46,22 +46,22 @@
     <div class="row">
         <div class="col-md-6">
             <div class="panel form">
-                <form id="form">
+                <form :class="{error: inputError}">
                     <div class="error-text">Numbers and letters from A to F only</div>
-                    <input type="text" placeholder="Prefix" id="prefix">
+                    <input type="text" placeholder="Prefix" v-model="input.prefix" :disabled="running">
                     <div class="check">
                         <label class="checkbox">
-                            <input type="checkbox" name="checkbox" id="checksum" checked="">
+                            <input type="checkbox" name="checkbox" checked="" v-model="input.checksum" :disabled="running">
                             <i class="left"> </i>
                             Case-sensitive
                         </label>
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-sm-12">
-                            <input type="button" id="gen" value="Generate">
+                            <input type="button" value="Generate" @click="startGen" :disabled="running || inputError">
                         </div>
                         <div class="col-lg-6 col-sm-12">
-                            <input type="button" id="stop" value="Stop" disabled="">
+                            <input type="button" value="Stop" @click="stopGen" :disabled="!running">
                         </div>
                     </div>
                 </form>
@@ -69,16 +69,16 @@
         </div>
         <div class="col-md-6">
             <div class="panel statistics">
-                <div>Difficulty: <span id="difficulty" class="output">1</span></div>
-                <div>Generated: <span id="counter" class="output">0 addresses</span></div>
-                <div>Speed: <span id="speed" class="output">0 addr/s</span></div>
-                <div>Status: <span id="status" class="output">Waiting</span></div>
+                <div>Difficulty: <span class="output" v-text="difficulty">1</span></div>
+                <div>Generated: <span class="output" v-text="count + (count === 1 ? ' address' : ' addresses')">0 addresses</span></div>
+                <div>Speed: <span class="output" v-text="speed">0 addr/s</span></div>
+                <div>Status: <span class="output" v-text="status">Waiting</span></div>
                 <!--Probability:-->
                 <div class="probability">
-                    <div class="probability-bar" id="probability-bar" style="width:0"></div>
+                    <div class="probability-bar" :style="'width:' + probability + '%'"></div>
                 </div>
                 <div class="percentage">
-                    <h5 id="probability">0%</h5>
+                    <h5 v-text="probability + '%'">0%</h5>
                     <div>Probability</div>
                 </div>
             </div>
@@ -87,8 +87,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel result">
-                <div>Address: <span id="address" class="output"></span></div>
-                <div>Private key: <span id="private-key" class="output"></span></div>
+                <div>Address: <span class="output" v-text="result.address"></span></div>
+                <div>Private key: <span class="output" v-text="result.privateKey"></span></div>
             </div>
         </div>
     </div>
@@ -96,6 +96,7 @@
 
 <!--JS-->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
 <script src="js/bundle.js" type="text/javascript"></script>
 <script src="js/index.js" type="text/javascript"></script>
 </body>
