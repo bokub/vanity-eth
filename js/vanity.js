@@ -1,9 +1,7 @@
+/* eslint-env worker */
+
 const ethUtils = require('ethereumjs-util');
 const randomBytes = require('randombytes');
-
-const ERRORS = {
-	invalidHex: 'Invalid hex input'
-};
 
 /**
  * Create a wallet from a random private key
@@ -16,13 +14,6 @@ const getRandomWallet = () => {
 		privKey: randbytes.toString('hex')
 	};
 };
-
-/**
- * Check if a string is valid hexadecimal
- * @param hex
- * @returns {boolean}
- */
-const isValidHex = hex => hex.length ? /^[0-9A-F]+$/g.test(hex.toUpperCase()) : true;
 
 /**
  * Check if a wallet respects the input constraints
@@ -50,15 +41,6 @@ const isValidVanityWallet = (wallet, input, isChecksum) => {
 	return true;
 };
 
-const computeDifficulty = (pattern, isChecksum) => {
-	const ret = Math.pow(16, pattern.length);
-	return isChecksum ? (ret * Math.pow(2, pattern.replace(/[^a-f]/gi, '').length)) : ret;
-};
-
-const computeProbability = (difficulty, attempts) => {
-	return 1 - Math.pow((difficulty - 1) / difficulty, attempts);
-};
-
 /**
  * Generate a lot of wallets until one satisfies the input constraints
  * @param input
@@ -67,10 +49,6 @@ const computeProbability = (difficulty, attempts) => {
  * @returns
  */
 const getVanityWallet = (input, isChecksum, max) => {
-	input = input || '';
-	if (!isValidHex(input)) {
-		throw new Error(ERRORS.invalidHex);
-	}
 	input = isChecksum ? input : input.toLowerCase();
 	let _wallet = getRandomWallet();
 	let attempts = 1;
@@ -88,9 +66,11 @@ const getVanityWallet = (input, isChecksum, max) => {
 	return _wallet;
 };
 
+onmessage = function (event) {
+	const data = event.data;
+	postMessage(getVanityWallet(data.input.prefix, data.input.checksum, data.step));
+};
+
 module.exports = {
-	getVanityWallet,
-	computeDifficulty,
-	computeProbability,
-	isValidHex
+	onmessage
 };

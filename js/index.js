@@ -1,17 +1,34 @@
 /* eslint-env browser */
-/* global vanity:false, Vue:false */
+/* global Vue:false */
+
+/**
+ * Check if a string is valid hexadecimal
+ * @param hex
+ * @returns {boolean}
+ */
+const isValidHex = hex => hex.length ? /^[0-9A-F]+$/g.test(hex.toUpperCase()) : true;
+
+const computeDifficulty = (pattern, isChecksum) => {
+	const ret = Math.pow(16, pattern.length);
+	return isChecksum ? (ret * Math.pow(2, pattern.replace(/[^a-f]/gi, '').length)) : ret;
+};
+
+const computeProbability = (difficulty, attempts) => {
+	return 1 - Math.pow((difficulty - 1) / difficulty, attempts);
+};
 
 // eslint-disable-next-line no-new
 new Vue({
 	el: '#app',
 	data: {
 		count: 0,
-		lastTick: null,
 		firstTick: null,
 		running: false,
-		step: 250,
+		step: 500,
 		speed: '0 addr/s',
 		status: 'Waiting',
+		workers: [],
+		threads: 4,
 		result: {
 			address: '',
 			privateKey: ''
@@ -24,21 +41,26 @@ new Vue({
 
 	computed: {
 		inputError() {
-			return !vanity.isValidHex(this.input.prefix);
+			return !isValidHex(this.input.prefix);
 		},
 		difficulty() {
-			return this.inputError ? 'N/A' : vanity.computeDifficulty(this.input.prefix, this.input.checksum);
+			return this.inputError ? 'N/A' : computeDifficulty(this.input.prefix, this.input.checksum);
 		},
 		probability() {
-			return Math.round(10000 * vanity.computeProbability(this.difficulty, this.count)) / 100;
+			return Math.round(10000 * computeProbability(this.difficulty, this.count)) / 100;
+		}
+	},
+	watch: {
+		threads() {
+			if (!this.running) {
+				this.initWorkers();
+			}
 		}
 	},
 	methods: {
 		incrementCounter(incr) {
 			this.count += incr;
-			const currentTick = performance.now();
-			this.speed = incr > 0 ? Math.floor(1000 * incr / (currentTick - this.lastTick)) + ' addr/s' : '0 addr/s';
-			this.lastTick = currentTick;
+			this.speed = incr > 0 ? Math.floor(1000 * this.count / (performance.now() - this.firstTick)) + ' addr/s' : '0 addr/s';
 		},
 
 		displayResult(result) {
@@ -46,7 +68,6 @@ new Vue({
 			this.result.address = result.address;
 			this.result.privateKey = result.privKey;
 			this.status = 'Address found';
-			this.speed = Math.floor(1000 * this.count / (performance.now() - this.firstTick)) + ' addr/s';
 		},
 
 		clearResult() {
@@ -54,35 +75,74 @@ new Vue({
 			this.result.privateKey = '';
 		},
 
-		generate() {
-			const add = vanity.getVanityWallet(this.input.prefix, this.input.checksum, this.step);
+        /**
+		 * Create missing workers, remove the unwanted ones.
+         */
+		initWorkers() {
+			const self = this;
+			if (this.workers.length === this.threads) {
+				return;
+			}
+
+			// Remove unwanted workers
+			if (this.workers.length > this.threads) {
+				for (let w = this.threads - 1; w < this.workers.length; w++) {
+					this.workers[w].terminate();
+				}
+				this.workers = this.workers.slice(0, this.threads);
+				return;
+			}
+
+			// Create workers
+			for (let w = this.workers.length; w < this.threads; w++) {
+				this.workers[w] = new Worker('js/bundle.js');
+				this.workers[w].onmessage = function (event) {
+					self.parseWorkerMessage(event.data, w);
+				};
+			}
+		},
+
+		parseWorkerMessage(add, w) {
 			if (add !== null) {
-				this.running = false;
+				this.stopGen();
 				return this.displayResult(add);
 			}
 
 			this.incrementCounter(this.step);
 
-			if (!this.running) {
-				this.status = 'Stopped';
-				return;
-			}
-
-            // Use setTimeout to let the browser render
-			setTimeout(() => this.generate(), 0);
+			this.workers[w].postMessage({input: this.input, step: this.step});
 		},
 
 		startGen() {
-			this.firstTick = performance.now();
+			if (!window.Worker) {
+				console.error('Web workers are not supported');
+				return;
+			}
+
 			this.incrementCounter(-this.count);
 			this.clearResult();
 			this.running = true;
 
-			setTimeout(() => this.generate(), 0);
+			for (let w = 0; w < this.workers.length; w++) {
+				this.workers[w].postMessage({input: this.input, step: this.step});
+			}
+
+			this.status = 'Running';
+			this.firstTick = performance.now();
 		},
 
 		stopGen() {
 			this.running = false;
+			this.status = 'Stopped';
+			for (let i = 0; i < this.workers.length; i++) {
+				this.workers[i].terminate();
+			}
+			this.workers = [];
+			this.initWorkers();
 		}
+	},
+
+	created() {
+		this.initWorkers();
 	}
 });
