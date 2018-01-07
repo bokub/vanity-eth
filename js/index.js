@@ -29,6 +29,7 @@ new Vue({
 		status: 'Waiting',
 		workers: [],
 		threads: 4,
+		cores: 0,
 		result: {
 			address: '',
 			privateKey: ''
@@ -36,7 +37,8 @@ new Vue({
 		input: {
 			prefix: '',
 			checksum: true
-		}
+		},
+		error: false
 	},
 
 	computed: {
@@ -95,16 +97,26 @@ new Vue({
 
 			// Create workers
 			for (let w = this.workers.length; w < this.threads; w++) {
-				this.workers[w] = new Worker('js/bundle.js');
-				this.workers[w].onmessage = function (event) {
-					self.parseWorkerMessage(event.data, w);
-				};
+				try {
+					this.workers[w] = new Worker('js/bundle.js');
+					this.workers[w].onmessage = function (event) {
+						self.parseWorkerMessage(event.data, w);
+					};
+				} catch (err) {
+					this.error = 'local_workers_forbidden';
+					break;
+				}
 			}
 		},
 
 		parseWorkerMessage(add, w) {
 			if (add !== null) {
 				this.stopGen();
+				if (add.error) {
+					this.error = add.error;
+					return;
+				}
+
 				return this.displayResult(add);
 			}
 
@@ -115,7 +127,7 @@ new Vue({
 
 		startGen() {
 			if (!window.Worker) {
-				console.error('Web workers are not supported');
+				this.error = 'workers_unsupported';
 				return;
 			}
 
@@ -139,10 +151,26 @@ new Vue({
 			}
 			this.workers = [];
 			this.initWorkers();
+		},
+
+		countCores() {
+            // Estimate number of cores on machine
+			let cores = 0;
+			try {
+				cores = parseInt(navigator.hardwareConcurrency, 10);
+			} catch (err) {
+				console.error(err);
+			}
+
+			if (cores) {
+				this.cores = cores;
+				this.threads = this.cores;
+			}
 		}
 	},
 
 	created() {
+		this.countCores();
 		this.initWorkers();
 	}
 });

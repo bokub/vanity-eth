@@ -68,7 +68,11 @@ const getVanityWallet = (input, isChecksum, max) => {
 
 onmessage = function (event) {
 	const data = event.data;
-	postMessage(getVanityWallet(data.input.prefix, data.input.checksum, data.step));
+	try {
+		postMessage(getVanityWallet(data.input.prefix, data.input.checksum, data.step));
+	} catch (err) {
+		postMessage({error: err.toString()});
+	}
 };
 
 module.exports = {

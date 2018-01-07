@@ -43,6 +43,21 @@
             </div>
         </div>
     </div>
+    <div v-if="error" class="row" v-cloak>
+        <div class="col-md-12">
+            <div class="panel error">
+                <p v-if="error === 'local_workers_forbidden'">
+                    Your browser disallows multi-thread computation when run from a local file.<br>
+                    Please use the online version at <a href="https://git.io/veth">git.io/veth</a>, or use a different browser.
+                </p>
+                <p v-else-if="error === 'workers_unsupported'">
+                    Your browser does not support multi-thread computation.<br>
+                    Please use a different browser.
+                </p>
+                <p v-else v-text="error"></p>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-6">
             <div class="panel form">
@@ -56,9 +71,16 @@
                             Case-sensitive
                         </label>
                     </div>
+                    <div class="threads">
+                        <input type="button" class="square-btn" value="-" @click="threads--" :disabled="running || threads <= 1">
+                        <input type="button" class="square-btn arrow" value="+" @click="threads++" :disabled="running">
+                        <h4 v-text="threads"></h4>
+                        <span v-cloak>threads</span>
+                        <span v-if="threads === cores" v-cloak>(recommended)</span>
+                    </div>
                     <div class="row">
                         <div class="col-lg-6 col-sm-12">
-                            <input type="button" value="Generate" @click="startGen" :disabled="running || inputError">
+                            <input type="button" value="Generate" @click="startGen" :disabled="running || inputError || error">
                         </div>
                         <div class="col-lg-6 col-sm-12">
                             <input type="button" value="Stop" @click="stopGen" :disabled="!running">
@@ -95,9 +117,7 @@
 </div>
 
 <!--JS-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
 <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
-<script src="js/bundle.js" type="text/javascript"></script>
 <script src="js/index.js" type="text/javascript"></script>
 </body>
 </html>

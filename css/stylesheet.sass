@@ -18,6 +18,9 @@ body
 h1, h2, h3, h4, h5, h6, p, label
   margin: 0
 
+[v-cloak]
+  display: none
+
 .header
   margin-bottom: 8em
   color: $white-text
@@ -43,11 +46,15 @@ h1, h2, h3, h4, h5, h6, p, label
 
 .panel
   padding: 1.5em 3em
-  background: $panel-background
+  background-color: $panel-background
   margin-top: 2em
   color: $white-text
   font-weight: 400
-
+  &.error
+    background-color: $red
+    a, a:visited, a:hover
+      color: $white-text
+      text-decoration: underline
 .form
   input
     &[type="text"]
@@ -134,6 +141,19 @@ h1, h2, h3, h4, h5, h6, p, label
     left: -9999px
     &:checked + i:after
       opacity: 1
+
+.threads
+  font-size: 1.2em
+  h4
+    display: inline
+  input[type=button].square-btn
+    display: inline-block
+    width: 24px
+    height: 24px
+    margin: 0 5px 0 0
+    padding: 0
+    line-height: 1em
+
 
 .statistics > div:not(:last-child), .result > div:not(:last-child)
   margin-bottom: 15px
