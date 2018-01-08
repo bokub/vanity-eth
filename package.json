@@ -3,6 +3,7 @@
   "description": "Online ETH vanity address generator",
   "version": "1.0.0",
   "dependencies": {
+    "@babel/plugin-transform-object-assign": "^7.0.0-beta.37",
     "babel-preset-env": "^1.6.1",
     "browserify": "^14.5.0",
     "ethereumjs-util": "^5.1.2",

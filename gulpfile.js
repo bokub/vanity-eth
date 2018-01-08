@@ -31,7 +31,7 @@ gulp.task('sass', cb => {
 gulp.task('build-js', ['browserify'], cb => {
 	pump([
 		gulp.src('js/bundle.js'),
-		babel({presets: ['env']}),
+		babel({presets: ['env'], plugins: ['@babel/plugin-transform-object-assign']}),
 		uglify(),
 		gulp.dest('js')
 	], cb);

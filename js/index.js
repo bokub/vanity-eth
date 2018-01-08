@@ -6,14 +6,16 @@
  * @param hex
  * @returns {boolean}
  */
-const isValidHex = hex => hex.length ? /^[0-9A-F]+$/g.test(hex.toUpperCase()) : true;
+const isValidHex = function (hex) {
+	return hex.length ? /^[0-9A-F]+$/g.test(hex.toUpperCase()) : true;
+};
 
-const computeDifficulty = (pattern, isChecksum) => {
+const computeDifficulty = function (pattern, isChecksum) {
 	const ret = Math.pow(16, pattern.length);
 	return isChecksum ? (ret * Math.pow(2, pattern.replace(/[^a-f]/gi, '').length)) : ret;
 };
 
-const computeProbability = (difficulty, attempts) => {
+const computeProbability = function (difficulty, attempts) {
 	return 1 - Math.pow((difficulty - 1) / difficulty, attempts);
 };
 
@@ -78,7 +80,7 @@ new Vue({
 		},
 
         /**
-		 * Create missing workers, remove the unwanted ones.
+         * Create missing workers, remove the unwanted ones.
          */
 		initWorkers() {
 			const self = this;
@@ -86,7 +88,7 @@ new Vue({
 				return;
 			}
 
-			// Remove unwanted workers
+            // Remove unwanted workers
 			if (this.workers.length > this.threads) {
 				for (let w = this.threads - 1; w < this.workers.length; w++) {
 					this.workers[w].terminate();
@@ -95,7 +97,7 @@ new Vue({
 				return;
 			}
 
-			// Create workers
+            // Create workers
 			for (let w = this.workers.length; w < this.threads; w++) {
 				try {
 					this.workers[w] = new Worker('js/bundle.js');
