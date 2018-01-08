@@ -19,6 +19,9 @@
     "vinyl-source-stream": "^1.1.0",
     "xo": "^0.18.2"
   },
+  "xo": {
+    "rules": {"object-shorthand": "off", "no-new": "off"}
+  },
   "license": "ISC",
   "main": "index.js",
   "scripts": {

@@ -19,7 +19,6 @@ const computeProbability = function (difficulty, attempts) {
 	return 1 - Math.pow((difficulty - 1) / difficulty, attempts);
 };
 
-// eslint-disable-next-line no-new
 new Vue({
 	el: '#app',
 	data: {
@@ -44,37 +43,37 @@ new Vue({
 	},
 
 	computed: {
-		inputError() {
+		inputError: function () {
 			return !isValidHex(this.input.prefix);
 		},
-		difficulty() {
+		difficulty: function () {
 			return this.inputError ? 'N/A' : computeDifficulty(this.input.prefix, this.input.checksum);
 		},
-		probability() {
+		probability: function () {
 			return Math.round(10000 * computeProbability(this.difficulty, this.count)) / 100;
 		}
 	},
 	watch: {
-		threads() {
+		threads: function () {
 			if (!this.running) {
 				this.initWorkers();
 			}
 		}
 	},
 	methods: {
-		incrementCounter(incr) {
+		incrementCounter: function (incr) {
 			this.count += incr;
 			this.speed = incr > 0 ? Math.floor(1000 * this.count / (performance.now() - this.firstTick)) + ' addr/s' : '0 addr/s';
 		},
 
-		displayResult(result) {
+		displayResult: function (result) {
 			this.incrementCounter(result.attempts);
 			this.result.address = result.address;
 			this.result.privateKey = result.privKey;
 			this.status = 'Address found';
 		},
 
-		clearResult() {
+		clearResult: function () {
 			this.result.address = '';
 			this.result.privateKey = '';
 		},
@@ -82,7 +81,7 @@ new Vue({
         /**
          * Create missing workers, remove the unwanted ones.
          */
-		initWorkers() {
+		initWorkers: function () {
 			const self = this;
 			if (this.workers.length === this.threads) {
 				return;
@@ -111,7 +110,7 @@ new Vue({
 			}
 		},
 
-		parseWorkerMessage(add, w) {
+		parseWorkerMessage: function (add, w) {
 			if (add !== null) {
 				this.stopGen();
 				if (add.error) {
@@ -127,7 +126,7 @@ new Vue({
 			this.workers[w].postMessage({input: this.input, step: this.step});
 		},
 
-		startGen() {
+		startGen: function () {
 			if (!window.Worker) {
 				this.error = 'workers_unsupported';
 				return;
@@ -145,7 +144,7 @@ new Vue({
 			this.firstTick = performance.now();
 		},
 
-		stopGen() {
+		stopGen: function () {
 			this.running = false;
 			this.status = 'Stopped';
 			for (let i = 0; i < this.workers.length; i++) {
@@ -155,7 +154,7 @@ new Vue({
 			this.initWorkers();
 		},
 
-		countCores() {
+		countCores: function () {
             // Estimate number of cores on machine
 			let cores = 0;
 			try {
@@ -171,7 +170,7 @@ new Vue({
 		}
 	},
 
-	created() {
+	created: function () {
 		this.countCores();
 		this.initWorkers();
 	}
