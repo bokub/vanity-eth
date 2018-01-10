@@ -11,17 +11,19 @@
     "gulp-autoprefixer": "^4.0.0",
     "gulp-babel": "^7.0.0",
     "gulp-clean-css": "^3.9.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.6.1",
     "gulp-sass": "^3.1.0",
     "gulp-uglify": "^3.0.0",
     "pump": "^2.0.0",
-    "randombytes": "^2.0.5",
+    "randombytes": "^2.0.6",
     "vinyl-source-stream": "^1.1.0",
     "xo": "^0.18.2"
   },
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "build": "node ./node_modules/gulp/bin/gulp.js",
+    "build": "node ./node_modules/gulp/bin/gulp.js build",
     "test": "node ./node_modules/xo/cli.js",
     "watch": "node ./node_modules/gulp/bin/gulp.js watch"
   },

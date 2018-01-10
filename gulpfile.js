@@ -8,6 +8,8 @@ const source = require('vinyl-source-stream');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCSS = require('gulp-clean-css');
+const rename = require("gulp-rename");
+const replace = require('gulp-replace');
 
 // Browserify
 gulp.task('browserify', cb => {
@@ -30,10 +32,11 @@ gulp.task('sass', cb => {
 // Build javascript
 gulp.task('build-js', ['browserify'], cb => {
 	pump([
-		gulp.src('js/bundle.js'),
+		gulp.src(['js/index.js', 'js/bundle.js']),
 		babel({presets: ['env'], plugins: ['@babel/plugin-transform-object-assign']}),
 		uglify(),
-		gulp.dest('js')
+        rename({extname: ".min.js"}),
+        gulp.dest('build/js')
 	], cb);
 });
 
@@ -47,12 +50,24 @@ gulp.task('build-css', ['sass'], cb => {
 			cascade: false
 		}),
 		cleanCSS({compatibility: 'ie8'}),
-		gulp.dest('css')
+        rename({extname: ".min.css"}),
+		gulp.dest('build/css')
 	], cb);
 });
 
+gulp.task('replace-path', cb =>{
+    pump([
+        gulp.src('index.html'),
+        replace('src="js/', 'src="build/js/'),
+        replace('.js', '.min.js'),
+        replace('href="css/', 'href="build/css/'),
+        replace('.css', '.min.css'),
+        gulp.dest('./')
+    ], cb);
+});
+
 // Build app
-gulp.task('default', ['build-js', 'build-css']);
+gulp.task('build', ['build-js', 'build-css', 'replace-path']);
 
 // Watch changes and compile on the fly
 gulp.task('watch', () => {
