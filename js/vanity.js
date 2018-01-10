@@ -3,6 +3,8 @@
 const ethUtils = require('ethereumjs-util');
 const randomBytes = require('randombytes');
 
+const step = 500;
+
 /**
  * Create a wallet from a random private key
  * @returns {{address: string, privKey: string}}
@@ -45,31 +47,30 @@ const isValidVanityWallet = (wallet, input, isChecksum) => {
  * Generate a lot of wallets until one satisfies the input constraints
  * @param input
  * @param isChecksum
- * @param max - Stop the generation after <max> attempts. Set to 0 for unlimited
+ * @param cb - Callback called after x attempts, or when an address if found
  * @returns
  */
-const getVanityWallet = (input, isChecksum, max) => {
+const getVanityWallet = (input, isChecksum, cb) => {
 	input = isChecksum ? input : input.toLowerCase();
-	let _wallet = getRandomWallet();
+	let wallet = getRandomWallet();
 	let attempts = 1;
 
-	while (!isValidVanityWallet(_wallet, input, isChecksum)) {
-		_wallet = getRandomWallet();
-		attempts++;
-		if (max && attempts >= max) {
-			return null;
+	while (!isValidVanityWallet(wallet, input, isChecksum)) {
+		if (attempts >= step) {
+			cb({attempts});
+			attempts = 0;
 		}
+		wallet = getRandomWallet();
+		attempts++;
 	}
 
-	_wallet.address = ethUtils.toChecksumAddress(_wallet.address);
-	_wallet.attempts = attempts;
-	return _wallet;
+	cb({address: ethUtils.toChecksumAddress(wallet.address), attempts});
 };
 
 onmessage = function (event) {
-	const data = event.data;
+	const input = event.data;
 	try {
-		postMessage(getVanityWallet(data.input.prefix, data.input.checksum, data.step));
+		getVanityWallet(input.prefix, input.checksum, message => postMessage(message));
 	} catch (err) {
 		postMessage({error: err.toString()});
 	}

@@ -20,16 +20,17 @@ Install dependencies
 
 ```sh
 npm i
+npm i -g gulp
 ```
 
 Run the watcher to compile while you code
 
 ```sh
-npm run-script watch
+gulp watch # or npm run-script watch
 ```
 
 Build before pushing to production
 
 ```sh
-npm run-script build
+gulp # or npm run-script build
 ```

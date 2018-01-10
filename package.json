@@ -19,9 +19,6 @@
     "vinyl-source-stream": "^1.1.0",
     "xo": "^0.18.2"
   },
-  "xo": {
-    "rules": {"object-shorthand": "off", "no-new": "off"}
-  },
   "license": "ISC",
   "main": "index.js",
   "scripts": {
@@ -29,5 +26,11 @@
     "precommit": "npm run-script build && git add js/bundle.js css/stylesheet.css",
     "test": "node ./node_modules/xo/cli.js",
     "watch": "node ./node_modules/gulp/bin/gulp.js watch"
+  },
+  "xo": {
+    "rules": {
+      "object-shorthand": "off",
+      "no-new": "off"
+    }
   }
 }

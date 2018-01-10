@@ -25,7 +25,6 @@ new Vue({
 		count: 0,
 		firstTick: null,
 		running: false,
-		step: 500,
 		speed: '0 addr/s',
 		status: 'Waiting',
 		workers: [],
@@ -76,6 +75,7 @@ new Vue({
 		clearResult: function () {
 			this.result.address = '';
 			this.result.privateKey = '';
+			this.incrementCounter(-this.count);
 		},
 
         /**
@@ -110,20 +110,22 @@ new Vue({
 			}
 		},
 
-		parseWorkerMessage: function (add, w) {
-			if (add !== null) {
+		parseWorkerMessage: function (wallet, w) {
+			if (wallet.error) {
 				this.stopGen();
-				if (add.error) {
-					this.error = add.error;
-					return;
-				}
-
-				return this.displayResult(add);
+				this.error = wallet.error;
+				this.status = 'Error';
+				return;
 			}
 
-			this.incrementCounter(this.step);
+			if (wallet.address) {
+				this.stopGen();
+				return this.displayResult(wallet);
+			}
 
-			this.workers[w].postMessage({input: this.input, step: this.step});
+			this.incrementCounter(wallet.attempts);
+
+			this.workers[w].postMessage(this.input);
 		},
 
 		startGen: function () {
@@ -132,12 +134,11 @@ new Vue({
 				return;
 			}
 
-			this.incrementCounter(-this.count);
 			this.clearResult();
 			this.running = true;
 
 			for (let w = 0; w < this.workers.length; w++) {
-				this.workers[w].postMessage({input: this.input, step: this.step});
+				this.workers[w].postMessage(this.input);
 			}
 
 			this.status = 'Running';
