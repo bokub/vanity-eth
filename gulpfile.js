@@ -58,16 +58,17 @@ gulp.task('build-css', ['sass'], cb => {
 gulp.task('replace-path', cb => {
 	pump([
 		gulp.src('index.html'),
-		replace('src="js/', 'src="build/js/'),
-		replace('.js', '.min.js'),
-		replace('href="css/', 'href="build/css/'),
-		replace('.css', '.min.css'),
-		gulp.dest('./')
+		replace('css/stylesheet.css', 'build/css/stylesheet.min.css'),
+		replace('js/index.js', 'build/js/index.min.js'),
+		gulp.dest('./'),
+		gulp.src('js/index.js'),
+		replace('js/bundle.js', 'build/js/bundle.min.js'),
+		gulp.dest('js')
 	], cb);
 });
 
 // Build app
-gulp.task('build', ['build-js', 'build-css', 'replace-path']);
+gulp.task('build', ['replace-path', 'build-js', 'build-css']);
 
 // Watch changes and compile on the fly
 gulp.task('watch', () => {
