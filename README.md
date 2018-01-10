@@ -28,9 +28,3 @@ Run the watcher to compile while you code
 ```sh
 gulp watch # or npm run-script watch
 ```
-
-Build before pushing to production
-
-```sh
-gulp # or npm run-script build
-```
