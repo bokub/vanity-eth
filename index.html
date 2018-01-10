@@ -66,7 +66,7 @@
                     Your browser does not support multi-thread computation.<br>
                     Please use a different browser.
                 </p>
-                <p v-else v-text="error"></p>
+                <p v-else v-html="error.replace('\n', '<br>')"></p>
             </div>
         </div>
     </div>

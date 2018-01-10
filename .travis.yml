@@ -2,5 +2,13 @@ language: node_js
 node_js:
   - "node"
 
-before_script:
-  - npm install
+install: npm i
+
+script: npm test
+
+after_success: npm run-script build
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $TOKEN
