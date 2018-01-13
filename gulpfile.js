@@ -58,6 +58,7 @@ gulp.task('build', ['build-js', 'build-css'], cb => {
 		gulp.src('.gitignore'),
 		replace('js/bundle.js', ''),
 		replace('css/stylesheet.css', ''),
+		replace('#', ''),
 		gulp.dest('./')
 	], cb);
 });

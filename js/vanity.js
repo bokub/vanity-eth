@@ -63,8 +63,7 @@ const getVanityWallet = (input, isChecksum, cb) => {
 		wallet = getRandomWallet();
 		attempts++;
 	}
-
-	cb({address: ethUtils.toChecksumAddress(wallet.address), attempts});
+	cb({address: ethUtils.toChecksumAddress(wallet.address), privKey: wallet.privKey, attempts});
 };
 
 onmessage = function (event) {

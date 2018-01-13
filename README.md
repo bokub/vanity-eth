@@ -10,9 +10,7 @@ Just type [`git.io/veth`](https://git.io/veth) to use it ⚡️
 
 ## Local usage
 
-If for any reason you don't want to use the version hosted by Github pages, download / clone the project and open `index.html` with your web browser.
-
-⚠ For some reason, some browsers such as chrome disallow multi-thread computation when run from a local file.
+Check out the [wiki page](https://github.com/bokub/vanity-eth/wiki/Download-Vanity-ETH)
 
 ## Local development
 
@@ -23,8 +21,10 @@ npm i
 npm i -g gulp
 ```
 
-Run the watcher to compile while you code
+Run the watcher to compile CSS/JS while you code
 
 ```sh
 gulp watch # or npm run-script watch
 ```
+
+The Travis CI bot is in charge of building and deploying Vanity-ETH to Github pages.

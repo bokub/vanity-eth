@@ -16,7 +16,7 @@ const computeDifficulty = function (pattern, isChecksum) {
 };
 
 const computeProbability = function (difficulty, attempts) {
-	return 1 - Math.pow((difficulty - 1) / difficulty, attempts);
+	return 1 - Math.pow(1 - (1 / difficulty), attempts);
 };
 
 new Vue({
@@ -25,7 +25,7 @@ new Vue({
 		count: 0,
 		firstTick: null,
 		running: false,
-		speed: '0 addr/s',
+		speed: 0,
 		status: 'Waiting',
 		workers: [],
 		threads: 4,
@@ -48,6 +48,9 @@ new Vue({
 		difficulty: function () {
 			return this.inputError ? 'N/A' : computeDifficulty(this.input.prefix, this.input.checksum);
 		},
+		probability50: function () {
+			return this.inputError ? 'N/A' : Math.floor(Math.log(0.5) / Math.log(1 - (1 / this.difficulty))) + ' addresses';
+		},
 		probability: function () {
 			return Math.round(10000 * computeProbability(this.difficulty, this.count)) / 100;
 		}
@@ -62,7 +65,7 @@ new Vue({
 	methods: {
 		incrementCounter: function (incr) {
 			this.count += incr;
-			this.speed = incr > 0 ? Math.floor(1000 * this.count / (performance.now() - this.firstTick)) + ' addr/s' : '0 addr/s';
+			this.speed = incr > 0 ? Math.floor(1000 * this.count / (performance.now() - this.firstTick)) : 0;
 		},
 
 		displayResult: function (result) {
