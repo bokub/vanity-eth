@@ -49,7 +49,7 @@ new Vue({
 			return this.inputError ? 'N/A' : computeDifficulty(this.input.prefix, this.input.checksum);
 		},
 		probability50: function () {
-			return this.inputError ? 'N/A' : Math.floor(Math.log(0.5) / Math.log(1 - (1 / this.difficulty))) + ' addresses';
+			return this.inputError ? 'N/A' : this.formatNum(Math.floor(Math.log(0.5) / Math.log(1 - (1 / this.difficulty)))) + ' addresses';
 		},
 		probability: function () {
 			return Math.round(10000 * computeProbability(this.difficulty, this.count)) / 100;
@@ -171,6 +171,9 @@ new Vue({
 				this.cores = cores;
 				this.threads = this.cores;
 			}
+		},
+		formatNum: function (num) {
+			return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 		}
 	},
 
