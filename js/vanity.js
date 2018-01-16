@@ -25,10 +25,14 @@ const getRandomWallet = () => {
  * @returns {boolean}
  */
 const isValidVanityWallet = (wallet, input, isChecksum) => {
-	if (!isChecksum) {
-		return wallet.address.substr(2, input.length) === input;
+	if (input !== wallet.address.substr(2, input.length)) {
+		return false;
 	}
-	const address = ethUtils.stripHexPrefix(wallet.address).toLowerCase();
+	if (!isChecksum) {
+		return true;
+	}
+
+	const address = wallet.address.substr(2);
 	const hash = ethUtils.sha3(address).toString('hex');
 
 	for (let i = 0; i < input.length; i++) {

@@ -103,9 +103,7 @@ new Vue({
 			for (let w = this.workers.length; w < this.threads; w++) {
 				try {
 					this.workers[w] = new Worker('js/bundle.js');
-					this.workers[w].onmessage = function (event) {
-						self.parseWorkerMessage(event.data, w);
-					};
+					this.workers[w].onmessage = event => self.parseWorkerMessage(event.data);
 				} catch (err) {
 					this.error = 'local_workers_forbidden';
 					break;
@@ -113,7 +111,7 @@ new Vue({
 			}
 		},
 
-		parseWorkerMessage: function (wallet, w) {
+		parseWorkerMessage: function (wallet) {
 			if (wallet.error) {
 				this.stopGen();
 				this.error = wallet.error;
@@ -127,8 +125,6 @@ new Vue({
 			}
 
 			this.incrementCounter(wallet.attempts);
-
-			this.workers[w].postMessage(this.input);
 		},
 
 		startGen: function () {
