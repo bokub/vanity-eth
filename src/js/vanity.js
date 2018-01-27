@@ -75,7 +75,7 @@ onmessage = function (event) {
 	try {
 		getVanityWallet(input.prefix, input.checksum, message => postMessage(message));
 	} catch (err) {
-		postMessage({error: err.toString()});
+		self.postMessage({error: err.toString()});
 	}
 };
 

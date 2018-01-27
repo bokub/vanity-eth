@@ -18,13 +18,17 @@ Install dependencies
 
 ```sh
 npm i
-npm i -g gulp
 ```
 
-Run the watcher to compile CSS/JS while you code
+Run the dev-sever while you code
+```sh
+npm run dev
+```
+
+Build the project
 
 ```sh
-gulp watch # or npm run-script watch
+npm run build
 ```
 
 The Travis CI bot is in charge of building and deploying Vanity-ETH to Github pages.

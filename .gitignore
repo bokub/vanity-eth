@@ -1,6 +1,4 @@
 node_modules
-js/bundle.js
-css/stylesheet.css
+dist
 
-#js/vanity.js
-#css/stylesheet.sass
+.idea

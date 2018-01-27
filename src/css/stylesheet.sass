@@ -17,6 +17,7 @@ body
 
 h1, h2, h3, h4, h5, h6, p, label
   margin: 0
+  font-weight: normal
 
 [v-cloak]
   display: none
@@ -32,6 +33,7 @@ a:hover
   margin-bottom: 8em
   color: $white-text
   font-family: 'Montserrat', sans-serif
+  text-align: center
 
   h1
     font-size: 3em
@@ -39,7 +41,7 @@ a:hover
     border: 4px solid $white-text
     width: 33%
     margin: 0 auto
-    padding: 10px
+    padding: 1px
 
   p
     font-size: 1.5em
@@ -59,10 +61,10 @@ a:hover
       color: $white-text
       text-decoration: underline
 
-.description p
-  margin: 15px 0 20px
-  color: $grey-text
-
+.description
+  p
+    margin: 15px 0 20px
+    color: $grey-text
 .form
   input
     &[type="text"]
@@ -136,7 +138,7 @@ a:hover
   input
     + i:after
       content: ''
-      background: url("../images/tick-mark.png") no-repeat 1px 2px
+      background: url("./assets/images/tick-mark.png") no-repeat 1px 2px
       top: 4px
       left: 2px
       width: 15px
@@ -209,21 +211,21 @@ a:hover
   font-family: 'Lato'
   font-style: normal
   font-weight: 400
-  src: local('Lato Regular'), local('Lato-Regular'), url(../fonts/lato-regular.woff2) format('woff2')
+  src: local('Lato Regular'), local('Lato-Regular'), url(./assets/fonts/lato-regular.woff2) format('woff2')
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215
 
 @font-face
   font-family: 'Montserrat'
   font-style: normal
   font-weight: 400
-  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(../fonts/montserrat.woff2) format('woff2')
+  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(./assets/fonts/montserrat.woff2) format('woff2')
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215
 
 @font-face
   font-family: 'Montserrat'
   font-style: normal
   font-weight: 700
-  src: local('Montserrat Bold'), local('Montserrat-Bold'), url(../fonts/montserrat-bold.woff2) format('woff2')
+  src: local('Montserrat Bold'), local('Montserrat-Bold'), url(./assets/fonts/montserrat-bold.woff2) format('woff2')
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215
 
 /*-- Responsive design --
@@ -290,8 +292,6 @@ a:hover
   &:hover .octo-arm
     animation: octocat-wave 560ms ease-in-out
   svg
-    fill: #fff
-    color: #151513
     position: absolute
     top: 0
     border: 0
