@@ -35,7 +35,8 @@
   "scripts": {
     "test": "node ./node_modules/xo/cli.js",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "clean": "find . -maxdepth 1 -type f -not -name 'index.html' -not -name 'README.md' -delete && rm -fr src dist/vanity.js"
   },
   "xo": {
     "rules": {

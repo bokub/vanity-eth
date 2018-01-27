@@ -6,7 +6,8 @@ install: npm i
 
 script:
 - npm test
-- npm run-script build
+- npm run build
+- npm run clean
 
 deploy:
   provider: pages
