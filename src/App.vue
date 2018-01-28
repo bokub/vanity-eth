@@ -1,47 +1,81 @@
-<template src="./templates/App.html"></template>
+<template>
+    <div>
+        <div class="container">
+            <headline></headline>
+
+            <!--Description-->
+            <div class="row">
+                <div class="col-md-12">
+                    <description></description>
+                </div>
+            </div>
+
+            <!--Error-->
+            <div v-if="error" class="row">
+                <div class="col-md-12">
+                    <error :error="error"></error>
+                </div>
+            </div>
+
+            <div class="row">
+                <!--User input-->
+                <div class="col-md-6">
+                    <userInput :running="running" :cores="cores"
+                               @start="startGen" @stop="stopGen" @input-change="setInput"></userInput>
+                </div>
+
+                <!--Statistics-->
+                <div class="col-md-6">
+                    <statistics :prefix="input.prefix" :checksum="input.checksum" :status="status"
+                                :first-tick="firstTick"></statistics>
+                </div>
+            </div>
+
+            <!--Result-->
+            <div class="row">
+                <div class="col-md-12">
+                    <result :address="result.address" :private-key="result.privateKey"></result>
+                </div>
+            </div>
+        </div>
+
+        <!--Github corner-->
+        <corner></corner>
+    </div>
+</template>
 
 <script>
     import Worker from './js/vanity.js';
+
+    import Headline from './vue/Headline';
+    import Description from './vue/Description';
+    import Err from './vue/Error';
+    import Input from './vue/Input';
+    import Statistics from './vue/Statistics';
+    import Result from './vue/Result';
     import Corner from './vue/Corner';
 
     export default {
         components: {
-            corner: Corner
+            headline: Headline,
+            description: Description,
+            error: Err,
+            userInput: Input,
+            statistics: Statistics,
+            result: Result,
+            corner: Corner,
         },
         data: function () {
             return {
-                count: 0,
-                firstTick: null,
                 running: false,
-                speed: 0,
                 status: 'Waiting',
                 workers: [],
                 threads: 4,
                 cores: 0,
-                result: {
-                    address: '',
-                    privateKey: ''
-                },
-                input: {
-                    prefix: '',
-                    checksum: true
-                },
-                error: false
-            }
-        },
-
-        computed: {
-            inputError: function () {
-                return !isValidHex(this.input.prefix);
-            },
-            difficulty: function () {
-                return this.inputError ? 'N/A' : computeDifficulty(this.input.prefix, this.input.checksum);
-            },
-            probability50: function () {
-                return this.inputError ? 'N/A' : this.formatNum(Math.floor(Math.log(0.5) / Math.log(1 - (1 / this.difficulty)))) + ' addresses';
-            },
-            probability: function () {
-                return Math.round(10000 * computeProbability(this.difficulty, this.count)) / 100;
+                result: {address: '', privateKey: ''},
+                input: {prefix: '', checksum: true},
+                firstTick: null,
+                error: null
             }
         },
         watch: {
@@ -52,13 +86,21 @@
             }
         },
         methods: {
-            incrementCounter: function (incr) {
-                this.count += incr;
-                this.speed = incr > 0 ? Math.floor(1000 * this.count / (performance.now() - this.firstTick)) : 0;
+            setInput: function (inputType, value) {
+                switch (inputType) {
+                    case 'prefix':
+                        this.input.prefix = value;
+                        break;
+                    case 'checksum':
+                        this.input.checksum = value;
+                        break;
+                    case 'threads':
+                        this.threads = value;
+                }
             },
 
             displayResult: function (result) {
-                this.incrementCounter(result.attempts);
+                this.$emit('increment-counter', result.attempts);
                 this.result.address = result.address;
                 this.result.privateKey = result.privKey;
                 this.status = 'Address found';
@@ -67,7 +109,7 @@
             clearResult: function () {
                 this.result.address = '';
                 this.result.privateKey = '';
-                this.incrementCounter(-this.count);
+                this.$emit('increment-counter', -1);
             },
 
             /**
@@ -112,8 +154,7 @@
                     this.stopGen();
                     return this.displayResult(wallet);
                 }
-
-                this.incrementCounter(wallet.attempts);
+                this.$emit('increment-counter', wallet.attempts);
             },
 
             startGen: function () {
@@ -157,9 +198,6 @@
                     this.threads = this.cores;
                 }
             },
-            formatNum: function (num) {
-                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-            }
         },
 
         created: function () {
@@ -167,19 +205,6 @@
             this.initWorkers();
         }
     }
-
-    const isValidHex = function (hex) {
-        return hex.length ? /^[0-9A-F]+$/g.test(hex.toUpperCase()) : true;
-    };
-
-    const computeDifficulty = function (pattern, isChecksum) {
-        const ret = Math.pow(16, pattern.length);
-        return isChecksum ? (ret * Math.pow(2, pattern.replace(/[^a-f]/gi, '').length)) : ret;
-    };
-
-    const computeProbability = function (difficulty, attempts) {
-        return 1 - Math.pow(1 - (1 / difficulty), attempts);
-    };
 
 </script>
 
@@ -193,6 +218,62 @@
     @import "~bootstrap/scss/reboot"
     @import "~bootstrap/scss/grid"
 
-    // Custom style
-    @import "css/stylesheet.sass"
+    @import "css/variables"
+    body
+        padding: 0
+        font-family: 'Lato', sans-serif
+        background: $background
+        margin: 8em 0
+
+    h1, h2, h3, h4, h5, h6, p, label
+        margin: 0
+        font-weight: normal
+
+    a, a:visited, a:hover
+        color: $grey-text
+        text-decoration: underline
+
+    a:hover
+        color: $white-text
+
+    .panel
+        padding: 1.5em 3em
+        background-color: $panel-background
+        margin-top: 2em
+        color: $white-text
+        font-weight: 400
+
+    /*-- Fonts --*/
+
+    @font-face
+        font-family: 'Lato'
+        font-style: normal
+        font-weight: 400
+        src: local('Lato Regular'), local('Lato-Regular'), url(./assets/fonts/lato-regular.woff2) format('woff2')
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215
+
+    @font-face
+        font-family: 'Montserrat'
+        font-style: normal
+        font-weight: 400
+        src: local('Montserrat Regular'), local('Montserrat-Regular'), url(./assets/fonts/montserrat.woff2) format('woff2')
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215
+
+    @font-face
+        font-family: 'Montserrat'
+        font-style: normal
+        font-weight: 700
+        src: local('Montserrat Bold'), local('Montserrat-Bold'), url(./assets/fonts/montserrat-bold.woff2) format('woff2')
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215
+
+    /*-- Responsive design --
+
+    @media screen and (max-width: 1024px)
+        body
+            margin: 7em 0 5em 0
+
+    @media screen and (max-width: 640px)
+        body
+            margin: 5em 0 4em 0
+
 </style>
