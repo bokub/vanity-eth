@@ -1,6 +1,7 @@
 <template>
     <div>
         <div class="container">
+            <!--Headline-->
             <headline></headline>
 
             <!--Description-->
@@ -123,7 +124,7 @@
 
                 // Remove unwanted workers
                 if (this.workers.length > this.threads) {
-                    for (let w = this.threads - 1; w < this.workers.length; w++) {
+                    for (let w = this.threads; w < this.workers.length; w++) {
                         this.workers[w].terminate();
                     }
                     this.workers = this.workers.slice(0, this.threads);
