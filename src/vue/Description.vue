@@ -23,7 +23,9 @@
         <p>
             As explained above, everything is computed in your browser. Nothing ever leaves your machine, or
             even your browser tab.<br>
-            You can download the latest build of Vantiy-ETH from
+            Vanity-ETH works perfectly offline! Once the web page is loaded, you can turn off the internet and continue
+            playing.<br>
+            You can also download the latest build of Vanity-ETH on
             <a href="https://github.com/bokub/vanity-eth/wiki/download-Vanity-ETH">Github</a> and use it
             completely offline.<br>
             Vanity-ETH uses a cryptographically secure pseudorandom number generator (CSPRNG) to generate
