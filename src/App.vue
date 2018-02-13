@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container">
+        <div class="container" id="content">
             <!--Headline-->
             <headline></headline>
 
@@ -40,6 +40,9 @@
             </div>
         </div>
 
+        <!--Footer-->
+        <foot></foot>
+
         <!--Github corner-->
         <corner></corner>
     </div>
@@ -51,21 +54,14 @@
     import Headline from './vue/Headline';
     import Description from './vue/Description';
     import Err from './vue/Error';
-    import Input from './vue/Input';
+    import UserInput from './vue/Input';
     import Statistics from './vue/Statistics';
     import Result from './vue/Result';
     import Corner from './vue/Corner';
+    import Foot from './vue/Footer';
 
     export default {
-        components: {
-            headline: Headline,
-            description: Description,
-            error: Err,
-            userInput: Input,
-            statistics: Statistics,
-            result: Result,
-            corner: Corner,
-        },
+        components: {Headline, Description, Err, UserInput, Statistics, Result, Corner, Foot},
         data: function () {
             return {
                 running: false,
@@ -234,7 +230,6 @@
         padding: 0
         font-family: 'Lato', sans-serif
         background: $background
-        margin: 8em 0
 
     h1, h2, h3, h4, h5, h6, p, label
         margin: 0
@@ -253,6 +248,10 @@
         margin-top: 2em
         color: $white-text
         font-weight: 400
+
+    #content
+        margin-top: 8em
+        margin-bottom: 6em
 
     /*-- Fonts --*/
 
@@ -277,14 +276,39 @@
         src: local('Montserrat Bold'), local('Montserrat-Bold'), url(./assets/fonts/montserrat-bold.woff2) format('woff2')
         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215
 
+    @font-face
+        font-family: 'icomoon'
+        src: url(./assets/fonts/icomoon.woff) format('woff')
+        font-weight: normal
+        font-style: normal
+
+    [class^="icon-"], [class*=" icon-"]
+        font-family: 'icomoon' !important
+        speak: none
+        font-style: normal
+        font-weight: normal
+        font-variant: normal
+        text-transform: none
+        line-height: 1
+        -webkit-font-smoothing: antialiased
+        -moz-osx-font-smoothing: grayscale
+
+    .icon-star:before
+        content: "\e900"
+    .icon-download:before
+        content: "\e901"
+    .icon-ethereum:before
+        content: "\e902"
+
     /*-- Responsive design --
 
     @media screen and (max-width: 1024px)
-        body
-            margin: 7em 0 5em 0
+        #content
+            margin-top: 7em
+            margin-bottom: 5em
 
     @media screen and (max-width: 640px)
-        body
-            margin: 5em 0 4em 0
-
+        #content
+            margin-top: 5em
+            margin-bottom: 4em
 </style>

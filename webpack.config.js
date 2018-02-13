@@ -35,7 +35,7 @@ module.exports = {
 				exclude: /node_modules/
 			},
 			{
-				test: /\.(png|woff2|ico)/,
+				test: /\.(png|woff|woff2|ico)/,
 				exclude: /node_modules/,
 				loader: 'url-loader'
 			}

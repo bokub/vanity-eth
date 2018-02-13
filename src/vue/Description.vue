@@ -26,7 +26,7 @@
             Vanity-ETH works perfectly offline! Once the web page is loaded, you can turn off the internet and continue
             playing.<br>
             You can also download the latest build of Vanity-ETH on
-            <a href="https://github.com/bokub/vanity-eth/wiki/download-Vanity-ETH">Github</a> and use it
+            <a href="https://github.com/bokub/vanity-eth/wiki/download-Vanity-ETH" target="_blank">Github</a> and use it
             completely offline.<br>
             Vanity-ETH uses a cryptographically secure pseudorandom number generator (CSPRNG) to generate
             Ethereum addresses.
