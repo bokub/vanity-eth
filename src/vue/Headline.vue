@@ -2,7 +2,7 @@
     <!--Github corner-->
     <div>
         <h1>VANITY-ETH</h1>
-        <p>Vanity ETH address generator</p>
+        <p>ETH vanity address generator</p>
     </div>
 </template>
 

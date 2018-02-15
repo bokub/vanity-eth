@@ -7,6 +7,8 @@ Browser-based ETH vanity address generator
 
 Just type [`git.io/veth`](https://git.io/veth) to use it ⚡️
 
+[![Vanity-ETH](https://i.imgur.com/hxgxohl.png)](https://git.io/veth)
+
 
 ## Usage
 
@@ -56,10 +58,10 @@ Run the dev-sever while you code
 npm run dev
 ```
 
-Build the project
+Build the project (optional)
 
 ```sh
 npm run build
 ```
 
-The Travis CI bot is in charge of building and deploying Vanity-ETH to Github pages.
+The Travis CI bot 🤖 is in charge of building and deploying Vanity-ETH to Github pages.
