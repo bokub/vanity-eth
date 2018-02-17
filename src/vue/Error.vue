@@ -1,12 +1,6 @@
 <template>
     <div class="panel">
-        <p v-if="error === 'local_workers_forbidden'">
-            Your browser disallows multi-thread computation when run from a local file.<br>
-            Please use the online version at <a href="https://git.io/veth">git.io/veth</a>, or use a
-            different
-            browser.
-        </p>
-        <p v-else-if="error === 'workers_unsupported'">
+        <p v-if="error === 'workers_unsupported'">
             Your browser does not support multi-thread computation.<br>
             Please use a different browser.
         </p>

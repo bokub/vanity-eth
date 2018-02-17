@@ -14,7 +14,7 @@
             <!--Error-->
             <div v-if="error" class="row">
                 <div class="col-md-12">
-                    <error :error="error"></error>
+                    <err :error="error"></err>
                 </div>
             </div>
 
@@ -133,7 +133,9 @@
                         this.workers[w] = new Worker();
                         this.workers[w].onmessage = event => self.parseWorkerMessage(event.data);
                     } catch (err) {
-                        this.error = 'local_workers_forbidden';
+                        this.error = err;
+                        this.status = 'Error';
+                        console.error(this.error);
                         break;
                     }
                 }
@@ -144,6 +146,7 @@
                     this.stopGen();
                     this.error = wallet.error;
                     this.status = 'Error';
+                    console.error(this.error);
                     return;
                 }
 
