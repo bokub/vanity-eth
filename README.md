@@ -16,17 +16,11 @@ First of all, visit [`git.io/veth`](https://git.io/veth)
 
 Enter the prefix of your choice, then click 'generate' to start.
 
-Ethereum addresses are hexadecimal, which means your prefix can only contain numbers and letters from A to F.
-
-You can increase the number of threads allocated to address generation to be faster, or decrease it if you computer struggles.
-
-
-## How it works
-
 You browser is going to generate a ton of random addresses until one of them starts with your prefix.
 
-Everything is computed by your browser, so you should notice a better speed on a powerful computer.
+Ethereum addresses are hexadecimal, which means your prefix can only contain numbers and letters from A to F.
 
+ You can increase the number of working threads to reach higher speeds, or decrease it if you computer struggles.
 
 ## Security
 
@@ -35,6 +29,13 @@ As explained above, everything is computed in your browser. Nothing ever leaves 
 You can download the latest build of Vantiy-ETH from Github and use it completely offline.
 
 Vanity-ETH uses a cryptographically secure pseudorandom number generator (CSPRNG) to generate Ethereum addresses.
+
+
+## Performance
+
+For some reason, the performance of Vanity-ETH can vary a lot from a browser to another.
+ 
+Right now, Chrome seems to be the one providing the best results.
 
 
 ## Offline usage
