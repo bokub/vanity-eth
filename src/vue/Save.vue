@@ -63,6 +63,7 @@
         .title
             margin-bottom: 45px
         .remodal-close
+            outline: none
             &:before
                 font-size: 2em
             &:hover

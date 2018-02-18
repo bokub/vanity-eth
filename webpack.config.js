@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -16,9 +15,6 @@ module.exports = {
 			{
 				test: /\.vue$/,
 				loader: 'vue-loader',
-				options: {
-					extractCSS: true
-				}
 			},
 			{
 				test: /vanity\.js$/,
@@ -41,9 +37,6 @@ module.exports = {
 			}
 		]
 	},
-	plugins: [
-		new ExtractTextPlugin('style.css')
-	],
 	resolve: {
 		alias: {
 			vue$: 'vue/dist/vue.esm.js'

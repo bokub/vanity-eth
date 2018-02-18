@@ -33,6 +33,14 @@
             status: String,
             firstTick: {},
         },
+        watch: {
+            prefix() {
+                this.count = 0;
+            },
+            checksum() {
+                this.count = 0;
+            }
+        },
         computed: {
             difficulty: function () {
                 return this.inputError ? 'N/A' : computeDifficulty(this.prefix, this.checksum);
