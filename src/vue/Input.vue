@@ -1,6 +1,6 @@
 <template>
     <div class="panel">
-        <form :class="{error: inputError}">
+        <form :class="{error: inputError}" v-on:submit.prevent="startGen">
             <div class="error-text">Numbers and letters from A to F only</div>
             <input type="text" class="text-input-large" placeholder="Prefix" v-model="prefix" :disabled="running">
             <div class="check">
@@ -54,7 +54,9 @@
         },
         methods: {
             startGen: function () {
-                this.$emit('start')
+                if(!this.running && !this.inputError && !this.error){
+                    this.$emit('start')
+                }
             },
             stopGen: function () {
                 this.$emit('stop')

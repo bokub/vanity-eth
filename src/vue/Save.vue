@@ -1,13 +1,18 @@
 <template>
     <div class="remodal" data-remodal-id="modal" data-remodal-options="hashTracking: false">
         <button data-remodal-action="close" class="remodal-close"></button>
-        <h3 class="title">Download encrypted keystore file (UTC / JSON)</h3>
-        <div>
-            <input type="password" class="text-input-large" v-model="password" placeholder="Password">
-        </div>
-        <div>
-            <button class="button-large" @click="save" :disabled="!password || !privateKey">Save</button>
-        </div>
+        <h3 class="title">Create encrypted keystore file (UTC / JSON)</h3>
+        <form v-on:submit.prevent="save">
+            <div>
+                <input type="password" autocomplete="new-password" class="text-input-large" v-model="password"
+                       placeholder="Password">
+            </div>
+            <div>
+                <button type="button" class="button-large" @click="save" :disabled="!password || !privateKey">
+                    Download
+                </button>
+            </div>
+        </form>
     </div>
 </template>
 
@@ -33,11 +38,13 @@
         },
         methods: {
             save() {
-                const rb = randomBytes(48);
-                window.keythereum.dump(this.password, this.privateKey, rb.slice(0, 32), rb.slice(32), {}, (obj) => {
-                    const fileName = "UTC--" + new Date().toISOString().replace(/:/g, '-') + "--" + obj.address;
-                    download(JSON.stringify(obj), fileName, "application/json");
-                });
+                if (this.password) {
+                    const rb = randomBytes(48);
+                    window.keythereum.dump(this.password, this.privateKey, rb.slice(0, 32), rb.slice(32), {}, (obj) => {
+                        const fileName = "UTC--" + new Date().toISOString().replace(/:/g, '-') + "--" + obj.address;
+                        download(JSON.stringify(obj), fileName, "application/json");
+                    });
+                }
             },
         }
     }
