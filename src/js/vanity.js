@@ -36,9 +36,9 @@ const isValidVanityWallet = (wallet, input, isChecksum) => {
 	const hash = ethUtils.sha3(address).toString('hex');
 
 	for (let i = 0; i < input.length; i++) {
-        if(input[i] !== (parseInt(hash[i], 16) >= 8 ? address[i].toUpperCase() : address[i])) {
-            return false;
-        }
+		if (input[i] !== (parseInt(hash[i], 16) >= 8 ? address[i].toUpperCase() : address[i])) {
+			return false;
+		}
 	}
 	return true;
 };
