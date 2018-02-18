@@ -6,6 +6,11 @@
                 <div>Address: <span class="output" v-text="address"></span></div>
                 <div>Private key: <span class="output" v-text="privateKey"></span></div>
             </div>
+            <div class="col-lg-2 col-12">
+                <button data-remodal-target="modal" class="save button-large" :disabled="!privateKey">
+                    <i class="icon-lock"></i>&nbsp;&nbsp;&nbsp;Save
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -21,8 +26,8 @@
         watch: {
             address(addr) {
                 const id = document.getElementById('identicon');
-                id.innerHTML= '';
-                if(addr){
+                id.innerHTML = '';
+                if (addr) {
                     id.appendChild(blockies({seed: addr.toLocaleLowerCase(), scale: 6}));
                 }
             }
@@ -35,14 +40,25 @@
     #identicon
         width: 48px
         height: 48px
-        margin-right: 15px
+        margin: 0 15px
         background-color: $panel-background-clear
+
     .output
         font-family: monospace
         font-size: 1.2em
         color: $grey-text
         margin-left: 15px
         word-break: break-all
+
     .panel > div:not(:last-child)
         margin-bottom: 15px
+
+    .save
+        font-size: 1em
+        margin-top: 1.6em
+
+    @media screen and (min-width: 992px)
+        .save
+            margin-top: 0
+
 </style>

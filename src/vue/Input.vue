@@ -2,7 +2,7 @@
     <div class="panel">
         <form :class="{error: inputError}">
             <div class="error-text">Numbers and letters from A to F only</div>
-            <input type="text" placeholder="Prefix" v-model="prefix" :disabled="running">
+            <input type="text" class="text-input-large" placeholder="Prefix" v-model="prefix" :disabled="running">
             <div class="check">
                 <label class="checkbox">
                     <input type="checkbox" name="checkbox" checked="" v-model="checksum"
@@ -12,9 +12,9 @@
                 </label>
             </div>
             <div class="threads">
-                <input type="button" class="square-btn" value="-" @click="threads--"
+                <input type="button" class="square-btn button-large" value="-" @click="threads--"
                        :disabled="running || threads <= 1">
-                <input type="button" class="square-btn arrow" value="+" @click="threads++"
+                <input type="button" class="square-btn arrow button-large" value="+" @click="threads++"
                        :disabled="running">
                 <h4 v-text="threads"></h4>
                 <span>threads</span>
@@ -22,11 +22,11 @@
             </div>
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
-                    <input type="button" value="Generate" @click="startGen"
+                    <input type="button" value="Generate" class="button-large" @click="startGen"
                            :disabled="running || inputError || error">
                 </div>
                 <div class="col-lg-6 col-sm-12">
-                    <input type="button" value="Stop" @click="stopGen" :disabled="!running">
+                    <input type="button" value="Stop" class="button-large" @click="stopGen" :disabled="!running">
                 </div>
             </div>
         </form>
@@ -61,13 +61,13 @@
             }
         },
         watch: {
-            prefix: function(){
+            prefix: function () {
                 this.$emit('input-change', 'prefix', this.prefix);
             },
-            checksum : function(){
+            checksum: function () {
                 this.$emit('input-change', 'checksum', this.checksum);
             },
-            threads: function(){
+            threads: function () {
                 this.$emit('input-change', 'threads', this.threads);
             },
         }
@@ -80,43 +80,17 @@
 
 <style lang="sass" scoped>
     @import "../css/variables"
-    input
-        &[type="text"]
-            width: 100%
-            color: $white-text
-            background: $panel-background-clear
-            outline: none
-            font-size: 1.3em
-            padding: 0.5em
-            border: none
-            margin-bottom: 10px
-            -webkit-appearance: none
-        &[type="button"]
-            border: none
-            outline: none
-            color: $white-text
-            padding: 0.6em
-            font-size: 1.3em
-            font-weight: 500
-            margin: 1.3em 0 0 0
-            cursor: pointer
-            -webkit-appearance: none
-            background: $teal
-            width: 100%
-            &:hover
-                background: $yellow
-            &:disabled
-                background: $panel-background-clear
-                cursor: auto
     .error-text
         display: none
         font-size: 0.85em
         color: $red
+
     .error
         input[type="text"]
             border: 1px solid $red
         .error-text
             display: block
+
     .check
         margin: .5em 0
 

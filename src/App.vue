@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="remodal-bg">
         <div class="container" id="content">
             <!--Headline-->
             <headline></headline>
@@ -40,6 +40,9 @@
             </div>
         </div>
 
+        <!--Save modal-->
+        <save :private-key="result.privateKey"></save>
+
         <!--Footer-->
         <foot></foot>
 
@@ -57,11 +60,12 @@
     import UserInput from './vue/Input';
     import Statistics from './vue/Statistics';
     import Result from './vue/Result';
+    import Save from './vue/Save.vue';
     import Corner from './vue/Corner';
     import Foot from './vue/Footer';
 
     export default {
-        components: {Headline, Description, Err, UserInput, Statistics, Result, Corner, Foot},
+        components: {Headline, Description, Err, UserInput, Statistics, Result, Save, Corner, Foot},
         data: function () {
             return {
                 running: false,
@@ -256,6 +260,35 @@
         margin-top: 8em
         margin-bottom: 6em
 
+    .text-input-large
+        width: 100%
+        color: $white-text
+        background: $panel-background-clear
+        outline: none
+        font-size: 1.3em
+        padding: 0.5em
+        border: none
+        margin-bottom: 10px
+        -webkit-appearance: none
+
+    .button-large
+        border: none
+        outline: none
+        color: $white-text
+        padding: 0.6em
+        font-size: 1.3em
+        font-weight: 500
+        margin: 1.3em 0 0 0
+        cursor: pointer
+        -webkit-appearance: none
+        background: $teal
+        width: 100%
+        &:hover
+            background: $yellow
+        &:disabled
+            background: $panel-background-clear
+            cursor: auto
+
     /*-- Fonts --*/
 
     @font-face
@@ -302,6 +335,8 @@
         content: "\e901"
     .icon-ethereum:before
         content: "\e902"
+    .icon-lock:before
+        content: "\e903"
 
     /*-- Responsive design --
 
