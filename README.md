@@ -1,6 +1,7 @@
 # Vanity-ETH
 
-[![Build Status](https://travis-ci.org/bokub/vanity-eth.svg?branch=master)](https://travis-ci.org/bokub/vanity-eth)
+[![Build Status](https://img.shields.io/travis/bokub/vanity-eth/master.svg?style=flat-square)](https://travis-ci.org/bokub/vanity-eth)
+[![License](https://img.shields.io/badge/license-MIT-f49068.svg?style=flat-square)](https://raw.githubusercontent.com/bokub/vanity-eth/master/LICENSE)
 [![Maintainability](https://api.codeclimate.com/v1/badges/818874f09ea56c310072/maintainability)](https://codeclimate.com/github/bokub/vanity-eth/maintainability)
 
 Browser-based ETH vanity address generator
@@ -14,7 +15,7 @@ Just type [`git.io/veth`](https://git.io/veth) to use it ⚡️
 
 First of all, visit [`git.io/veth`](https://git.io/veth)
 
-Enter the prefix of your choice below, then click 'generate' to start. You browser is going to generate a ton of random 
+Enter the prefix of your choice, then click 'generate' to start. Your browser is going to generate a ton of random 
 addresses until one of them starts with your prefix.
 
 Once an address is found, you can reveal the private key, or click the 'save' button to download a password-encrypted keystore file.
@@ -71,3 +72,7 @@ npm run build
 ```
 
 The Travis CI bot 🤖 is in charge of building and deploying Vanity-ETH to Github pages.
+
+## Tips
+
+`0xAceBabe64807cb045505b268ef253D8fC2FeF5Bc`

@@ -5,7 +5,7 @@
         </p>
         <h2>Usage</h2>
         <p>
-            Enter the prefix of your choice below, then click 'generate' to start. You browser is going to generate a
+            Enter the prefix of your choice below, then click 'generate' to start. Your browser is going to generate a
             ton of random addresses until one of them starts with your prefix.<br>
             Once an address is found, you can reveal the private key, or click the 'save' button to download
             a password-encrypted keystore file.<br>

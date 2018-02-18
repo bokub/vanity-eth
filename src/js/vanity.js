@@ -25,11 +25,11 @@ const getRandomWallet = () => {
  * @returns {boolean}
  */
 const isValidVanityWallet = (wallet, input, isChecksum) => {
-	if (input !== wallet.address.substr(2, input.length)) {
-		return false;
-	}
 	if (!isChecksum) {
-		return true;
+		return input === wallet.address.substr(2, input.length);
+	}
+	if (input.toLowerCase() !== wallet.address.substr(2, input.length)) {
+		return false;
 	}
 
 	const address = wallet.address.substr(2);
