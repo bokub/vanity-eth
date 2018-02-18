@@ -14,36 +14,41 @@ Just type [`git.io/veth`](https://git.io/veth) to use it ⚡️
 
 First of all, visit [`git.io/veth`](https://git.io/veth)
 
-Enter the prefix of your choice, then click 'generate' to start.
+Enter the prefix of your choice below, then click 'generate' to start. You browser is going to generate a ton of random 
+addresses until one of them starts with your prefix.
 
-You browser is going to generate a ton of random addresses until one of them starts with your prefix.
+Once an address is found, you can reveal the private key, or click the 'save' button to download a password-encrypted keystore file.
 
-Ethereum addresses are hexadecimal, which means your prefix can only contain numbers and letters from A to F.
+You can increase the number of working threads to reach higher speeds, or decrease it if you computer struggles.
 
- You can increase the number of working threads to reach higher speeds, or decrease it if you computer struggles.
 
 ## Security
 
 As explained above, everything is computed in your browser. Nothing ever leaves your machine, or even your browser tab.
 
-You can download the latest build of Vantiy-ETH from Github and use it completely offline.
+Once the web page is loaded, you can turn off the internet and continue playing.
+
+You can also download the latest build of Vanity-ETH [here](https://github.com/bokub/vanity-eth/wiki/Download-Vanity-ETH)
+and use it completely offline.
 
 Vanity-ETH uses a cryptographically secure pseudorandom number generator (CSPRNG) to generate Ethereum addresses.
+
+The keystore file is encrypted with a AES-128-CTR cipher using the BKDF2-SHA256 derivation function with 65536 hashing rounds.
 
 
 ## Performance
 
 For some reason, the performance of Vanity-ETH can vary a lot from a browser to another.
- 
+
 Right now, Chrome seems to be the one providing the best results.
 
 
-## Offline usage
+## Compatibility
 
-Vanity-ETH works perfectly offline! Once the web page is loaded, you can turn off the internet and continue playing.
+All addresses generated with Vanity-ETH are ERC-20 compatible.
 
-You can also download the latest build of Vanity-ETH, check out the [wiki page](https://github.com/bokub/vanity-eth/wiki/Download-Vanity-ETH)
-
+The keystore file is 100% compatible with MyEtherWallet, MetaMask, Mist, and geth.
+        
 
 ## Local development
 
