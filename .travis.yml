@@ -7,7 +7,15 @@ install: npm i
 script:
 - npm test
 - npm run build
-- npm run clean
+
+  # Remove unwanted files
+- find . -maxdepth 1 -type f  -not -name 'LICENSE' -not -name 'index.html' -not -name 'README.md' -delete &&
+  rm -fr node_modules src dist/vanity.js
+
+  #Cache busting
+- COMMIT=$(git log --format='%h' -n 1) &&
+  sed -i "s/index.js/index.$COMMIT.js/g" index.html &&
+  mv dist/index.js dist/index.$COMMIT.js
 
 deploy:
   provider: pages
