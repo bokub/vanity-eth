@@ -4,6 +4,7 @@
         <h3 class="title">Create encrypted keystore file (UTC / JSON)</h3>
         <form v-on:submit.prevent="save">
             <div>
+                <input class="hidden" type="text" autocomplete="username">
                 <input type="password" autocomplete="new-password" class="text-input-large" v-model="password"
                        placeholder="Password">
             </div>
@@ -68,5 +69,7 @@
                 font-size: 2em
             &:hover
                 color: $white-text
+        .hidden
+            display: none
 
 </style>
