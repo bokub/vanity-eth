@@ -28,12 +28,14 @@
         </p>
         <h2>Performance</h2>
         <p>
-            For some reason, the performance of Vanity-ETH can vary a lot from a browser to another.<br>
-            Right now, Chrome seems to be the one providing the best results.
+            For some reason, the performance of Vanity-ETH can vary a lot from a browser to another. Right now, Chrome
+            seems to be the one providing the best results.<br>
+            Using Vanity-ETH on your phone or tablet will work, but don't expect to reach the speed of a good old computer.
         </p>
         <h2>Compatibility</h2>
         <p>
-            All addresses generated with Vanity-ETH are ERC-20 compatible.<br>
+            Any address generated with Vanity-ETH is ERC-20 compatible, which means you can use it for an ICO, an
+            airdrop, or just to withdraw your funds from an exchange.<br>
             The keystore file is 100% compatible with MyEtherWallet, MetaMask, Mist, and geth.
         </p>
     </div>

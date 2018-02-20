@@ -39,17 +39,19 @@ The keystore file is encrypted with a AES-128-CTR cipher using the BKDF2-SHA256 
 
 ## Performance
 
-For some reason, the performance of Vanity-ETH can vary a lot from a browser to another.
+For some reason, the performance of Vanity-ETH can vary a lot from a browser to another. Right now, Chrome seems to be
+the one providing the best results.
 
-Right now, Chrome seems to be the one providing the best results.
+Using Vanity-ETH on your phone or tablet will work, but don't expect to reach the speed of a good old computer.
 
 
 ## Compatibility
 
-All addresses generated with Vanity-ETH are ERC-20 compatible.
+Any address generated with Vanity-ETH is ERC-20 compatible, which means you can use it for an ICO, an airdrop, or just
+to withdraw your funds from an exchange.
 
 The keystore file is 100% compatible with MyEtherWallet, MetaMask, Mist, and geth.
-        
+
 
 ## Local development
 

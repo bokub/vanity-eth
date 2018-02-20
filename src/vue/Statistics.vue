@@ -117,4 +117,11 @@
         color: $grey-text
         margin-left: 15px
         word-break: break-all
+
+
+    @media screen and (max-width: 480px)
+        .percentage
+            left: -5px
+        .probability
+            width: 80%
 </style>

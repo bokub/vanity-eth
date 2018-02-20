@@ -55,4 +55,8 @@
                 padding-bottom: 2px
                 i
                     font-size: 1.2em
+
+    @media screen and (max-width: 480px)
+        footer
+            padding-bottom: 1em
 </style>

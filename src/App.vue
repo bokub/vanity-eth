@@ -349,4 +349,8 @@
         #content
             margin-top: 5em
             margin-bottom: 4em
+
+    @media screen and (max-width: 480px)
+        .panel
+            padding: 1em
 </style>
