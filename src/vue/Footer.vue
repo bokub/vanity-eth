@@ -44,8 +44,7 @@
             margin-bottom: 20px
             color: $white-text
             a
-                font-family: monospace
-                font-size: 1.2em
+                font-family: "Courier New", "Courier", monospace
                 margin-left: 15px
                 word-break: break-all
         .links

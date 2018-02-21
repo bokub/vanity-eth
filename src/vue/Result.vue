@@ -52,8 +52,7 @@
         background-color: $panel-background-clear
 
     .output
-        font-family: monospace
-        font-size: 1.2em
+        font-family: "Courier New", "Courier", monospace
         color: $grey-text
         margin-left: 15px
         word-break: break-all

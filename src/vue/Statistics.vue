@@ -112,8 +112,8 @@
             font-weight: 500
 
     .output
-        font-family: monospace
-        font-size: 1.2em
+        font-family: "Courier New", "Courier", monospace
+        font-size: 1.1em
         color: $grey-text
         margin-left: 15px
         word-break: break-all
