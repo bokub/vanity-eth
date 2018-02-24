@@ -85,11 +85,11 @@
     .error-text
         display: none
         font-size: 0.85em
-        color: $red
+        color: $error
 
     .error
         input[type="text"]
-            border: 1px solid $red
+            border: 1px solid $error
         .error-text
             display: block
 
@@ -103,7 +103,7 @@
         cursor: pointer
         position: relative
         font-size: 1.2em
-        color: $white-text
+        color: $text
         font-weight: 400
         &:last-child
             margin-bottom: 0

@@ -1,14 +1,14 @@
 # Vanity-ETH
 
 [![Build Status](https://img.shields.io/travis/bokub/vanity-eth/master.svg?style=flat-square)](https://travis-ci.org/bokub/vanity-eth)
-[![License](https://img.shields.io/badge/license-MIT-f49068.svg?style=flat-square)](https://raw.githubusercontent.com/bokub/vanity-eth/master/LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-f68084.svg?style=flat-square)](https://raw.githubusercontent.com/bokub/vanity-eth/master/LICENSE)
 [![Maintainability](https://api.codeclimate.com/v1/badges/818874f09ea56c310072/maintainability)](https://codeclimate.com/github/bokub/vanity-eth/maintainability)
 
 Browser-based ETH vanity address generator
 
 Just type [`git.io/veth`](https://git.io/veth) to use it ⚡️
 
-[![Vanity-ETH](https://i.imgur.com/hxgxohl.png)](https://git.io/veth)
+[![Vanity-ETH](https://i.imgur.com/lv6Gej5.png)](https://git.io/veth)
 
 
 ## Usage
@@ -29,7 +29,7 @@ As explained above, everything is computed in your browser. Nothing ever leaves 
 
 Once the web page is loaded, you can turn off the internet and continue playing.
 
-You can also download the latest build of Vanity-ETH [here](https://github.com/bokub/vanity-eth/wiki/Download-Vanity-ETH)
+You can also download the latest build of Vanity-ETH [here](https://git.io/veth-dl)
 and use it completely offline.
 
 Vanity-ETH uses a cryptographically secure pseudorandom number generator (CSPRNG) to generate Ethereum addresses.

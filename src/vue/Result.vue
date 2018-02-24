@@ -49,13 +49,14 @@
         width: 48px
         height: 48px
         margin: 0 15px
-        background-color: $panel-background-clear
+        background-color: $panel-background-alt
 
     .output
         font-family: "Courier New", "Courier", monospace
-        color: $grey-text
+        color: $text-alt
         margin-left: 15px
         word-break: break-all
+        font-weight: bold
 
     .panel > div:not(:last-child)
         margin-bottom: 15px

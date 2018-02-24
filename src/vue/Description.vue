@@ -1,7 +1,7 @@
 <template>
     <div class="panel">
         <p>
-            Vanity-ETH is a browser-based tool to generate Ethereum vanity addresses.
+            Vanity-ETH is an open source tool using your web browser to generate Ethereum vanity addresses.
         </p>
         <h2>Usage</h2>
         <p>
@@ -20,7 +20,7 @@
             Once the web page is loaded, you can turn off the internet and continue
             playing.<br>
             You can also download the latest build of Vanity-ETH on
-            <a href="https://github.com/bokub/vanity-eth/wiki/download-Vanity-ETH" target="_blank">Github</a> and use it
+            <a href="https://git.io/veth-dl" target="_blank">Github</a> and use it
             completely offline.<br>
             Vanity-ETH uses a cryptographically secure pseudorandom number generator (CSPRNG) to generate
             Ethereum addresses.<br>
@@ -49,5 +49,5 @@
     @import "../css/variables"
     p
         margin: 15px 0 20px
-        color: $grey-text
+        color: $text-alt
 </style>

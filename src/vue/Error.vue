@@ -23,8 +23,8 @@
 <style lang="sass" scoped>
     @import "../css/variables"
     .panel
-        background-color: $red
+        background-color: $error
+        color: $text-opposite
         a, a:visited, a:hover
-            color: $white-text
             text-decoration: underline
 </style>

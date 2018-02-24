@@ -16,14 +16,14 @@
 
     div
         margin-bottom: 8em
-        color: $white-text
+        color: $logo
         font-family: 'Montserrat', sans-serif
         text-align: center
 
         h1
             font-size: 3em
             font-weight: 700
-            border: 4px solid $white-text
+            border: 4px solid $logo
             width: 7.8em
             margin: 0 auto
 
@@ -44,7 +44,7 @@
             margin-bottom: 4em
             h1
                 font-size: 2.5em
-                border: 3px solid $white-text
+                border-width: 3px
             p
                 font-size: 1.4em
                 margin-top: 0.8em
@@ -61,7 +61,7 @@
     @media screen and (max-width: 480px)
         h1
             font-size: 2em
-            border: 2px solid $white-text
+            border-width: 2px
         p
             font-size: 1.2em
 

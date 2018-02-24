@@ -37,16 +37,17 @@
     footer
         padding: 1rem 0 0.5rem
         background-color: $panel-background
-        color: $grey-text
+        color: $text-alt
         a
             text-decoration: none
         .address
             margin-bottom: 20px
-            color: $white-text
+            color: $text
             a
                 font-family: "Courier New", "Courier", monospace
                 margin-left: 15px
                 word-break: break-all
+                font-weight: bold
         .links
             text-align: right
             a

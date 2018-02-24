@@ -236,6 +236,7 @@
     body
         padding: 0
         font-family: 'Lato', sans-serif
+        background: $bg-1
         background: $background
 
     h1, h2, h3, h4, h5, h6, p, label
@@ -243,50 +244,55 @@
         font-weight: normal
 
     a, a:visited, a:hover
-        color: $grey-text
+        color: $text-alt
         text-decoration: underline
 
     a:hover
-        color: $white-text
+        color: $text
 
     .panel
         padding: 1.5em 3em
         background-color: $panel-background
         margin-top: 2em
-        color: $white-text
+        color: $text
         font-weight: 400
-
+        box-shadow: $shadow
+        transition: box-shadow 0.2s ease-in-out
+        &:hover
+            box-shadow: $shadow-big
     #content
         margin-top: 8em
         margin-bottom: 6em
 
     .text-input-large
         width: 100%
-        color: $white-text
-        background: $panel-background-clear
+        color: $text
+        background: $panel-background-alt
         outline: none
         font-size: 1.3em
         padding: 0.5em
         border: none
         margin-bottom: 10px
         -webkit-appearance: none
+        &::placeholder
+            color: $placeholder
 
     .button-large
         border: none
         outline: none
-        color: $white-text
+        color: $text-opposite
         padding: 0.6em
         font-size: 1.3em
         font-weight: 500
         margin: 1.3em 0 0 0
         cursor: pointer
         -webkit-appearance: none
-        background: $teal
+        background: $primary
         width: 100%
         &:hover
-            background: $yellow
+            background: $secondary
         &:disabled
-            background: $panel-background-clear
+            background: $disabled
             cursor: auto
 
     /*-- Fonts --*/

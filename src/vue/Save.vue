@@ -60,7 +60,7 @@
 
     .remodal
         background-color: $panel-background
-        color: $white-text
+        color: $text
         .title
             margin-bottom: 45px
         .remodal-close
@@ -68,7 +68,7 @@
             &:before
                 font-size: 2em
             &:hover
-                color: $white-text
+                color: $text
         .hidden
             display: none
 

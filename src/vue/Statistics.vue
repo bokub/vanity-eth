@@ -89,14 +89,14 @@
         width: 85%
         margin: 5px 0
         height: 18px
-        background: $panel-background-clear
+        background: $panel-background-alt
         float: left
 
     .probability-bar
         height: 100%
         width: 0
         display: block
-        background-color: #d78716
+        background-color: $secondary
 
     .percentage
         float: right
@@ -108,16 +108,15 @@
         div
             font-size: 0.75em
         h5
-            color: $white-text
+            color: $text
             font-weight: 500
 
     .output
         font-family: "Courier New", "Courier", monospace
         font-size: 1.1em
-        color: $grey-text
+        color: $text-alt
         margin-left: 15px
         word-break: break-all
-
 
     @media screen and (max-width: 480px)
         .percentage
