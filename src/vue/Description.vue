@@ -3,6 +3,14 @@
         <p>
             Vanity-ETH is an open source tool using your web browser to generate Ethereum vanity addresses.
         </p>
+
+        <h2>What's a vanity address?</h2>
+        <p>
+            A vanity address is an address which part of it is chosen by yourself, making it look less random.<br>
+            Examples: <span class="monospace">0xc0ffee254729296a45a3885639AC7E10F9d54979</span>, or
+            <span class="monospace">0x999999cf1046e68e36E1aA2E0E07105eDDD1f08E</span>
+        </p>
+
         <h2>Usage</h2>
         <p>
             Enter the prefix of your choice below, then click 'generate' to start. Your browser is going to generate a
@@ -50,4 +58,7 @@
     p
         margin: 15px 0 20px
         color: $text-alt
+        .monospace
+            font-family: $monospace-font
+            font-size: 0.85em
 </style>

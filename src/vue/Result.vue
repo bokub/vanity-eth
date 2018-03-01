@@ -52,11 +52,10 @@
         background-color: $panel-background-alt
 
     .output
-        font-family: "Courier New", "Courier", monospace
+        font-family: $monospace-font
         color: $text-alt
         margin-left: 15px
         word-break: break-all
-        font-weight: bold
 
     .panel > div:not(:last-child)
         margin-bottom: 15px

@@ -44,10 +44,9 @@
             margin-bottom: 20px
             color: $text
             a
-                font-family: "Courier New", "Courier", monospace
+                font-family: $monospace-font
                 margin-left: 15px
                 word-break: break-all
-                font-weight: bold
         .links
             text-align: right
             a
