@@ -32,10 +32,12 @@ You can increase the number of working threads to reach higher speeds, or decrea
 
 As explained above, everything is computed in your browser. Nothing ever leaves your machine, or even your browser tab.
 
-Once the web page is loaded, you can turn off the internet and continue playing.
+**Vanity-ETH cannot and will never store your private key**, and if you don't trust it, you have 3 ways to ensure your key remains private:
 
-You can also download the latest build of Vanity-ETH [here](https://git.io/veth-dl)
-and use it completely offline.
+- Once the web page is loaded, you can turn off the internet and continue playing, it will work seamlessly
+- You can also download the latest build of Vanity-ETH [here](https://git.io/veth-dl)
+and use it on a completely offline computer
+- The code is 100% open source and available on Github. You can review it as much as you want
 
 Vanity-ETH uses a cryptographically secure pseudorandom number generator (CSPRNG) to generate Ethereum addresses.
 

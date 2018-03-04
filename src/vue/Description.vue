@@ -25,11 +25,14 @@
         <p>
             As explained above, everything is computed in your browser. Nothing ever leaves your machine, or
             even your browser tab.<br>
-            Once the web page is loaded, you can turn off the internet and continue
-            playing.<br>
-            You can also download the latest build of Vanity-ETH on
-            <a href="https://git.io/veth-dl" target="_blank">Github</a> and use it
-            completely offline.<br>
+            <b>Vanity-ETH cannot and will never store your private key</b>, and if you don't trust it, you have 3 ways to ensure
+            your key remains private:<br>
+            &nbsp;-&nbsp;Once the web page is loaded, you can turn off the internet and continue playing, it will work seamlessly<br>
+            &nbsp;-&nbsp;You can also download the latest build of Vanity-ETH
+                <a href="https://git.io/veth-dl" target="_blank">here</a> and use it on a completely offline computer<br>
+            &nbsp;-&nbsp;The code is 100% open source and available on
+            <a href="https://github.com/bokub/vanity-eth" target="_blank">Github</a>. You can review it as much as you want<br>
+           <br>
             Vanity-ETH uses a cryptographically secure pseudorandom number generator (CSPRNG) to generate
             Ethereum addresses.<br>
             The keystore file is encrypted with a AES-128-CTR cipher using the BKDF2-SHA256 derivation function with 65536 hashing rounds.

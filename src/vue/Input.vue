@@ -3,6 +3,9 @@
         <form :class="{error: inputError}" v-on:submit.prevent="startGen">
             <div class="error-text">Numbers and letters from A to F only</div>
             <input type="text" class="text-input-large" placeholder="Prefix" v-model="prefix" :disabled="running">
+            <div class="example">
+                E.g.&nbsp;<span v-text="example" class="monospace"></span>
+            </div>
             <div class="check">
                 <label class="checkbox">
                     <input type="checkbox" name="checkbox" checked="" v-model="checksum"
@@ -34,6 +37,13 @@
 </template>
 
 <script>
+    function mixCase(str) {
+        let ret = '';
+        for(let i of str) {
+            ret += Math.random() < 0.5 ? i.toUpperCase() : i.toLowerCase();
+        }
+        return ret;
+    }
     export default {
         props: {
             running: Boolean,
@@ -51,6 +61,16 @@
             inputError: function () {
                 return !isValidHex(this.prefix);
             },
+            example: function () {
+                if(this.inputError){
+                    return 'N/A';
+                }
+                let text = '0x' + (this.checksum ? this.prefix : mixCase(this.prefix));
+                for (let i = 0; i < 40 - this.prefix.length; i++){
+                    text += mixCase(Math.floor((Math.random() * 16)).toString(16));
+                }
+                return text.substr(0, 42);
+            }
         },
         methods: {
             startGen: function () {
@@ -93,6 +113,12 @@
         .error-text
             display: block
 
+    .example
+        font-size: 0.85em
+        text-overflow: ellipsis
+        overflow-x: hidden
+        .monospace
+            font-family: $monospace-font
     .check
         margin: .5em 0
 
