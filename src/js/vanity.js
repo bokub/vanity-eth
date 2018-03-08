@@ -1,9 +1,17 @@
 /* eslint-env worker */
-
-const ethUtils = require('ethereumjs-util');
+const secp256k1 = require('secp256k1');
+const keccak = require('keccak');
 const randomBytes = require('randombytes');
 
 const step = 500;
+
+/**
+ * Transform a private key into an address
+ */
+const privateToAddress = privateKey => {
+	const pub = secp256k1.publicKeyCreate(privateKey, false).slice(1);
+	return keccak('keccak256').update(pub).digest().slice(-20).toString('hex');
+};
 
 /**
  * Create a wallet from a random private key
@@ -12,28 +20,27 @@ const step = 500;
 const getRandomWallet = () => {
 	const randbytes = randomBytes(32);
 	return {
-		address: '0x' + ethUtils.privateToAddress(randbytes).toString('hex'),
+		address: privateToAddress(randbytes).toString('hex'),
 		privKey: randbytes.toString('hex')
 	};
 };
 
 /**
  * Check if a wallet respects the input constraints
- * @param wallet
+ * @param address
  * @param input
  * @param isChecksum
  * @returns {boolean}
  */
-const isValidVanityWallet = (wallet, input, isChecksum) => {
+const isValidVanityAddress = (address, input, isChecksum) => {
 	if (!isChecksum) {
-		return input === wallet.address.substr(2, input.length);
+		return input === address.substr(0, input.length);
 	}
-	if (input.toLowerCase() !== wallet.address.substr(2, input.length)) {
+	if (input.toLowerCase() !== address.substr(0, input.length)) {
 		return false;
 	}
 
-	const address = wallet.address.substr(2);
-	const hash = ethUtils.sha3(address).toString('hex');
+	const hash = keccak('keccak256').update(address).digest().toString('hex');
 
 	for (let i = 0; i < input.length; i++) {
 		if (input[i] !== (parseInt(hash[i], 16) >= 8 ? address[i].toUpperCase() : address[i])) {
@@ -41,6 +48,15 @@ const isValidVanityWallet = (wallet, input, isChecksum) => {
 		}
 	}
 	return true;
+};
+
+const toChecksumAddress = address => {
+	const hash = keccak('keccak256').update(address).digest().toString('hex');
+	let ret = '';
+	for (let i = 0; i < address.length; i++) {
+		ret += parseInt(hash[i], 16) >= 8 ? address[i].toUpperCase() : address[i];
+	}
+	return ret;
 };
 
 /**
@@ -55,7 +71,7 @@ const getVanityWallet = (input, isChecksum, cb) => {
 	let wallet = getRandomWallet();
 	let attempts = 1;
 
-	while (!isValidVanityWallet(wallet, input, isChecksum)) {
+	while (!isValidVanityAddress(wallet.address, input, isChecksum)) {
 		if (attempts >= step) {
 			cb({attempts});
 			attempts = 0;
@@ -63,7 +79,7 @@ const getVanityWallet = (input, isChecksum, cb) => {
 		wallet = getRandomWallet();
 		attempts++;
 	}
-	cb({address: ethUtils.toChecksumAddress(wallet.address), privKey: wallet.privKey, attempts});
+	cb({address: '0x' + toChecksumAddress(wallet.address), privKey: wallet.privKey, attempts});
 };
 
 onmessage = function (event) {
