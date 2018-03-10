@@ -13,8 +13,8 @@
 
         <h2>Usage</h2>
         <p>
-            Enter the prefix of your choice below, then click 'generate' to start. Your browser is going to generate a
-            ton of random addresses until one of them starts with your prefix.<br>
+            Enter the prefix of your choice below, and click ‘generate’ to start. Your browser will generate lots of random
+            addresses until one begins with your prefix.<br>
             Once an address is found, you can reveal the private key, or click the 'save' button to download
             a password-encrypted keystore file.<br>
             You can increase the number of working threads to reach higher speeds, or decrease it if you computer
@@ -39,8 +39,8 @@
         </p>
         <h2>Performance</h2>
         <p>
-            For some reason, the performance of Vanity-ETH can vary a lot from a browser to another. Right now, Chrome
-            seems to be the one providing the best results.<br>
+            For some reason, the performance of Vanity-ETH can vary a lot from a browser to another.
+            Currently, Chrome provides the best results.<br>
             Using Vanity-ETH on your phone or tablet will work, but don't expect to reach the speed of a good old computer.
         </p>
         <h2>Compatibility</h2>
@@ -61,6 +61,8 @@
     p
         margin: 15px 0 20px
         color: $text-alt
+        overflow-x: hidden
+        text-overflow: ellipsis
         .monospace
             font-family: $monospace-font
             font-size: 0.85em

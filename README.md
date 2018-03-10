@@ -20,8 +20,8 @@ Examples: `0xc0ffee254729296a45a3885639AC7E10F9d54979`, or `0x999999cf1046e68e36
 
 First of all, visit [`git.io/veth`](https://git.io/veth)
 
-Enter the prefix of your choice, then click 'generate' to start. Your browser is going to generate a ton of random 
-addresses until one of them starts with your prefix.
+Enter the prefix of your choice below, and click ‘generate’ to start. Your browser will generate lots of random
+addresses until one begins with your prefix.
 
 Once an address is found, you can reveal the private key, or click the 'save' button to download a password-encrypted keystore file.
 
@@ -47,8 +47,8 @@ The keystore file is encrypted with a AES-128-CTR cipher using the BKDF2-SHA256 
 
 ## Performance
 
-For some reason, the performance of Vanity-ETH can vary a lot from a browser to another. Right now, Chrome seems to be
-the one providing the best results.
+For some reason, the performance of Vanity-ETH can vary a lot from a browser to another. 
+Currently, Chrome provides the best results.
 
 Using Vanity-ETH on your phone or tablet will work, but don't expect to reach the speed of a good old computer.
 
