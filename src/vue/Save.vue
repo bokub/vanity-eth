@@ -9,9 +9,8 @@
                        placeholder="Password">
             </div>
             <div>
-                <button type="button" class="button-large" @click="save" :disabled="!password || !privateKey">
-                    Download
-                </button>
+                <button type="button" class="button-large" @click="save" :disabled="!password || !privateKey || loading"
+                        v-text="loading ? 'Generating...' : 'Download'"></button>
             </div>
         </form>
     </div>
@@ -19,9 +18,13 @@
 
 <script>
     import * as remodal from 'remodal/src/remodal';
-    import * as keythereum from '../js/keythereum.min';
     import * as randomBytes from 'randombytes';
     import * as download from 'downloadjs';
+
+    import {v4} from 'uuid';
+    import CryptoJS from 'crypto-js';
+    import secp256k1 from 'secp256k1';
+    import keccak from 'keccak';
 
     export default {
         props: {
@@ -30,6 +33,7 @@
         data: function () {
             return {
                 password: '',
+                loading: false,
             }
         },
         watch: {
@@ -40,12 +44,69 @@
         methods: {
             save() {
                 if (this.password) {
-                    const rb = randomBytes(48);
-                    window.keythereum.dump(this.password, this.privateKey, rb.slice(0, 32), rb.slice(32), {}, (obj) => {
-                        const fileName = "UTC--" + new Date().toISOString().replace(/:/g, '-') + "--" + obj.address;
-                        download(JSON.stringify(obj), fileName, "application/json");
-                    });
+                    this.loading = true;
+
+                    setTimeout(() => {
+                        const wallet = this.generateWallet(this.privateKey, this.password);
+                        const fileName = 'UTC--' + new Date().toISOString().replace(/:/g, '-') + '--' + wallet.address;
+                        download(JSON.stringify(wallet), fileName, "application/json");
+                        this.loading = false;
+                    }, 20);
                 }
+            },
+
+            // Generate a JSON wallet from a private key and a password
+            generateWallet(privateKey, password) {
+                privateKey = Buffer.from(privateKey, 'hex');
+                return {
+                    address: this.privateToAddress(privateKey),
+                    crypto: this.encryptPrivateKey(privateKey, password),
+                    id: v4(),
+                    version: 3
+                };
+            },
+
+            privateToAddress(privateKey) {
+                const pub = secp256k1.publicKeyCreate(privateKey, false).slice(1);
+                return keccak('keccak256').update(pub).digest().slice(-20).toString('hex');
+            },
+
+            sliceWordArray(wordArray, start, end) {
+                const newArray = wordArray.clone();
+                newArray.words = newArray.words.slice(start, end);
+                newArray.sigBytes = (end - start) * 4;
+                return newArray;
+            },
+
+            encryptPrivateKey(privateKey, password) {
+                const iv = CryptoJS.lib.WordArray.random(16);
+                const salt = CryptoJS.lib.WordArray.random(32);
+                const key = CryptoJS.PBKDF2(password, salt, {
+                    keySize: 8,
+                    hasher: CryptoJS.algo.SHA256,
+                    iterations: 262144
+                });
+                const cipher = CryptoJS.AES.encrypt(
+                    CryptoJS.enc.Hex.parse(privateKey.toString('hex')),
+                    this.sliceWordArray(key, 0, 4),
+                    {
+                        iv: iv,
+                        mode: CryptoJS.mode.CTR,
+                        padding: CryptoJS.pad.NoPadding
+                    }
+                );
+                const mac = CryptoJS.SHA3(this.sliceWordArray(key, 4, 8).concat(cipher.ciphertext), {
+                    outputLength: 256
+                });
+
+                return {
+                    kdf: 'pbkdf2',
+                    kdfparams: {c: 262144, dklen: 32, prf: 'hmac-sha256', salt: salt.toString()},
+                    cipher: 'aes-128-ctr',
+                    ciphertext: cipher.ciphertext.toString(),
+                    cipherparams: {iv: iv.toString()},
+                    mac: mac.toString()
+                };
             },
         }
     }

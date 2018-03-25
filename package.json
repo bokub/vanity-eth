@@ -2,6 +2,11 @@
   "name": "vanity-eth",
   "description": "Online ETH vanity address generator",
   "version": "1.0.0",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
   "dependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -10,6 +15,7 @@
     "blockies": "0.0.2",
     "bootstrap": "^4.0.0",
     "cross-env": "^5.0.5",
+    "crypto-js": "^3.1.9-1",
     "css-loader": "^0.28.7",
     "downloadjs": "^1.4.7",
     "file-loader": "^1.1.6",
@@ -29,17 +35,12 @@
     "worker-loader": "^1.1.0",
     "xo": "^0.18.2"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ],
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "test": "node ./node_modules/xo/cli.js",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "test": "node ./node_modules/xo/cli.js"
   },
   "xo": {
     "rules": {
