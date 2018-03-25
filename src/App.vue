@@ -41,7 +41,7 @@
         </div>
 
         <!--Save modal-->
-        <save :private-key="result.privateKey"></save>
+        <save :address="result.address.toLowerCase()" :private-key="result.privateKey"></save>
 
         <!--Footer-->
         <foot></foot>

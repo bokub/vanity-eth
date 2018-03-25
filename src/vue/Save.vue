@@ -23,12 +23,11 @@
 
     import {v4} from 'uuid';
     import CryptoJS from 'crypto-js';
-    import secp256k1 from 'secp256k1';
-    import keccak from 'keccak';
 
     export default {
         props: {
-            privateKey: String
+            privateKey: String,
+            address: String
         },
         data: function () {
             return {
@@ -48,7 +47,7 @@
 
                     setTimeout(() => {
                         const wallet = this.generateWallet(this.privateKey, this.password);
-                        const fileName = 'UTC--' + new Date().toISOString().replace(/:/g, '-') + '--' + wallet.address;
+                        const fileName = 'UTC--' + new Date().toISOString().replace(/:/g, '-') + '--' + this.address;
                         download(JSON.stringify(wallet), fileName, "application/json");
                         this.loading = false;
                     }, 20);
@@ -59,16 +58,11 @@
             generateWallet(privateKey, password) {
                 privateKey = Buffer.from(privateKey, 'hex');
                 return {
-                    address: this.privateToAddress(privateKey),
+                    address: this.address,
                     crypto: this.encryptPrivateKey(privateKey, password),
                     id: v4(),
                     version: 3
                 };
-            },
-
-            privateToAddress(privateKey) {
-                const pub = secp256k1.publicKeyCreate(privateKey, false).slice(1);
-                return keccak('keccak256').update(pub).digest().slice(-20).toString('hex');
             },
 
             sliceWordArray(wordArray, start, end) {
