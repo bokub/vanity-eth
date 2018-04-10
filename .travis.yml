@@ -9,7 +9,7 @@ script:
 - npm run build
 
   # Remove unwanted files
-- find . -maxdepth 1 -type f  -not -name 'LICENSE' -not -name 'index.html' -not -name 'README.md' -delete &&
+- find . -maxdepth 1 -type f  -not -name 'LICENSE' -not -name 'index.html' -not -name 'README.md' -not -name '_config.yml' -delete &&
   rm -fr node_modules src dist/vanity.js
 
   # Cache busting
