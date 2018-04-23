@@ -17,10 +17,8 @@ script:
   sed -i "s/index.js/index.$COMMIT.js/g" index.html &&
   mv dist/index.js dist/index.$COMMIT.js
 
-  # Custom domain
-- echo "vanity-eth.tk" > CNAME
-
 deploy:
   provider: pages
   skip-cleanup: true
   github-token: $TOKEN
+  fqdn: vanity-eth.tk
