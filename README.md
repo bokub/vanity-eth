@@ -8,7 +8,7 @@ Browser-based ETH vanity address generator
 
 Just type [`vanity-eth.tk`](https://vanity-eth.tk) to use it ⚡️
 
-[![Vanity-ETH](https://i.imgur.com/lv6Gej5.png)](https://vanity-eth.tk)
+[![Vanity-ETH](https://i.imgur.com/zmSLeBP.png)](https://vanity-eth.tk)
 
 ## What's a vanity address?
 

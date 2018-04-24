@@ -96,7 +96,7 @@
         height: 100%
         width: 0
         display: block
-        background-color: $secondary
+        background-color: $primary
 
     .percentage
         float: right

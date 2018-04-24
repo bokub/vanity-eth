@@ -154,13 +154,11 @@
         input
             + i:after
                 content: ''
-                background: url("../assets/images/tick-mark.png") no-repeat 1px 2px
+                background: url("../assets/images/tick-mark.png") no-repeat
                 top: 4px
-                left: 2px
+                left: 3px
                 width: 15px
                 height: 15px
-                font: normal 12px/16px FontAwesome
-                text-align: center
                 position: absolute
                 opacity: 0
             position: absolute
@@ -179,5 +177,6 @@
             margin: 0 5px 0 0
             padding: 0
             line-height: 1em
+            font-size: 1.2em
 
 </style>
