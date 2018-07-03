@@ -1,5 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const PrerenderSpaPlugin = require('prerender-spa-plugin');
 
 module.exports = {
 	entry: {
@@ -14,7 +16,8 @@ module.exports = {
 		rules: [
 			{
 				test: /\.vue$/,
-				loader: 'vue-loader'
+				loader: 'vue-loader',
+				options: {extractCSS: process.env.NODE_ENV === 'production'}
 			},
 			{
 				test: /vanity\.js$/,
@@ -64,6 +67,7 @@ module.exports = {
 if (process.env.NODE_ENV === 'production') {
     // http://vue-loader.vuejs.org/en/workflow/production.html
 	module.exports.plugins = (module.exports.plugins || []).concat([
+		new ExtractTextPlugin('style.css'),
 		new webpack.optimize.UglifyJsPlugin({
 			sourceMap: false,
 			compress: {
@@ -72,6 +76,15 @@ if (process.env.NODE_ENV === 'production') {
 		}),
 		new webpack.LoaderOptionsPlugin({
 			minimize: true
+		}),
+		new PrerenderSpaPlugin({
+			staticDir: path.join(__dirname),
+			routes: ['/'],
+			minify: {
+				collapseBooleanAttributes: true,
+				decodeEntities: true,
+				sortAttributes: true
+			}
 		})
 	]);
 }

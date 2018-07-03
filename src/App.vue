@@ -1,5 +1,5 @@
 <template>
-    <div class="remodal-bg">
+    <div id="app" class="remodal-bg">
         <div class="container" id="content">
             <!--Headline-->
             <headline></headline>

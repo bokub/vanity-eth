@@ -15,7 +15,9 @@ script:
   # Cache busting
 - COMMIT=$(git log --format='%h' -n 1) &&
   sed -i "s/index.js/index.$COMMIT.js/g" index.html &&
-  mv dist/index.js dist/index.$COMMIT.js
+  sed -i "s/style.css/style.$COMMIT.css/g" index.html &&
+  mv dist/index.js dist/index.$COMMIT.js &&
+  mv dist/style.css dist/style.$COMMIT.css
 
 deploy:
   provider: pages
