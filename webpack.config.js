@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PrerenderSpaPlugin = require('prerender-spa-plugin');
 
@@ -25,7 +26,7 @@ module.exports = {
 				exclude: /node_modules/,
 				options: {
 					inline: true,
-					name: '[name].[ext]?[hash]'
+					name: 'vanity.js'
 				}
 			},
 			{
@@ -34,7 +35,7 @@ module.exports = {
 				exclude: /node_modules/
 			},
 			{
-				test: /\.(png|woff|woff2|ico)/,
+				test: /\.(png|woff|woff2)/,
 				exclude: /node_modules/,
 				loader: 'url-loader'
 			}
@@ -60,7 +61,12 @@ module.exports = {
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
 				TID: JSON.stringify(process.env.TID)
 			}
-		})
+		}),
+		new CopyWebpackPlugin([{
+			from: 'src/assets/images/favicon.ico',
+			to: '.',
+			toType: 'dir'
+		}])
 	]
 };
 

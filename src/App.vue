@@ -202,19 +202,9 @@
                     this.threads = this.cores;
                 }
             },
-            addFavicon: function () {
-                const i = document.createElement('link');
-                const icon = require('./assets/images/favicon.ico');
-
-                i.type = 'image/x-icon';
-                i.rel = 'shortcut icon';
-                i.href = icon;
-                document.head.appendChild(i);
-            },
         },
 
         created: function () {
-            this.addFavicon();
             this.countCores();
             this.initWorkers();
         }
