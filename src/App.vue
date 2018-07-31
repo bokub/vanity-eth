@@ -238,12 +238,7 @@
         font-family: 'Lato', sans-serif
         background: $bg-fallback
         background: linear-gradient(140deg, $bg-2 0%, $bg-1 100%)
-        @media screen and (max-width: 1200px)
-            background: linear-gradient(130deg, $bg-2 0%, $bg-1 100%)
-        @media screen and (max-width: 768px)
-            background: linear-gradient(120deg, $bg-2 0%, $bg-1 100%)
-        @media screen and (max-width: 480px)
-            background: linear-gradient(110deg, $bg-2 0%, $bg-1 100%)
+        background-attachment: fixed
 
     h1, h2, h3, h4, h5, h6, p, label
         margin: 0
