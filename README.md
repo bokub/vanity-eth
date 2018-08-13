@@ -1,8 +1,8 @@
 # Vanity-ETH
 
-[![Build Status](https://img.shields.io/travis/bokub/vanity-eth/master.svg?style=flat-square)](https://travis-ci.org/bokub/vanity-eth)
-[![License](https://img.shields.io/badge/license-MIT-f68084.svg?style=flat-square)](https://raw.githubusercontent.com/bokub/vanity-eth/master/LICENSE)
-[![Maintainability](https://api.codeclimate.com/v1/badges/818874f09ea56c310072/maintainability)](https://codeclimate.com/github/bokub/vanity-eth/maintainability)
+[![Build Status][build-img]][build-link]
+[![License][license-img]][license-link]
+[![Maintainability][maint-img]][maint-link]
 
 Browser-based ETH vanity address generator
 
@@ -86,3 +86,10 @@ The Travis CI bot 🤖 is in charge of building and deploying Vanity-ETH to Gith
 ## Tips
 
 `0xAceBabe64807cb045505b268ef253D8fC2FeF5Bc`
+
+[build-img]: https://flat.badgen.net/travis/bokub/vanity-eth
+[build-link]: https://travis-ci.org/bokub/vanity-eth
+[license-img]: https://flat.badgen.net/badge/license/MIT/orange
+[license-link]: https://raw.githubusercontent.com/bokub/vanity-eth/master/LICENSE
+[maint-img]: https://flat.badgen.net/codeclimate/maintainability/bokub/vanity-eth
+[maint-link]: https://codeclimate.com/github/bokub/vanity-eth/maintainability
