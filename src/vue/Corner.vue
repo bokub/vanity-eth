@@ -1,6 +1,5 @@
 <template>
     <a href="https://github.com/bokub/vanity-eth" target="_blank" aria-label="View source on Github">
-        <img :src="'https://ssl.google-analytics.com/collect?v=1&t=pageview&tid=' + tid + '&dp=%2F&cid=' + cid + '&dr=' + dr + '&sr=' + sr + '&vp=' + vp + '&z=' + new Date().getTime()">
         <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
             <defs>
                 <mask id="octomask">
@@ -15,38 +14,7 @@
 </template>
 
 <script>
-    import uuidv1 from 'uuid/v1';
-
-    export default {
-        data: function () {
-            return {
-                tid: process.env.TID,
-                cid: localStorage.getItem('cid'),
-                dr: encodeURIComponent(document.referrer),
-                vp: document.documentElement.clientHeight + 'x' + document.documentElement.clientWidth,
-                sr: window.screen.height + 'x' + window.screen.width,
-            }
-        },
-        created: function () {
-            if (!this.cid) {
-                this.cid = uuidv1();
-                localStorage.setItem('cid', this.cid);
-            }
-            // Fathom - simple website analytics - https://github.com/usefathom/fathom
-            (function (f, a, t, h, o, m) {
-                a[h] = a[h] || function () {
-                    (a[h].q = a[h].q || []).push(arguments)
-                };
-                o = f.createElement('script');
-                m = f.getElementsByTagName('script')[0];
-                o.async = 1;
-                o.src = t;
-                o.id = 'fathom-script';
-                m.parentNode.insertBefore(o, m)
-            })(document, window, 'https://stats.vanity-eth.tk/tracker.js', 'fathom');
-            fathom('trackPageview');
-        }
-    }
+    export default {}
 </script>
 
 <style lang="sass" scoped>
