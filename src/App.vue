@@ -225,11 +225,23 @@
                     m.parentNode.insertBefore(o, m)
                 })(document, window, 'https://stats.vanity-eth.tk/tracker.js', 'fathom');
                 fathom('trackPageview');
+            },
+            checkLocation() {
+                try {
+                    this.error = window.self !== window.top ? 'insecure_location' : this.error;
+                } catch (e) {
+                    this.error = 'insecure_location'
+                }
+                const hostname = window.location.hostname;
+                if (hostname && ['localhost', '127.0.0.1', 'vanity-eth.tk'].indexOf(hostname) === -1) {
+                    this.error = 'insecure_location';
+                }
             }
         },
 
         created: function () {
             this.addFavicon();
+            this.checkLocation();
             this.countCores();
             this.initWorkers();
             this.initFathom();
