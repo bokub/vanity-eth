@@ -10,7 +10,7 @@
 
             It seems like you are using Vanity-ETH from an unknown website, which could stole your private key.<br>
             To stay safe, use Vanity-ETH on <a href="https://vanity-eth.tk">vanity-eth.tk</a>, or download the latest
-            build here<a href="https://git.io/veth-dl" target="_blank">here</a> to use offline.
+            build <a href="https://git.io/veth-dl" target="_blank">here</a> to use offline.
         </div>
         <p v-else v-html="error.replace('\n', '<br>')"></p>
     </div>
