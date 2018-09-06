@@ -40,6 +40,7 @@
   "main": "index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "build:stats": "cross-env NODE_ENV=production webpack --json > stats.json",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "lint": "eslint --ext .js,.vue src --fix",
     "test": "eslint --ext .js,.vue src"

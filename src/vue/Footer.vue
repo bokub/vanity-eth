@@ -4,13 +4,13 @@
             <div class="row">
                 <div class="col-12 col-lg-6 address">
                     Tips:
-                    <a :href="'https://etherscan.io/address/' + tipsAddress" target="_blank" v-text="tipsAddress"></a>
+                    <a :href="`https://etherscan.io/address/${tipsAddress}#tokentxns`" target="_blank" v-text="tipsAddress"></a>
                 </div>
                 <div class="col-12 col-lg-6 links">
-                    <a :href="'https://etherdonation.com/d?to=' + tipsAddress" target="_blank">
+                    <a :href="`https://etherdonation.com/d?to=${tipsAddress}`" target="_blank">
                         <i class="icon-ethereum"></i>&nbsp;&nbsp;&nbsp;Donate
                     </a>
-                    <a href="https://github.com/bokub/vanity-eth/stargazers" target="_blank">
+                    <a href="https://github.com/bokub/vanity-eth" target="_blank">
                         <i class="icon-star"></i>&nbsp;&nbsp;&nbsp;Star&nbsp;me
                     </a>
                     <a href="https://github.com/bokub/vanity-eth/wiki/download-Vanity-ETH" target="_blank">

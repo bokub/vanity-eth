@@ -102,9 +102,12 @@
 
 <style lang="sass" scoped>
     @import "../css/variables"
+    .panel
+        min-height: 280px
+
     .error-text
         display: none
-        font-size: 0.85em
+        font-size: 14px
         color: $error
 
     .error
@@ -114,13 +117,13 @@
             display: block
 
     .example
-        font-size: 0.85em
+        font-size: 14px
         text-overflow: ellipsis
         overflow-x: hidden
         .monospace
             font-family: $monospace-font
     .check
-        margin: .5em 0
+        margin: 12px 0
 
     .checkbox
         margin-bottom: 4px
@@ -128,7 +131,7 @@
         line-height: 27px
         cursor: pointer
         position: relative
-        font-size: 1.2em
+        font-size: 18px
         color: $text
         font-weight: 400
         &:last-child
@@ -167,16 +170,15 @@
                 opacity: 1
 
     .threads
-        font-size: 1.2em
+        font-size: 18px
         h4
             display: inline
         input[type=button].square-btn
             display: inline-block
             width: 24px
             height: 24px
-            margin: 0 5px 0 0
+            margin: 0 5px 2px 0
             padding: 0
             line-height: 1em
-            font-size: 1.2em
 
 </style>

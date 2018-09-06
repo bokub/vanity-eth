@@ -79,9 +79,10 @@
 <style lang="sass" scoped>
     @import "../css/variables"
     .panel > div:not(:last-child)
-        margin-bottom: 15px
+        margin-bottom: 17px
 
     .panel
+        min-height: 280px
         padding-bottom: 3.2em
         > div:not(.percentage)
             clear: both
@@ -107,7 +108,7 @@
         top: -10px
         left: 15px
         div
-            font-size: 0.75em
+            font-size: 12px
         h5
             color: $text
             font-weight: 500

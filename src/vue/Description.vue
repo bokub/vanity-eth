@@ -1,7 +1,8 @@
 <template>
     <div class="panel">
         <p>
-            Vanity-ETH is an open source tool using your web browser to generate Ethereum vanity addresses.
+            Vanity-ETH is an open source tool using your web browser to generate Ethereum vanity addresses.<br>
+            Enter a short prefix of your choice below, and click ‘generate’ to start.
         </p>
 
         <h2>What's a vanity address?</h2>
@@ -11,7 +12,7 @@
             <span class="monospace">0x999999cf1046e68e36E1aA2E0E07105eDDD1f08E</span>
         </p>
 
-        <h2>Usage</h2>
+        <h2>How it works</h2>
         <p>
             Enter the prefix of your choice below, and click ‘generate’ to start. Your browser will generate lots of random
             addresses until one begins with your prefix.<br>
