@@ -27,8 +27,8 @@
         },
         data: function () {
             return {
-                reveal: false,
-            }
+                reveal: false
+            };
         },
         watch: {
             address(addr) {
@@ -40,7 +40,7 @@
                 }
             }
         }
-    }
+    };
 </script>
 
 <style lang="sass" scoped>

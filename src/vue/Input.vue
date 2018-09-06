@@ -1,6 +1,6 @@
 <template>
     <div class="panel">
-        <form :class="{error: inputError}" v-on:submit.prevent="startGen">
+        <form :class="{error: inputError}" @submit.prevent="startGen">
             <div class="error-text">Numbers and letters from A to F only</div>
             <input type="text" class="text-input-large" placeholder="Prefix" v-model="prefix" :disabled="running">
             <div class="example">
@@ -37,9 +37,13 @@
 </template>
 
 <script>
+    const isValidHex = function (hex) {
+        return hex.length ? /^[0-9A-F]+$/g.test(hex.toUpperCase()) : true;
+    };
+
     function mixCase(str) {
         let ret = '';
-        for(let i of str) {
+        for (let i of str) {
             ret += Math.random() < 0.5 ? i.toUpperCase() : i.toLowerCase();
         }
         return ret;
@@ -47,7 +51,7 @@
     export default {
         props: {
             running: Boolean,
-            cores: Number,
+            cores: Number
         },
         data: function () {
             return {
@@ -55,18 +59,18 @@
                 prefix: '',
                 checksum: true,
                 error: false
-            }
+            };
         },
         computed: {
             inputError: function () {
                 return !isValidHex(this.prefix);
             },
             example: function () {
-                if(this.inputError){
+                if (this.inputError) {
                     return 'N/A';
                 }
                 let text = '0x' + (this.checksum ? this.prefix : mixCase(this.prefix));
-                for (let i = 0; i < 40 - this.prefix.length; i++){
+                for (let i = 0; i < 40 - this.prefix.length; i++) {
                     text += mixCase(Math.floor((Math.random() * 16)).toString(16));
                 }
                 return text.substr(0, 42);
@@ -74,12 +78,12 @@
         },
         methods: {
             startGen: function () {
-                if(!this.running && !this.inputError && !this.error){
-                    this.$emit('start')
+                if (!this.running && !this.inputError && !this.error) {
+                    this.$emit('start');
                 }
             },
             stopGen: function () {
-                this.$emit('stop')
+                this.$emit('stop');
             }
         },
         watch: {
@@ -91,12 +95,8 @@
             },
             threads: function () {
                 this.$emit('input-change', 'threads', this.threads);
-            },
+            }
         }
-    }
-
-    const isValidHex = function (hex) {
-        return hex.length ? /^[0-9A-F]+$/g.test(hex.toUpperCase()) : true;
     };
 </script>
 

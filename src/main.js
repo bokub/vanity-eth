@@ -5,7 +5,8 @@ import App from './App.vue';
 
 document.body.removeAttribute('style');
 
+// eslint-disable-next-line no-new
 new Vue({
-	el: '#app',
-	render: h => h(App)
+    el: '#app',
+    render: (h) => h(App)
 });

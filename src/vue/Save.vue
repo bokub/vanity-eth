@@ -2,7 +2,7 @@
     <div class="remodal" data-remodal-id="modal" data-remodal-options="hashTracking: false">
         <button data-remodal-action="close" class="remodal-close"></button>
         <h3 class="title">Create encrypted keystore file (UTC / JSON)</h3>
-        <form v-on:submit.prevent="save">
+        <form @submit.prevent="save">
             <div>
                 <input class="hidden" type="text" autocomplete="username">
                 <input type="password" autocomplete="new-password" class="text-input-large" v-model="password"
@@ -17,8 +17,8 @@
 </template>
 
 <script>
-    import * as remodal from 'remodal/src/remodal';
-    import * as randomBytes from 'randombytes';
+    import 'remodal/src/remodal';
+    import 'randombytes';
     import * as download from 'downloadjs';
 
     import {v4} from 'uuid';
@@ -32,8 +32,8 @@
         data: function () {
             return {
                 password: '',
-                loading: false,
-            }
+                loading: false
+            };
         },
         watch: {
             privateKey: function () {
@@ -48,7 +48,7 @@
                     setTimeout(() => {
                         const wallet = this.generateWallet(this.privateKey, this.password);
                         const fileName = 'UTC--' + new Date().toISOString().replace(/:/g, '-') + '--' + this.address;
-                        download(JSON.stringify(wallet), fileName, "application/json");
+                        download(JSON.stringify(wallet), fileName, 'application/json');
                         this.loading = false;
                     }, 20);
                 }
@@ -75,7 +75,7 @@
             encryptPrivateKey(privateKey, password) {
                 const iv = CryptoJS.lib.WordArray.random(16);
                 const salt = CryptoJS.lib.WordArray.random(32);
-                const key = CryptoJS.PBKDF2(password, salt, {
+                const key = CryptoJS.PBKDF2(password, salt, { // eslint-disable-line new-cap
                     keySize: 8,
                     hasher: CryptoJS.algo.SHA256,
                     iterations: 262144
@@ -89,6 +89,7 @@
                         padding: CryptoJS.pad.NoPadding
                     }
                 );
+                // eslint-disable-next-line new-cap
                 const mac = CryptoJS.SHA3(this.sliceWordArray(key, 4, 8).concat(cipher.ciphertext), {
                     outputLength: 256
                 });
@@ -101,9 +102,9 @@
                     cipherparams: {iv: iv.toString()},
                     mac: mac.toString()
                 };
-            },
+            }
         }
-    }
+    };
 </script>
 
 <style lang="sass">

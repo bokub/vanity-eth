@@ -77,7 +77,7 @@
                 input: {prefix: '', checksum: true},
                 firstTick: null,
                 error: null
-            }
+            };
         },
         watch: {
             threads: function () {
@@ -88,15 +88,16 @@
         },
         methods: {
             setInput: function (inputType, value) {
+                // eslint-disable-next-line default-case
                 switch (inputType) {
-                    case 'prefix':
-                        this.input.prefix = value;
-                        break;
-                    case 'checksum':
-                        this.input.checksum = value;
-                        break;
-                    case 'threads':
-                        this.threads = value;
+                case 'prefix':
+                    this.input.prefix = value;
+                    break;
+                case 'checksum':
+                    this.input.checksum = value;
+                    break;
+                case 'threads':
+                    this.threads = value;
                 }
             },
 
@@ -135,7 +136,7 @@
                 for (let w = this.workers.length; w < this.threads; w++) {
                     try {
                         this.workers[w] = new Worker();
-                        this.workers[w].onmessage = event => self.parseWorkerMessage(event.data);
+                        this.workers[w].onmessage = (event) => self.parseWorkerMessage(event.data);
                     } catch (err) {
                         this.error = err;
                         this.status = 'Error';
@@ -213,24 +214,26 @@
             },
             initFathom: function () {
                 // Fathom - simple website analytics - https://github.com/usefathom/fathom
+                /* eslint-disable */
                 (function (f, a, t, h, o, m) {
                     a[h] = a[h] || function () {
-                        (a[h].q = a[h].q || []).push(arguments)
+                        (a[h].q = a[h].q || []).push(arguments);
                     };
                     o = f.createElement('script');
                     m = f.getElementsByTagName('script')[0];
                     o.async = 1;
                     o.src = t;
                     o.id = 'fathom-script';
-                    m.parentNode.insertBefore(o, m)
+                    m.parentNode.insertBefore(o, m);
                 })(document, window, 'https://stats.vanity-eth.tk/tracker.js', 'fathom');
                 fathom('trackPageview');
+                /* eslint-enable */
             },
             checkLocation() {
                 try {
                     this.error = window.self !== window.top ? 'insecure_location' : this.error;
                 } catch (e) {
-                    this.error = 'insecure_location'
+                    this.error = 'insecure_location';
                 }
                 const hostname = window.location.hostname;
                 if (hostname && ['localhost', '127.0.0.1', 'vanity-eth.tk'].indexOf(hostname) === -1) {
@@ -246,7 +249,7 @@
             this.initWorkers();
             this.initFathom();
         }
-    }
+    };
 
 </script>
 

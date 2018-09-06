@@ -20,18 +20,27 @@
 </template>
 
 <script>
+    const computeDifficulty = function (pattern, isChecksum) {
+        const ret = Math.pow(16, pattern.length);
+        return isChecksum ? (ret * Math.pow(2, pattern.replace(/[^a-f]/gi, '').length)) : ret;
+    };
+
+    const computeProbability = function (difficulty, attempts) {
+        return 1 - Math.pow(1 - (1 / difficulty), attempts);
+    };
+
     export default {
         data: function () {
             return {
                 speed: 0,
-                count: 0,
-            }
+                count: 0
+            };
         },
         props: {
             prefix: String,
             checksum: Boolean,
             status: String,
-            firstTick: {},
+            firstTick: {}
         },
         watch: {
             prefix() {
@@ -58,21 +67,13 @@
             }
         },
         created: function () {
-            this.$parent.$on('increment-counter', incr => {
+            this.$parent.$on('increment-counter', (incr) => {
                 this.count += (incr > 0 ? incr : -this.count);
                 this.speed = incr > 0 ? Math.floor(1000 * this.count / (performance.now() - this.firstTick)) : 0;
             });
         }
-    }
-
-    const computeDifficulty = function (pattern, isChecksum) {
-        const ret = Math.pow(16, pattern.length);
-        return isChecksum ? (ret * Math.pow(2, pattern.replace(/[^a-f]/gi, '').length)) : ret;
     };
 
-    const computeProbability = function (difficulty, attempts) {
-        return 1 - Math.pow(1 - (1 / difficulty), attempts);
-    };
 </script>
 
 <style lang="sass" scoped>

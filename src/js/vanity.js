@@ -8,9 +8,9 @@ const step = 500;
 /**
  * Transform a private key into an address
  */
-const privateToAddress = privateKey => {
-	const pub = secp256k1.publicKeyCreate(privateKey, false).slice(1);
-	return keccak('keccak256').update(pub).digest().slice(-20).toString('hex');
+const privateToAddress = (privateKey) => {
+    const pub = secp256k1.publicKeyCreate(privateKey, false).slice(1);
+    return keccak('keccak256').update(pub).digest().slice(-20).toString('hex');
 };
 
 /**
@@ -18,11 +18,11 @@ const privateToAddress = privateKey => {
  * @returns {{address: string, privKey: string}}
  */
 const getRandomWallet = () => {
-	const randbytes = randomBytes(32);
-	return {
-		address: privateToAddress(randbytes).toString('hex'),
-		privKey: randbytes.toString('hex')
-	};
+    const randbytes = randomBytes(32);
+    return {
+        address: privateToAddress(randbytes).toString('hex'),
+        privKey: randbytes.toString('hex')
+    };
 };
 
 /**
@@ -33,30 +33,30 @@ const getRandomWallet = () => {
  * @returns {boolean}
  */
 const isValidVanityAddress = (address, input, isChecksum) => {
-	if (!isChecksum) {
-		return input === address.substr(0, input.length);
-	}
-	if (input.toLowerCase() !== address.substr(0, input.length)) {
-		return false;
-	}
+    if (!isChecksum) {
+        return input === address.substr(0, input.length);
+    }
+    if (input.toLowerCase() !== address.substr(0, input.length)) {
+        return false;
+    }
 
-	const hash = keccak('keccak256').update(address).digest().toString('hex');
+    const hash = keccak('keccak256').update(address).digest().toString('hex');
 
-	for (let i = 0; i < input.length; i++) {
-		if (input[i] !== (parseInt(hash[i], 16) >= 8 ? address[i].toUpperCase() : address[i])) {
-			return false;
-		}
-	}
-	return true;
+    for (let i = 0; i < input.length; i++) {
+        if (input[i] !== (parseInt(hash[i], 16) >= 8 ? address[i].toUpperCase() : address[i])) {
+            return false;
+        }
+    }
+    return true;
 };
 
-const toChecksumAddress = address => {
-	const hash = keccak('keccak256').update(address).digest().toString('hex');
-	let ret = '';
-	for (let i = 0; i < address.length; i++) {
-		ret += parseInt(hash[i], 16) >= 8 ? address[i].toUpperCase() : address[i];
-	}
-	return ret;
+const toChecksumAddress = (address) => {
+    const hash = keccak('keccak256').update(address).digest().toString('hex');
+    let ret = '';
+    for (let i = 0; i < address.length; i++) {
+        ret += parseInt(hash[i], 16) >= 8 ? address[i].toUpperCase() : address[i];
+    }
+    return ret;
 };
 
 /**
@@ -67,30 +67,30 @@ const toChecksumAddress = address => {
  * @returns
  */
 const getVanityWallet = (input, isChecksum, cb) => {
-	input = isChecksum ? input : input.toLowerCase();
-	let wallet = getRandomWallet();
-	let attempts = 1;
+    input = isChecksum ? input : input.toLowerCase();
+    let wallet = getRandomWallet();
+    let attempts = 1;
 
-	while (!isValidVanityAddress(wallet.address, input, isChecksum)) {
-		if (attempts >= step) {
-			cb({attempts});
-			attempts = 0;
-		}
-		wallet = getRandomWallet();
-		attempts++;
-	}
-	cb({address: '0x' + toChecksumAddress(wallet.address), privKey: wallet.privKey, attempts});
+    while (!isValidVanityAddress(wallet.address, input, isChecksum)) {
+        if (attempts >= step) {
+            cb({attempts});
+            attempts = 0;
+        }
+        wallet = getRandomWallet();
+        attempts++;
+    }
+    cb({address: '0x' + toChecksumAddress(wallet.address), privKey: wallet.privKey, attempts});
 };
 
 onmessage = function (event) {
-	const input = event.data;
-	try {
-		getVanityWallet(input.prefix, input.checksum, message => postMessage(message));
-	} catch (err) {
-		self.postMessage({error: err.toString()});
-	}
+    const input = event.data;
+    try {
+        getVanityWallet(input.prefix, input.checksum, (message) => postMessage(message));
+    } catch (err) {
+        self.postMessage({error: err.toString()});
+    }
 };
 
 module.exports = {
-	onmessage
+    onmessage
 };

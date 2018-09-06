@@ -27,9 +27,9 @@
         data: function () {
             return {
                 tipsAddress: '0xAceBabe64807cb045505b268ef253D8fC2FeF5Bc'
-            }
+            };
         }
-    }
+    };
 </script>
 
 <style lang="sass" scoped>
