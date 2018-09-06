@@ -29,10 +29,10 @@
             your key remains private:<br>
             &nbsp;-&nbsp;Once the web page is loaded, you can turn off the internet and continue playing, it will work seamlessly<br>
             &nbsp;-&nbsp;You can also download the latest build of Vanity-ETH
-                <a href="https://git.io/veth-dl" target="_blank">here</a> and use it on a completely offline computer<br>
+            <a href="https://git.io/veth-dl" target="_blank">here</a> and use it on a completely offline computer<br>
             &nbsp;-&nbsp;The code is 100% open source and available on
             <a href="https://github.com/bokub/vanity-eth" target="_blank">Github</a>. You can review it as much as you want before using it<br>
-           <br>
+            <br>
             Vanity-ETH uses a cryptographically secure pseudorandom number generator (CSPRNG) to generate
             Ethereum addresses.<br>
             The keystore file is encrypted with a AES-128-CTR cipher using the BKDF2-SHA256 derivation function with 65536 hashing rounds.
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-    export default {}
+    export default {};
 </script>
 
 <style lang="sass" scoped>

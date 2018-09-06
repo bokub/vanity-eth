@@ -16,16 +16,15 @@
     </div>
 </template>
 
-
 <script>
     export default {
         props: {
-            'error': {
+            error: {
                 type: String,
                 required: true
-            },
+            }
         }
-    }
+    };
 </script>
 
 <style lang="sass" scoped>
