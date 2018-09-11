@@ -27,8 +27,8 @@
         },
         data: function () {
             return {
-                reveal: false,
-            }
+                reveal: false
+            };
         },
         watch: {
             address(addr) {
@@ -40,7 +40,7 @@
                 }
             }
         }
-    }
+    };
 </script>
 
 <style lang="sass" scoped>
@@ -56,13 +56,13 @@
         color: $text-alt
         margin-left: 15px
         word-break: break-all
+        font-size: 15px
 
     .panel > div:not(:last-child)
         margin-bottom: 15px
 
     .save
-        font-size: 1em
-        margin-top: 1.6em
+        margin-top: 30px
 
     @media screen and (min-width: 992px)
         .save

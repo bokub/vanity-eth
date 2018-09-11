@@ -77,7 +77,7 @@
                 input: {prefix: '', checksum: true},
                 firstTick: null,
                 error: null
-            }
+            };
         },
         watch: {
             threads: function () {
@@ -88,15 +88,16 @@
         },
         methods: {
             setInput: function (inputType, value) {
+                // eslint-disable-next-line default-case
                 switch (inputType) {
-                    case 'prefix':
-                        this.input.prefix = value;
-                        break;
-                    case 'checksum':
-                        this.input.checksum = value;
-                        break;
-                    case 'threads':
-                        this.threads = value;
+                case 'prefix':
+                    this.input.prefix = value;
+                    break;
+                case 'checksum':
+                    this.input.checksum = value;
+                    break;
+                case 'threads':
+                    this.threads = value;
                 }
             },
 
@@ -135,7 +136,7 @@
                 for (let w = this.workers.length; w < this.threads; w++) {
                     try {
                         this.workers[w] = new Worker();
-                        this.workers[w].onmessage = event => self.parseWorkerMessage(event.data);
+                        this.workers[w].onmessage = (event) => self.parseWorkerMessage(event.data);
                     } catch (err) {
                         this.error = err;
                         this.status = 'Error';
@@ -202,13 +203,46 @@
                     this.threads = this.cores;
                 }
             },
+            initFathom: function () {
+                if (window.location.hostname === 'localhost') {
+                    return; // No stats when coding
+                }
+                // Fathom - simple website analytics - https://github.com/usefathom/fathom
+                /* eslint-disable */
+                (function (f, a, t, h, o, m) {
+                    a[h] = a[h] || function () {
+                        (a[h].q = a[h].q || []).push(arguments);
+                    };
+                    o = f.createElement('script');
+                    m = f.getElementsByTagName('script')[0];
+                    o.async = 1;
+                    o.src = t;
+                    o.id = 'fathom-script';
+                    m.parentNode.insertBefore(o, m);
+                })(document, window, 'https://stats.vanity-eth.tk/tracker.js', 'fathom');
+                fathom('trackPageview');
+                /* eslint-enable */
+            },
+            checkLocation() {
+                try {
+                    this.error = window.self !== window.top ? 'insecure_location' : this.error;
+                } catch (e) {
+                    this.error = 'insecure_location';
+                }
+                const hostname = window.location.hostname;
+                if (hostname && ['localhost', '127.0.0.1', 'vanity-eth.tk'].indexOf(hostname) === -1) {
+                    this.error = 'insecure_location';
+                }
+            },
         },
 
         created: function () {
+            this.checkLocation();
             this.countCores();
             this.initWorkers();
+            this.initFathom();
         }
-    }
+    };
 
 </script>
 
@@ -223,17 +257,15 @@
     @import "~bootstrap/scss/grid"
 
     @import "css/variables"
+    @import "css/fonts"
+
     body
         padding: 0
         font-family: 'Lato', sans-serif
         background: $bg-fallback
         background: linear-gradient(140deg, $bg-2 0%, $bg-1 100%)
-        @media screen and (max-width: 1200px)
-            background: linear-gradient(130deg, $bg-2 0%, $bg-1 100%)
-        @media screen and (max-width: 768px)
-            background: linear-gradient(120deg, $bg-2 0%, $bg-1 100%)
-        @media screen and (max-width: 480px)
-            background: linear-gradient(110deg, $bg-2 0%, $bg-1 100%)
+        background-attachment: fixed
+        font-size: 16px
 
     h1, h2, h3, h4, h5, h6, p, label
         margin: 0
@@ -277,8 +309,8 @@
         border: none
         outline: none
         color: $text-opposite
-        padding: 0.6em
-        font-size: 1.3em
+        padding: 8px
+        font-size: 19px
         font-weight: 500
         margin: 1.3em 0 0 0
         cursor: pointer
@@ -291,61 +323,6 @@
             background: $disabled
             cursor: auto
 
-    /*-- Fonts --*/
-
-    @font-face
-        font-family: 'Lato'
-        font-style: normal
-        font-weight: 400
-        src: local('Lato Regular'), local('Lato-Regular'), url(./assets/fonts/lato-regular.woff2) format('woff2')
-        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215
-
-    @font-face
-        font-family: 'Montserrat'
-        font-style: normal
-        font-weight: 400
-        src: local('Montserrat Regular'), local('Montserrat-Regular'), url(./assets/fonts/montserrat.woff2) format('woff2')
-        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215
-
-    @font-face
-        font-family: 'Montserrat'
-        font-style: normal
-        font-weight: 700
-        src: local('Montserrat Bold'), local('Montserrat-Bold'), url(./assets/fonts/montserrat-bold.woff2) format('woff2')
-        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215
-
-    @font-face
-        font-family: 'Roboto Mono'
-        font-style: normal
-        font-weight: 400
-        src: local('Roboto Mono'), local('RobotoMono-Regular'), url(./assets/fonts/roboto-mono.woff2) format('woff2')
-        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
-
-    @font-face
-        font-family: 'icomoon'
-        src: url(./assets/fonts/icomoon.woff) format('woff')
-        font-weight: normal
-        font-style: normal
-
-    [class^="icon-"], [class*=" icon-"]
-        font-family: 'icomoon' !important
-        speak: none
-        font-style: normal
-        font-weight: normal
-        font-variant: normal
-        text-transform: none
-        line-height: 1
-        -webkit-font-smoothing: antialiased
-        -moz-osx-font-smoothing: grayscale
-
-    .icon-star:before
-        content: "\e900"
-    .icon-download:before
-        content: "\e901"
-    .icon-ethereum:before
-        content: "\e902"
-    .icon-lock:before
-        content: "\e903"
 
     /*-- Responsive design --
 
