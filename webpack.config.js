@@ -90,7 +90,11 @@ if (process.env.NODE_ENV === 'production') {
 				collapseBooleanAttributes: true,
 				decodeEntities: true,
 				sortAttributes: true
-			}
+			},
+            postProcess (renderedRoute) {
+                renderedRoute.html = renderedRoute.html.replace('render', 'prerender');
+                return renderedRoute
+            },
 		})
 	]);
 }

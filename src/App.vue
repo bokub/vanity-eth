@@ -1,5 +1,5 @@
 <template>
-    <div id="app" class="remodal-bg">
+    <div id="app" class="remodal-bg render">
         <div class="container" id="content">
             <!--Headline-->
             <headline></headline>
@@ -323,6 +323,12 @@
             background: $disabled
             cursor: auto
 
+    /*-- Pre-render-specific --
+
+    #app.render .hide-render
+        display: none
+    #app.prerender .hide-prerender
+        display: none
 
     /*-- Responsive design --
 

@@ -3,10 +3,15 @@
         <form :class="{error: inputError}" @submit.prevent="startGen">
             <div class="error-text">Numbers and letters from A to F only</div>
             <input type="text" class="text-input-large" placeholder="Prefix" v-model="prefix" :disabled="running">
-            <div class="example">
+            <div class="row justify-content-center hide-render">
+                <div class="spinner">
+                    <div></div><div></div><div></div><div></div>
+                </div>
+            </div>
+            <div class="example hide-prerender">
                 E.g.&nbsp;<span v-text="example" class="monospace"></span>
             </div>
-            <div class="check">
+            <div class="check hide-prerender">
                 <label class="checkbox">
                     <input type="checkbox" name="checkbox" checked="" v-model="checksum"
                            :disabled="running">
@@ -14,7 +19,7 @@
                     Case-sensitive
                 </label>
             </div>
-            <div class="threads">
+            <div class="threads hide-prerender">
                 <input type="button" class="square-btn button-large" value="-" @click="threads--"
                        :disabled="running || threads <= 1">
                 <input type="button" class="square-btn arrow button-large" value="+" @click="threads++"
@@ -25,7 +30,8 @@
             </div>
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
-                    <input type="button" value="Generate" class="button-large" @click="startGen"
+                    <input type="button" value="Generate" class="button-large hide-render" disabled>
+                    <input type="button" value="Generate" class="button-large hide-prerender" @click="startGen"
                            :disabled="running || inputError || error">
                 </div>
                 <div class="col-lg-6 col-sm-12">
@@ -181,4 +187,32 @@
             padding: 0
             line-height: 1em
 
+    .justify-content-center
+        justify-content: center
+
+    .spinner
+        width: 64px
+        height: 64px
+        margin: 18px
+        & > div
+            position: absolute
+            width: 51px
+            height: 51px
+            margin: 6px
+            border: 6px solid $primary
+            border-radius: 50%
+            animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite
+            border-color: $primary transparent transparent transparent
+            &:nth-child(1)
+                animation-delay: -0.45s
+            &:nth-child(2)
+                animation-delay: -0.3s
+            &:nth-child(3)
+                animation-delay: -0.15s
+
+    @keyframes lds-ring
+        0%
+            transform: rotate(0deg)
+        100%
+            transform: rotate(360deg)
 </style>
