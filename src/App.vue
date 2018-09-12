@@ -1,5 +1,5 @@
 <template>
-    <div class="remodal-bg">
+    <div id="app" class="remodal-bg render">
         <div class="container" id="content">
             <!--Headline-->
             <headline></headline>
@@ -203,15 +203,6 @@
                     this.threads = this.cores;
                 }
             },
-            addFavicon: function () {
-                const i = document.createElement('link');
-                const icon = require('./assets/images/favicon.ico');
-
-                i.type = 'image/x-icon';
-                i.rel = 'shortcut icon';
-                i.href = icon;
-                document.head.appendChild(i);
-            },
             initFathom: function () {
                 if (window.location.hostname === 'localhost') {
                     return; // No stats when coding
@@ -242,11 +233,10 @@
                 if (hostname && ['localhost', '127.0.0.1', 'vanity-eth.tk'].indexOf(hostname) === -1) {
                     this.error = 'insecure_location';
                 }
-            }
+            },
         },
 
         created: function () {
-            this.addFavicon();
             this.checkLocation();
             this.countCores();
             this.initWorkers();
@@ -333,6 +323,12 @@
             background: $disabled
             cursor: auto
 
+    /*-- Pre-render-specific --
+
+    #app.render .hide-render
+        display: none
+    #app.prerender .hide-prerender
+        display: none
 
     /*-- Responsive design --
 
