@@ -1,15 +1,20 @@
 const path = require('path');
 const webpack = require('webpack');
+const pretty = require('pretty');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PrerenderSpaPlugin = require('prerender-spa-plugin');
+const SriPlugin = require('webpack-subresource-integrity');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 
 module.exports = {
 	entry: {
 		index: './src/main.js'
 	},
 	output: {
-		path: path.resolve(__dirname, './dist'),
+        crossOriginLoading: 'anonymous',
+        path: path.resolve(__dirname, './dist'),
 		publicPath: '/dist/',
 		filename: '[name].js'
 	},
@@ -71,7 +76,6 @@ module.exports = {
 };
 
 if (process.env.NODE_ENV === 'production') {
-    // http://vue-loader.vuejs.org/en/workflow/production.html
 	module.exports.plugins = (module.exports.plugins || []).concat([
 		new ExtractTextPlugin('style.css'),
 		new webpack.optimize.UglifyJsPlugin({
@@ -80,19 +84,20 @@ if (process.env.NODE_ENV === 'production') {
 				warnings: false
 			}
 		}),
-		new webpack.LoaderOptionsPlugin({
-			minimize: true
-		}),
+        new HtmlWebpackPlugin({
+            template: 'index.html',
+            filename: '../index.html',
+        }),
+        new SriPlugin({
+            hashFuncNames: ['sha256', 'sha384'],
+        }),
 		new PrerenderSpaPlugin({
 			staticDir: path.join(__dirname),
 			routes: ['/'],
-			minify: {
-				collapseBooleanAttributes: true,
-				decodeEntities: true,
-				sortAttributes: true
-			},
             postProcess (renderedRoute) {
-                renderedRoute.html = renderedRoute.html.replace('render', 'prerender');
+                renderedRoute.html = pretty(renderedRoute.html, {ocd: true})
+					.replace('render', 'prerender')
+					.replace(/(data-v-[0-9a-f]+)=""/gm, '$1');
                 return renderedRoute
             },
 		})
