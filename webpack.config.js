@@ -7,14 +7,13 @@ const PrerenderSpaPlugin = require('prerender-spa-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-
 module.exports = {
 	entry: {
 		index: './src/main.js'
 	},
 	output: {
-        crossOriginLoading: 'anonymous',
-        path: path.resolve(__dirname, './dist'),
+		crossOriginLoading: 'anonymous',
+		path: path.resolve(__dirname, './dist'),
 		publicPath: '/dist/',
 		filename: '[name].js'
 	},
@@ -84,22 +83,23 @@ if (process.env.NODE_ENV === 'production') {
 				warnings: false
 			}
 		}),
-        new HtmlWebpackPlugin({
-            template: 'index.html',
-            filename: '../index.html',
-        }),
-        new SriPlugin({
-            hashFuncNames: ['sha256', 'sha384'],
-        }),
+		new HtmlWebpackPlugin({
+			template: 'index.html',
+			filename: '../index.html',
+			inject: false
+		}),
+		new SriPlugin({
+			hashFuncNames: ['sha256', 'sha384']
+		}),
 		new PrerenderSpaPlugin({
 			staticDir: path.join(__dirname),
 			routes: ['/'],
-            postProcess (renderedRoute) {
-                renderedRoute.html = pretty(renderedRoute.html, {ocd: true})
+			postProcess(renderedRoute) {
+				renderedRoute.html = pretty(renderedRoute.html, {ocd: true})
 					.replace('render', 'prerender')
 					.replace(/(data-v-[0-9a-f]+)=""/gm, '$1');
-                return renderedRoute
-            },
+				return renderedRoute;
+			}
 		})
 	]);
 }
