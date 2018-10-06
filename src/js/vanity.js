@@ -30,20 +30,29 @@ const getRandomWallet = () => {
  * @param address
  * @param input
  * @param isChecksum
+ * @param isSuffix
  * @returns {boolean}
  */
-const isValidVanityAddress = (address, input, isChecksum) => {
+const isValidVanityAddress = (address, input, isChecksum, isSuffix) => {
+    const subStr = isSuffix ? address.substr(40 - input.length) : address.substr(0, input.length);
+
     if (!isChecksum) {
-        return input === address.substr(0, input.length);
+        return input === subStr;
     }
-    if (input.toLowerCase() !== address.substr(0, input.length)) {
+    if (input.toLowerCase() !== subStr) {
         return false;
     }
 
+    return isValidChecksum(address, input, isSuffix);
+};
+
+const isValidChecksum = (address, input, isSuffix) => {
     const hash = keccak('keccak256').update(address).digest().toString('hex');
+    const shift = isSuffix ? 40 - input.length : 0;
 
     for (let i = 0; i < input.length; i++) {
-        if (input[i] !== (parseInt(hash[i], 16) >= 8 ? address[i].toUpperCase() : address[i])) {
+        const j = i + shift;
+        if (input[i] !== (parseInt(hash[j], 16) >= 8 ? address[j].toUpperCase() : address[j])) {
             return false;
         }
     }
@@ -72,7 +81,7 @@ const getVanityWallet = (input, isChecksum, isSuffix, cb) => {
     let wallet = getRandomWallet();
     let attempts = 1;
 
-    while (!isValidVanityAddress(wallet.address, input, isChecksum)) {
+    while (!isValidVanityAddress(wallet.address, input, isChecksum, isSuffix)) {
         if (attempts >= step) {
             cb({attempts});
             attempts = 0;
@@ -88,7 +97,7 @@ onmessage = function (event) {
     try {
         getVanityWallet(input.hex, input.checksum, input.suffix, (message) => postMessage(message));
     } catch (err) {
-        self.postMessage({error: err.toString()});
+        self.postMessage({error: err.toString()}, '*');
     }
 };
 
