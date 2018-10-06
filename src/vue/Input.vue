@@ -2,7 +2,7 @@
     <div class="panel">
         <form :class="{error: inputError}" @submit.prevent="startGen">
             <div class="error-text">Numbers and letters from A to F only</div>
-            <input type="text" class="text-input-large" placeholder="Prefix" v-model="prefix" :disabled="running">
+            <input type="text" class="text-input-large" :placeholder="suffix ? 'Suffix' : 'Prefix'" v-model="hex" :disabled="running">
             <div class="row justify-content-center hide-render">
                 <div class="spinner">
                     <div></div><div></div><div></div><div></div>
@@ -11,13 +11,23 @@
             <div class="example hide-prerender">
                 E.g.&nbsp;<span v-text="example" class="monospace"></span>
             </div>
-            <div class="check hide-prerender">
-                <label class="checkbox">
-                    <input type="checkbox" name="checkbox" checked="" v-model="checksum"
-                           :disabled="running">
-                    <i class="left"> </i>
-                    Case-sensitive
-                </label>
+            <div class="row controls hide-prerender">
+                <div class="col-12 col-sm-6 col-md-12 col-lg-6">
+                    <label class="checkbox">
+                        <input type="checkbox" name="checkbox" checked="" v-model="checksum"
+                               :disabled="running">
+                        <i class="left"> </i>
+                        Case-sensitive
+                    </label>
+                </div>
+                <div class="col-12 col-sm-6 col-md-12 col-lg-6">
+                    <span>Prefix</span>
+                    <label class="switch">
+                        <input type="checkbox" v-model="suffix">
+                        <span class="slider"></span>
+                    </label>
+                    <span>Suffix</span>
+                </div>
             </div>
             <div class="threads hide-prerender">
                 <input type="button" class="square-btn button-large" value="-" @click="threads--"
@@ -62,24 +72,26 @@
         data: function () {
             return {
                 threads: 4,
-                prefix: '',
+                hex: '',
                 checksum: true,
+                suffix: false,
                 error: false
             };
         },
         computed: {
             inputError: function () {
-                return !isValidHex(this.prefix);
+                return !isValidHex(this.hex);
             },
             example: function () {
                 if (this.inputError) {
                     return 'N/A';
                 }
-                let text = '0x' + (this.checksum ? this.prefix : mixCase(this.prefix));
-                for (let i = 0; i < 40 - this.prefix.length; i++) {
-                    text += mixCase(Math.floor((Math.random() * 16)).toString(16));
+                const chosen = this.checksum ? this.hex : mixCase(this.hex);
+                let random = '';
+                for (let i = 0; i < 40 - this.hex.length; i++) {
+                    random += mixCase(Math.floor((Math.random() * 16)).toString(16));
                 }
-                return text.substr(0, 42);
+                return this.suffix ? `0x${random}${chosen}` :`0x${chosen}${random}`
             }
         },
         methods: {
@@ -93,11 +105,14 @@
             }
         },
         watch: {
-            prefix: function () {
-                this.$emit('input-change', 'prefix', this.prefix);
+            hex: function () {
+                this.$emit('input-change', 'hex', this.hex);
             },
             checksum: function () {
                 this.$emit('input-change', 'checksum', this.checksum);
+            },
+            suffix: function () {
+                this.$emit('input-change', 'suffix', this.suffix);
             },
             threads: function () {
                 this.$emit('input-change', 'threads', this.threads);
@@ -128,55 +143,90 @@
         overflow-x: hidden
         .monospace
             font-family: $monospace-font
-    .check
+    .controls
         margin: 12px 0
+        > div
+            padding: 5px 0
 
-    .checkbox
-        margin-bottom: 4px
-        padding-left: 30px
-        line-height: 27px
-        cursor: pointer
-        position: relative
-        font-size: 18px
-        color: $text
-        font-weight: 400
-        &:last-child
-            margin-bottom: 0
-        i
-            position: absolute
-            bottom: 4px
-            left: 17.5em
-            display: block
-            width: 19px
-            height: 19px
-            outline: none
-            border: 1px solid $border-grey
-            &.left
+        .checkbox
+            margin-bottom: 4px
+            padding-left: 30px
+            line-height: 27px
+            cursor: pointer
+            position: relative
+            color: $text
+            font-weight: 400
+            &:last-child
+                margin-bottom: 0
+            i
                 position: absolute
                 bottom: 4px
-                left: 0
+                left: 17.5em
                 display: block
                 width: 19px
                 height: 19px
                 outline: none
                 border: 1px solid $border-grey
-        input
-            + i:after
-                content: ''
-                background: url("../assets/images/tick-mark.png") no-repeat
-                top: 4px
-                left: 3px
-                width: 15px
-                height: 15px
+                &.left
+                    position: absolute
+                    bottom: 4px
+                    left: 0
+                    display: block
+                    width: 19px
+                    height: 19px
+                    outline: none
+                    border: 1px solid $border-grey
+            input
+                + i:after
+                    content: ''
+                    background: url("../assets/images/tick-mark.png") no-repeat
+                    top: 4px
+                    left: 3px
+                    width: 15px
+                    height: 15px
+                    position: absolute
+                    opacity: 0
                 position: absolute
-                opacity: 0
+                left: -9999px
+                &:checked + i:after
+                    opacity: 1
+
+        .switch
+            position: relative
+            width: 40px
+            height: 24px
+            margin: 0 5px
+            input
+                visibility: hidden
+
+        .slider
             position: absolute
-            left: -9999px
-            &:checked + i:after
-                opacity: 1
+            cursor: pointer
+            top: 0
+            left: 0
+            right: 0
+            bottom: 0
+            background-color: $primary
+            transition: .2s
+            &:before
+                position: absolute
+                content: ""
+                height: 16px
+                width: 16px
+                left: 4px
+                bottom: 4px
+                background-color: white
+                transition: .2s
+
+    input
+        &:checked + .slider
+            background-color: $primary
+        &:focus + .slider
+            box-shadow: 0 0 1px $primary
+        &:checked + .slider:before
+            transform: translateX(16px)
 
     .threads
-        font-size: 18px
         h4
             display: inline
         input[type=button].square-btn

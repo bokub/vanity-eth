@@ -37,13 +37,13 @@
             };
         },
         props: {
-            prefix: String,
+            hex: String,
             checksum: Boolean,
             status: String,
             firstTick: {}
         },
         watch: {
-            prefix() {
+            hex() {
                 this.count = 0;
             },
             checksum() {
@@ -52,7 +52,7 @@
         },
         computed: {
             difficulty: function () {
-                return this.inputError ? 'N/A' : computeDifficulty(this.prefix, this.checksum);
+                return this.inputError ? 'N/A' : computeDifficulty(this.hex, this.checksum);
             },
             probability50: function () {
                 return this.inputError ? 'N/A' : this.formatNum(Math.floor(Math.log(0.5) / Math.log(1 - (1 / this.difficulty)))) + ' addresses';

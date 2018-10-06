@@ -27,7 +27,7 @@
 
                 <!--Statistics-->
                 <div class="col-md-6">
-                    <statistics :prefix="input.prefix" :checksum="input.checksum" :status="status"
+                    <statistics :hex="input.hex" :checksum="input.checksum" :status="status"
                                 :first-tick="firstTick"></statistics>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                 threads: 4,
                 cores: 0,
                 result: {address: '', privateKey: ''},
-                input: {prefix: '', checksum: true},
+                input: {hex: '', checksum: true, suffix: false},
                 firstTick: null,
                 error: null
             };
@@ -90,11 +90,14 @@
             setInput: function (inputType, value) {
                 // eslint-disable-next-line default-case
                 switch (inputType) {
-                case 'prefix':
-                    this.input.prefix = value;
+                case 'hex':
+                    this.input.hex = value;
                     break;
                 case 'checksum':
                     this.input.checksum = value;
+                    break;
+                case 'suffix':
+                    this.input.suffix = value;
                     break;
                 case 'threads':
                     this.threads = value;
