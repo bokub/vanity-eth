@@ -61,12 +61,13 @@ const toChecksumAddress = (address) => {
 
 /**
  * Generate a lot of wallets until one satisfies the input constraints
- * @param input
- * @param isChecksum
+ * @param input - String chosen by the user
+ * @param isChecksum - Is the input case-sensitive
+ * @param isSuffix - Is it a suffix, or a prefix
  * @param cb - Callback called after x attempts, or when an address if found
  * @returns
  */
-const getVanityWallet = (input, isChecksum, cb) => {
+const getVanityWallet = (input, isChecksum, isSuffix, cb) => {
     input = isChecksum ? input : input.toLowerCase();
     let wallet = getRandomWallet();
     let attempts = 1;
@@ -85,7 +86,7 @@ const getVanityWallet = (input, isChecksum, cb) => {
 onmessage = function (event) {
     const input = event.data;
     try {
-        getVanityWallet(input.prefix, input.checksum, (message) => postMessage(message));
+        getVanityWallet(input.hex, input.checksum, input.suffix, (message) => postMessage(message));
     } catch (err) {
         self.postMessage({error: err.toString()});
     }
