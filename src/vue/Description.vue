@@ -2,8 +2,11 @@
     <div class="panel">
         <p>
             Vanity-ETH is an open source tool using your web browser to generate Ethereum vanity addresses.<br>
-            Enter a short prefix of your choice below, and click ‘generate’ to start.
+            Enter a short prefix/suffix of your choice, and click ‘generate’ to start.
         </p>
+        <div class="shortcut">
+            <button type="button" class="button-large" @click="scrollDown">Start now</button>
+        </div>
 
         <h2>What's a vanity address?</h2>
         <p>
@@ -14,8 +17,8 @@
 
         <h2>How it works</h2>
         <p>
-            Enter the prefix of your choice below, and click ‘generate’ to start. Your browser will generate lots of random
-            addresses until one begins with your prefix.<br>
+            Enter the prefix/suffix of your choice, and click ‘generate’ to start. Your browser will generate lots of random
+            addresses until one matches your input.<br>
             Once an address is found, you can reveal the private key, or click the 'save' button to download
             a password-encrypted keystore file.<br>
             You can increase the number of working threads to reach higher speeds, or decrease it if you computer
@@ -54,7 +57,28 @@
 </template>
 
 <script>
-    export default {};
+    export default {
+        data: function () {
+            return {
+                scrollTimeOut: null
+            }
+        },
+        methods: {
+            scrollDown() {
+                this.scrollTo(document.getElementById('input-panel'), -1);
+            },
+            scrollTo(element, lastValue) {
+                let currentValue = window.scrollY;
+                let diff = element.getBoundingClientRect().top / 6;
+                if (Math.abs(diff) > 1 && currentValue > lastValue) {
+                    window.scrollTo(0, (window.scrollY + diff));
+                    this.scrollTimeOut = setTimeout(this.scrollTo, 30, element, currentValue)
+                } else if (currentValue >= lastValue) {
+                    document.getElementById('input').focus();
+                }
+            }
+        }
+    };
 </script>
 
 <style lang="sass" scoped>
@@ -67,4 +91,9 @@
         .monospace
             font-family: $monospace-font
             font-size: 0.85em
+    .shortcut
+        text-align: center
+        .button-large
+            width: 150px
+            margin: 15px 0 35px
 </style>

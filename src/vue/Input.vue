@@ -1,15 +1,22 @@
 <template>
-    <div class="panel">
+    <div class="panel" id="input-panel">
         <form :class="{error: inputError}" @submit.prevent="startGen">
             <div class="error-text">Numbers and letters from A to F only</div>
-            <input type="text" class="text-input-large" :placeholder="suffix ? 'Suffix' : 'Prefix'" v-model="hex" :disabled="running">
+            <input type="text" class="text-input-large" id="input"
+                   :placeholder="suffix ? 'Suffix' : 'Prefix'" v-model="hex" :disabled="running">
             <div class="row justify-content-center hide-render">
                 <div class="spinner">
                     <div></div><div></div><div></div><div></div>
                 </div>
             </div>
             <div class="example hide-prerender">
-                E.g.&nbsp;<span v-text="example" class="monospace"></span>
+                E.g.&nbsp;
+                <span class="monospace">
+                    0x<!--
+                    --><b v-if="!suffix" v-text="example.chosen"></b><!--
+                    --><span v-text="example.random"></span><!--
+                    --><b v-if="suffix" v-text="example.chosen"></b>
+                </span>
             </div>
             <div class="row controls hide-prerender">
                 <div class="col-12 col-sm-6 col-md-12 col-lg-6">
@@ -23,7 +30,7 @@
                 <div class="col-12 col-sm-6 col-md-12 col-lg-6">
                     <span>Prefix</span>
                     <label class="switch">
-                        <input type="checkbox" v-model="suffix">
+                        <input type="checkbox" v-model="suffix" :disabled="running">
                         <span class="slider"></span>
                     </label>
                     <span>Suffix</span>
@@ -91,7 +98,7 @@
                 for (let i = 0; i < 40 - this.hex.length; i++) {
                     random += mixCase(Math.floor((Math.random() * 16)).toString(16));
                 }
-                return this.suffix ? `0x${random}${chosen}` :`0x${chosen}${random}`
+                return {random, chosen};
             }
         },
         methods: {
@@ -139,8 +146,10 @@
 
     .example
         font-size: 14px
-        text-overflow: ellipsis
-        overflow-x: hidden
+        word-break: break-all
+        color: $text-alt
+        b
+            color: $text
         .monospace
             font-family: $monospace-font
     .controls

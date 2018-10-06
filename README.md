@@ -20,8 +20,8 @@ Examples: `0xc0ffee254729296a45a3885639AC7E10F9d54979`, or `0x999999cf1046e68e36
 
 First of all, visit [`vanity-eth.tk`](https://vanity-eth.tk)
 
-Enter the prefix of your choice below, and click ‘generate’ to start. Your browser will generate lots of random
-addresses until one begins with your prefix.
+Enter as short prefix/suffix of your choice at the bottom of the page, and click ‘generate’ to start. Your browser will
+generate lots of random addresses until one matches your input.
 
 Once an address is found, you can reveal the private key, or click the 'save' button to download a password-encrypted keystore file.
 
