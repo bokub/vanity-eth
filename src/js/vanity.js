@@ -97,7 +97,7 @@ onmessage = function (event) {
     try {
         getVanityWallet(input.hex, input.checksum, input.suffix, (message) => postMessage(message));
     } catch (err) {
-        self.postMessage({error: err.toString()}, '*');
+        self.postMessage({error: err.toString()});
     }
 };
 

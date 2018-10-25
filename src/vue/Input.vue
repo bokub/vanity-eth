@@ -66,8 +66,9 @@
 
     function mixCase(str) {
         let ret = '';
-        for (let i of str) {
-            ret += Math.random() < 0.5 ? i.toUpperCase() : i.toLowerCase();
+        for (let i = 0; i < str.length; i++) {
+            const l = str.substr(i, 1);
+            ret += Math.random() < 0.5 ? l.toUpperCase() : l.toLowerCase();
         }
         return ret;
     }
