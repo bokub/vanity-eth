@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const pretty = require('pretty');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const PrerenderSpaPlugin = require('prerender-spa-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -75,7 +74,7 @@ module.exports = {
 };
 
 if (process.env.NODE_ENV === 'production') {
-	module.exports.plugins = (module.exports.plugins || []).concat([
+	module.exports.plugins = module.exports.plugins.concat([
 		new ExtractTextPlugin('style.css'),
 		new webpack.optimize.UglifyJsPlugin({
 			sourceMap: false,
@@ -88,18 +87,24 @@ if (process.env.NODE_ENV === 'production') {
 			filename: '../index.html',
 			inject: false
 		}),
-		new SriPlugin({
-			hashFuncNames: ['sha256', 'sha384']
-		}),
-		new PrerenderSpaPlugin({
-			staticDir: path.join(__dirname),
-			routes: ['/'],
-			postProcess(renderedRoute) {
-				renderedRoute.html = pretty(renderedRoute.html, {ocd: true})
-					.replace('render', 'prerender')
-					.replace(/(data-v-[0-9a-f]+)=""/gm, '$1');
-				return renderedRoute;
-			}
-		})
 	]);
+}
+
+if (process.env.DEPLOY) {
+	const SpaPlugin = require('prerender-spa-plugin');
+    module.exports.plugins = module.exports.plugins.concat([
+        new SriPlugin({
+        	hashFuncNames: ['sha256', 'sha384']
+        }),
+        new SpaPlugin({
+        	staticDir: path.join(__dirname),
+        	routes: ['/'],
+        	postProcess(renderedRoute) {
+        		renderedRoute.html = pretty(renderedRoute.html, {ocd: true})
+        			.replace('render', 'prerender')
+        			.replace(/(data-v-[0-9a-f]+)=""/gm, '$1');
+        		return renderedRoute;
+        	}
+        })
+    ]);
 }

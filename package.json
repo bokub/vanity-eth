@@ -26,7 +26,6 @@
     "html-webpack-plugin": "^3.2.0",
     "keccak": "^1.4.0",
     "node-sass": "^4.5.3",
-    "prerender-spa-plugin": "^3.2.1",
     "pretty": "^2.0.0",
     "randombytes": "^2.0.6",
     "remodal": "^1.1.1",
@@ -42,10 +41,12 @@
     "webpack-subresource-integrity": "^1.1.0-rc.5",
     "worker-loader": "^1.1.0"
   },
-  "license": "ISC",
+  "license": "MIT",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "build:deploy": "npm i --no-save prerender-spa-plugin && cross-env DEPLOY=true npm run build",
     "build:stats": "cross-env NODE_ENV=production webpack --json > stats.json",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "lint": "eslint --ext .js,.vue src --fix",

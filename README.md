@@ -62,27 +62,17 @@ to withdraw your funds from an exchange.
 The keystore file is 100% compatible with MyEtherWallet, MetaMask, Mist, and geth.
 
 
-## Local development
+## Build Vanity-ETH from source
 
-Install dependencies
+The Travis CI bot 🤖 is in charge of building and deploying Vanity-ETH to Github pages, but you can make your own build
+from source is you want
 
 ```sh
+git clone https://github.com/bokub/vanity-eth
+cd vanity-eth
 npm i
-```
-
-Run the dev-sever while you code
-
-```sh
-npm run dev
-```
-
-Build the project (optional)
-
-```sh
 npm run build
 ```
-
-The Travis CI bot 🤖 is in charge of building and deploying Vanity-ETH to Github pages.
 
 ## Tips
 
