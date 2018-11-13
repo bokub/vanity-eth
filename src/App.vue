@@ -223,6 +223,7 @@
                     o.id = 'fathom-script';
                     m.parentNode.insertBefore(o, m);
                 })(document, window, 'https://stats.vanity-eth.tk/tracker.js', 'fathom');
+                fathom('set', 'siteId', 'BUIGR');
                 fathom('trackPageview');
                 /* eslint-enable */
             },
@@ -237,6 +238,33 @@
                     this.error = 'insecure_location';
                 }
             },
+            benchmark(max) {
+                max = max || 10000;
+                const step = 500;
+                const worker = new Worker();
+                let attempts = 0;
+                const times = [];
+                const durations = [];
+                const timeTaken = (a, d) => Math.round(1000 * a / d);
+                worker.onmessage = () => {
+                    times.push(performance.now());
+                    if (times.length === 1) {
+                        return;
+                    }
+                    durations.push(times[times.length - 1] - times[times.length - 2]);
+                    attempts += step;
+                    console.info(attempts + '/' + max + '...' + timeTaken(step, durations[durations.length - 1]) + ' addr/s');
+                    if(attempts >= max) {
+                        console.info('\nSpeed range: ' + timeTaken(step, Math.max(...durations))
+                            + ' - ' + timeTaken(step, Math.min(...durations)) +' addr/s');
+                        console.info('Average: ' + timeTaken(attempts, (times[times.length - 1] - times[0])) + ' addr/s');
+                        worker.terminate();
+                    }
+                };
+                const input = {checksum: true, hex: 'f'.repeat(5), suffix: false};
+                console.info('Starting benchmark with 1 core...');
+                worker.postMessage(input);
+            }
         },
 
         created: function () {
@@ -244,6 +272,7 @@
             this.countCores();
             this.initWorkers();
             this.initFathom();
+            window['benchmark'] = this.benchmark;
         }
     };
 
@@ -291,6 +320,7 @@
         transition: box-shadow 0.2s ease-in-out
         &:hover
             box-shadow: $shadow-big
+
     #content
         margin-top: 8em
         margin-bottom: 6em
@@ -330,6 +360,7 @@
 
     #app.render .hide-render
         display: none
+
     #app.prerender .hide-prerender
         display: none
 
