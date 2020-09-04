@@ -25,7 +25,7 @@
     "file-loader": "^1.1.6",
     "html-webpack-plugin": "^3.2.0",
     "keccak": "^1.4.0",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.13.1",
     "pretty": "^2.0.0",
     "randombytes": "^2.0.6",
     "remodal": "^1.1.1",
