@@ -206,27 +206,6 @@
                     this.threads = this.cores;
                 }
             },
-            initFathom: function () {
-                if (window.location.hostname === 'localhost') {
-                    return; // No stats when coding
-                }
-                // Fathom - simple website analytics - https://github.com/usefathom/fathom
-                /* eslint-disable */
-                (function (f, a, t, h, o, m) {
-                    a[h] = a[h] || function () {
-                        (a[h].q = a[h].q || []).push(arguments);
-                    };
-                    o = f.createElement('script');
-                    m = f.getElementsByTagName('script')[0];
-                    o.async = 1;
-                    o.src = t;
-                    o.id = 'fathom-script';
-                    m.parentNode.insertBefore(o, m);
-                })(document, window, 'https://stats.vanity-eth.tk/tracker.js', 'fathom');
-                fathom('set', 'siteId', 'BUIGR');
-                fathom('trackPageview');
-                /* eslint-enable */
-            },
             checkLocation() {
                 try {
                     this.error = window.self !== window.top ? 'insecure_location' : this.error;
@@ -271,7 +250,6 @@
             this.checkLocation();
             this.countCores();
             this.initWorkers();
-            this.initFathom();
             window['benchmark'] = this.benchmark;
         }
     };
