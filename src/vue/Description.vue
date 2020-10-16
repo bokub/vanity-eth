@@ -5,7 +5,7 @@
             Enter a short prefix/suffix of your choice, and click ‘generate’ to start.
         </p>
         <div class="shortcut">
-            <button type="button" class="button-large" @click="scrollDown">Start now</button>
+            <button type="button" class="button-large umami--click--start-now" @click="scrollDown">Start now</button>
         </div>
 
         <h2>What's a vanity address?</h2>
