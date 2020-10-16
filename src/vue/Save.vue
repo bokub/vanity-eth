@@ -44,6 +44,7 @@
             save() {
                 if (this.password) {
                     this.loading = true;
+                    this.$root.$emit('event', 'Download');
 
                     setTimeout(() => {
                         const wallet = this.generateWallet(this.privateKey, this.password);

@@ -48,11 +48,11 @@
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
                     <input type="button" value="Generate" class="button-large hide-render" disabled>
-                    <input type="button" value="Generate" class="button-large hide-prerender umami--click--generate" @click="startGen"
+                    <input type="button" value="Generate" class="button-large hide-prerender" @click="startGen"
                            :disabled="running || inputError || error">
                 </div>
                 <div class="col-lg-6 col-sm-12">
-                    <input type="button" value="Stop" class="button-large umami--click--stop" @click="stopGen" :disabled="!running">
+                    <input type="button" value="Stop" class="button-large" @click="stopGen" :disabled="!running">
                 </div>
             </div>
         </form>
@@ -106,10 +106,12 @@
             startGen: function () {
                 if (!this.running && !this.inputError && !this.error) {
                     this.$emit('start');
+                    this.$root.$emit('event', 'Generate');
                 }
             },
             stopGen: function () {
                 this.$emit('stop');
+                this.$root.$emit('event', 'Stop');
             }
         },
         watch: {

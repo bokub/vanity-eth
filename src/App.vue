@@ -251,6 +251,12 @@
             this.countCores();
             this.initWorkers();
             window['benchmark'] = this.benchmark;
+
+            this.$root.$on('event', (name) => {
+                if (window['umami']) {
+                    window['umami'].trackEvent(name, 'click');
+                }
+            });
         }
     };
 
