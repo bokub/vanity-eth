@@ -3,7 +3,6 @@
 [![Build Status][build-img]][build-link]
 [![License][license-img]][license-link]
 [![Maintainability][maint-img]][maint-link]
-![Visitors][visitors-img]
 
 Browser-based ETH vanity address generator
 
@@ -84,4 +83,3 @@ npm run build
 [license-link]: https://raw.githubusercontent.com/bokub/vanity-eth/master/LICENSE
 [maint-img]: https://flat.badgen.net/codeclimate/maintainability/bokub/vanity-eth
 [maint-link]: https://codeclimate.com/github/bokub/vanity-eth/maintainability
-[visitors-img]: https://flat.badgen.net/runkit/vanity-eth-visits-oleal3y7ahxg

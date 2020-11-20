@@ -5,8 +5,11 @@
         <form @submit.prevent="save">
             <div>
                 <input class="hidden" type="text" autocomplete="username">
-                <input type="password" autocomplete="new-password" class="text-input-large" v-model="password"
+                <input :type="showPassword ? 'text' : 'password'" autocomplete="new-password" class="text-input-large" v-model="password"
                        placeholder="Password">
+                <button type="button" class="show-password" @click="showPassword = !showPassword">
+                    <i :class="showPassword ? 'icon-eye-off' : 'icon-eye-on'"></i>
+                </button>
             </div>
             <div>
                 <button type="button" class="button-large" @click="save" :disabled="!password || !privateKey || loading"
@@ -31,6 +34,7 @@
         },
         data: function () {
             return {
+                showPassword: false,
                 password: '',
                 loading: false
             };
@@ -128,5 +132,14 @@
                 color: $text
         .hidden
             display: none
-
+    .show-password
+        position: absolute
+        border: none
+        font-size: 24px
+        background: rgba(0,0,0,0)
+        color: $text
+        transform: translate(-50px, 12px)
+        outline: none !important
+        box-shadow: none !important
+        -webkit-appearance: none
 </style>

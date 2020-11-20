@@ -5,11 +5,11 @@
             <div class="col">
                 <div>Address: <span class="output" v-text="address"></span></div>
                 <div>Private key:
-                    <span class="output" v-if="privateKey" v-text="reveal ? privateKey : 'Click to reveal'" @click="reveal = true"></span>
+                    <span class="output" v-if="privateKey" v-text="reveal ? privateKey : 'Click to reveal'" @click="revealKey()"></span>
                 </div>
             </div>
             <div class="col-lg-2 col-12">
-                <button data-remodal-target="modal" class="save button-large" :disabled="!privateKey">
+                <button data-remodal-target="modal" class="save button-large" :disabled="!privateKey" @click="openSave()">
                     <i class="icon-lock"></i>&nbsp;&nbsp;&nbsp;Save
                 </button>
             </div>
@@ -38,6 +38,15 @@
                 if (addr) {
                     id.appendChild(blockies({seed: addr.toLocaleLowerCase(), scale: 6}));
                 }
+            }
+        },
+        methods: {
+            revealKey() {
+                this.reveal = true;
+                this.$root.$emit('event', 'Reveal');
+            },
+            openSave() {
+                this.$root.$emit('event', 'Save');
             }
         }
     };

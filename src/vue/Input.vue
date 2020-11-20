@@ -106,12 +106,10 @@
             startGen: function () {
                 if (!this.running && !this.inputError && !this.error) {
                     this.$emit('start');
-                    this.$root.$emit('event', 'Generate');
                 }
             },
             stopGen: function () {
                 this.$emit('stop');
-                this.$root.$emit('event', 'Stop');
             }
         },
         watch: {

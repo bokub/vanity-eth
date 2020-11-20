@@ -66,7 +66,6 @@
         methods: {
             scrollDown() {
                 this.scrollTo(document.getElementById('input-panel'), -1);
-                this.$root.$emit('event', 'Start now');
             },
             scrollTo(element, lastValue) {
                 let currentValue = window.scrollY;
