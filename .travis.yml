@@ -1,26 +1,16 @@
 language: node_js
 node_js:
-  - "lts/*"
+    - 'lts/*'
 
-install: npm i
+install: npm ci
 
 script:
-- npm test
-- npm run build:deploy
-
-  # Remove unwanted files
-- find . -maxdepth 1 -type f  -not -name 'LICENSE' -not -name 'index.html' -not -name 'README.md' -delete &&
-  rm -fr node_modules src dist/vanity.js
-
-  # Cache busting
-- COMMIT=$(git log --format='%h' -n 1) &&
-  sed -i "s/index.js/index.$COMMIT.js/g" index.html &&
-  sed -i "s/style.css/style.$COMMIT.css/g" index.html &&
-  mv dist/index.js dist/index.$COMMIT.js &&
-  mv dist/style.css dist/style.$COMMIT.css
+    - npm test
+    - npm run build:deploy
 
 deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $TOKEN
-  fqdn: vanity-eth.tk
+    provider: pages
+    skip_cleanup: true
+    local_dir: dist
+    github_token: $TOKEN
+    fqdn: vanity-eth.tk
