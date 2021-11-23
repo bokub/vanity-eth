@@ -1,28 +1,38 @@
 <template>
     <div class="panel" id="input-panel">
-        <form :class="{error: inputError}" @submit.prevent="startGen">
+        <form :class="{ error: inputError }" @submit.prevent="startGen">
             <div class="error-text">Numbers and letters from A to F only</div>
-            <input type="text" class="text-input-large" id="input"
-                   :placeholder="suffix ? 'Suffix' : 'Prefix'" v-model="hex" :disabled="running">
+            <input
+                type="text"
+                class="text-input-large"
+                id="input"
+                :placeholder="suffix ? 'Suffix' : 'Prefix'"
+                v-model="hex"
+                :disabled="running"
+            />
             <div class="row justify-content-center hide-render">
                 <div class="spinner">
-                    <div></div><div></div><div></div><div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
                 </div>
             </div>
             <div class="example hide-prerender">
                 E.g.&nbsp;
                 <span class="monospace">
                     0x<!--
-                    --><b v-if="!suffix" v-text="example.chosen"></b><!--
-                    --><span v-text="example.random"></span><!--
+                    --><b v-if="!suffix" v-text="example.chosen"></b
+                    ><!--
+                    --><span v-text="example.random"></span
+                    ><!--
                     --><b v-if="suffix" v-text="example.chosen"></b>
                 </span>
             </div>
             <div class="row controls hide-prerender">
                 <div class="col-12 col-sm-6 col-md-12 col-lg-6">
                     <label class="checkbox">
-                        <input type="checkbox" name="checkbox" checked="" v-model="checksum"
-                               :disabled="running">
+                        <input type="checkbox" name="checkbox" checked="" v-model="checksum" :disabled="running" />
                         <i class="left"> </i>
                         Case-sensitive
                     </label>
@@ -30,29 +40,44 @@
                 <div class="col-12 col-sm-6 col-md-12 col-lg-6">
                     <span>Prefix</span>
                     <label class="switch">
-                        <input type="checkbox" v-model="suffix" :disabled="running">
+                        <input type="checkbox" v-model="suffix" :disabled="running" />
                         <span class="slider"></span>
                     </label>
                     <span>Suffix</span>
                 </div>
             </div>
             <div class="threads hide-prerender">
-                <input type="button" class="square-btn button-large" value="-" @click="threads--"
-                       :disabled="running || threads <= 1">
-                <input type="button" class="square-btn arrow button-large" value="+" @click="threads++"
-                       :disabled="running">
+                <input
+                    type="button"
+                    class="square-btn button-large"
+                    value="-"
+                    @click="threads--"
+                    :disabled="running || threads <= 1"
+                />
+                <input
+                    type="button"
+                    class="square-btn arrow button-large"
+                    value="+"
+                    @click="threads++"
+                    :disabled="running"
+                />
                 <h4 v-text="threads"></h4>
-                <span>threads</span>
+                <span>&nbsp;threads</span>
                 <span v-if="threads === cores">(recommended)</span>
             </div>
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
-                    <input type="button" value="Generate" class="button-large hide-render" disabled>
-                    <input type="button" value="Generate" class="button-large hide-prerender" @click="startGen"
-                           :disabled="running || inputError || error">
+                    <input type="button" value="Generate" class="button-large hide-render" disabled />
+                    <input
+                        type="button"
+                        value="Generate"
+                        class="button-large hide-prerender"
+                        @click="startGen"
+                        :disabled="running || inputError || error"
+                    />
                 </div>
                 <div class="col-lg-6 col-sm-12">
-                    <input type="button" value="Stop" class="button-large" @click="stopGen" :disabled="!running">
+                    <input type="button" value="Stop" class="button-large" @click="stopGen" :disabled="!running" />
                 </div>
             </div>
         </form>
@@ -75,7 +100,7 @@
     export default {
         props: {
             running: Boolean,
-            cores: Number
+            cores: Number,
         },
         data: function () {
             return {
@@ -83,7 +108,7 @@
                 hex: '',
                 checksum: true,
                 suffix: false,
-                error: false
+                error: false,
             };
         },
         computed: {
@@ -97,10 +122,10 @@
                 const chosen = this.checksum ? this.hex : mixCase(this.hex);
                 let random = '';
                 for (let i = 0; i < 40 - this.hex.length; i++) {
-                    random += mixCase(Math.floor((Math.random() * 16)).toString(16));
+                    random += mixCase(Math.floor(Math.random() * 16).toString(16));
                 }
-                return {random, chosen};
-            }
+                return { random, chosen };
+            },
         },
         methods: {
             startGen: function () {
@@ -110,7 +135,7 @@
             },
             stopGen: function () {
                 this.$emit('stop');
-            }
+            },
         },
         watch: {
             hex: function () {
@@ -124,8 +149,8 @@
             },
             threads: function () {
                 this.$emit('input-change', 'threads', this.threads);
-            }
-        }
+            },
+        },
     };
 </script>
 
