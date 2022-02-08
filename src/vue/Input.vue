@@ -63,7 +63,7 @@
                 />
                 <h4 v-text="threads"></h4>
                 <span>&nbsp;threads</span>
-                <span v-if="threads === cores">(recommended)</span>
+                <span v-if="threads === cores"> (recommended)</span>
             </div>
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
@@ -104,7 +104,7 @@
         },
         data: function () {
             return {
-                threads: 4,
+                threads: this.$props.cores || 4,
                 hex: '',
                 checksum: true,
                 suffix: false,
