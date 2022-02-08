@@ -4,16 +4,26 @@
         <h3 class="title">Create encrypted keystore file (UTC / JSON)</h3>
         <form @submit.prevent="save">
             <div>
-                <input class="hidden" type="text" autocomplete="username">
-                <input :type="showPassword ? 'text' : 'password'" autocomplete="new-password" class="text-input-large" v-model="password"
-                       placeholder="Password">
+                <input class="hidden" type="text" autocomplete="username" />
+                <input
+                    :type="showPassword ? 'text' : 'password'"
+                    autocomplete="new-password"
+                    class="text-input-large"
+                    v-model="password"
+                    placeholder="Password"
+                />
                 <button type="button" class="show-password" @click="showPassword = !showPassword">
                     <i :class="showPassword ? 'icon-eye-off' : 'icon-eye-on'"></i>
                 </button>
             </div>
             <div>
-                <button type="button" class="button-large" @click="save" :disabled="!password || !privateKey || loading"
-                        v-text="loading ? 'Generating...' : 'Download'"></button>
+                <button
+                    type="button"
+                    class="button-large"
+                    @click="save"
+                    :disabled="!password || !privateKey || loading"
+                    v-text="loading ? 'Generating...' : 'Download'"
+                ></button>
             </div>
         </form>
     </div>
@@ -24,32 +34,30 @@
     import 'randombytes';
     import * as download from 'downloadjs';
 
-    import {v4} from 'uuid';
+    import { v4 } from 'uuid';
     import CryptoJS from 'crypto-js';
 
     export default {
         props: {
             privateKey: String,
-            address: String
+            address: String,
         },
         data: function () {
             return {
                 showPassword: false,
                 password: '',
-                loading: false
+                loading: false,
             };
         },
         watch: {
             privateKey: function () {
                 this.password = ''; // Reset password when new address is generated
-            }
+            },
         },
         methods: {
             save() {
                 if (this.password) {
                     this.loading = true;
-                    this.$root.$emit('event', 'Download');
-
                     setTimeout(() => {
                         const wallet = this.generateWallet(this.privateKey, this.password);
                         const fileName = 'UTC--' + new Date().toISOString().replace(/:/g, '-') + '--' + this.address;
@@ -66,7 +74,7 @@
                     address: this.address,
                     crypto: this.encryptPrivateKey(privateKey, password),
                     id: v4(),
-                    version: 3
+                    version: 3,
                 };
             },
 
@@ -80,10 +88,10 @@
             encryptPrivateKey(privateKey, password) {
                 const iv = CryptoJS.lib.WordArray.random(16);
                 const salt = CryptoJS.lib.WordArray.random(32);
-                const key = CryptoJS.PBKDF2(password, salt, { // eslint-disable-line new-cap
+                const key = CryptoJS.PBKDF2(password, salt, {
                     keySize: 8,
                     hasher: CryptoJS.algo.SHA256,
-                    iterations: 262144
+                    iterations: 262144,
                 });
                 const cipher = CryptoJS.AES.encrypt(
                     CryptoJS.enc.Hex.parse(privateKey.toString('hex')),
@@ -91,24 +99,24 @@
                     {
                         iv: iv,
                         mode: CryptoJS.mode.CTR,
-                        padding: CryptoJS.pad.NoPadding
+                        padding: CryptoJS.pad.NoPadding,
                     }
                 );
                 // eslint-disable-next-line new-cap
                 const mac = CryptoJS.SHA3(this.sliceWordArray(key, 4, 8).concat(cipher.ciphertext), {
-                    outputLength: 256
+                    outputLength: 256,
                 });
 
                 return {
                     kdf: 'pbkdf2',
-                    kdfparams: {c: 262144, dklen: 32, prf: 'hmac-sha256', salt: salt.toString()},
+                    kdfparams: { c: 262144, dklen: 32, prf: 'hmac-sha256', salt: salt.toString() },
                     cipher: 'aes-128-ctr',
                     ciphertext: cipher.ciphertext.toString(),
-                    cipherparams: {iv: iv.toString()},
-                    mac: mac.toString()
+                    cipherparams: { iv: iv.toString() },
+                    mac: mac.toString(),
                 };
-            }
-        }
+            },
+        },
     };
 </script>
 

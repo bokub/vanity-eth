@@ -21,14 +21,23 @@
             <div class="row">
                 <!--User input-->
                 <div class="col-md-6">
-                    <userInput :running="running" :cores="cores"
-                               @start="startGen" @stop="stopGen" @input-change="setInput"></userInput>
+                    <userInput
+                        :running="running"
+                        :cores="cores"
+                        @start="startGen"
+                        @stop="stopGen"
+                        @input-change="setInput"
+                    ></userInput>
                 </div>
 
                 <!--Statistics-->
                 <div class="col-md-6">
-                    <statistics :hex="input.hex" :checksum="input.checksum" :status="status"
-                                :first-tick="firstTick"></statistics>
+                    <statistics
+                        :hex="input.hex"
+                        :checksum="input.checksum"
+                        :status="status"
+                        :first-tick="firstTick"
+                    ></statistics>
                 </div>
             </div>
 
@@ -65,7 +74,7 @@
     import Foot from './vue/Footer';
 
     export default {
-        components: {Headline, Description, Err, UserInput, Statistics, Result, Save, Corner, Foot},
+        components: { Headline, Description, Err, UserInput, Statistics, Result, Save, Corner, Foot },
         data: function () {
             return {
                 running: false,
@@ -73,10 +82,10 @@
                 workers: [],
                 threads: 4,
                 cores: 0,
-                result: {address: '', privateKey: ''},
-                input: {hex: '', checksum: true, suffix: false},
+                result: { address: '', privateKey: '' },
+                input: { hex: '', checksum: true, suffix: false },
                 firstTick: null,
-                error: null
+                error: null,
             };
         },
         watch: {
@@ -84,23 +93,23 @@
                 if (!this.running) {
                     this.initWorkers();
                 }
-            }
+            },
         },
         methods: {
             setInput: function (inputType, value) {
                 // eslint-disable-next-line default-case
                 switch (inputType) {
-                case 'hex':
-                    this.input.hex = value;
-                    break;
-                case 'checksum':
-                    this.input.checksum = value;
-                    break;
-                case 'suffix':
-                    this.input.suffix = value;
-                    break;
-                case 'threads':
-                    this.threads = value;
+                    case 'hex':
+                        this.input.hex = value;
+                        break;
+                    case 'checksum':
+                        this.input.checksum = value;
+                        break;
+                    case 'suffix':
+                        this.input.suffix = value;
+                        break;
+                    case 'threads':
+                        this.threads = value;
                 }
             },
 
@@ -224,7 +233,7 @@
                 let attempts = 0;
                 const times = [];
                 const durations = [];
-                const timeTaken = (a, d) => Math.round(1000 * a / d);
+                const timeTaken = (a, d) => Math.round((1000 * a) / d);
                 worker.onmessage = () => {
                     times.push(performance.now());
                     if (times.length === 1) {
@@ -232,18 +241,25 @@
                     }
                     durations.push(times[times.length - 1] - times[times.length - 2]);
                     attempts += step;
-                    console.info(attempts + '/' + max + '...' + timeTaken(step, durations[durations.length - 1]) + ' addr/s');
-                    if(attempts >= max) {
-                        console.info('\nSpeed range: ' + timeTaken(step, Math.max(...durations))
-                            + ' - ' + timeTaken(step, Math.min(...durations)) +' addr/s');
-                        console.info('Average: ' + timeTaken(attempts, (times[times.length - 1] - times[0])) + ' addr/s');
+                    console.info(
+                        attempts + '/' + max + '...' + timeTaken(step, durations[durations.length - 1]) + ' addr/s'
+                    );
+                    if (attempts >= max) {
+                        console.info(
+                            '\nSpeed range: ' +
+                                timeTaken(step, Math.max(...durations)) +
+                                ' - ' +
+                                timeTaken(step, Math.min(...durations)) +
+                                ' addr/s'
+                        );
+                        console.info('Average: ' + timeTaken(attempts, times[times.length - 1] - times[0]) + ' addr/s');
                         worker.terminate();
                     }
                 };
-                const input = {checksum: true, hex: 'f'.repeat(5), suffix: false};
+                const input = { checksum: true, hex: 'f'.repeat(5), suffix: false };
                 console.info('Starting benchmark with 1 core...');
                 worker.postMessage(input);
-            }
+            },
         },
 
         created: function () {
@@ -251,15 +267,8 @@
             this.countCores();
             this.initWorkers();
             window['benchmark'] = this.benchmark;
-
-            this.$root.$on('event', (name) => {
-                if (window['umami']) {
-                    window['umami'].trackEvent(name, 'click');
-                }
-            });
-        }
+        },
     };
-
 </script>
 
 <style lang="sass">
