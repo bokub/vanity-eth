@@ -1,8 +1,9 @@
 # Vanity-ETH
 
-[![Build Status][build-img]][build-link]
-[![License][license-img]][license-link]
-[![Maintainability][maint-img]][maint-link]
+[![Build Status](https://flat.badgen.net/github/checks/bokub/vanity-eth?label=build)](https://github.com/bokub/vanity-eth/actions/workflows/deploy.yml?query=branch%3Amaster)
+[![License](https://flat.badgen.net/badge/license/MIT/cyan)](https://raw.githubusercontent.com/bokub/vanity-eth/master/LICENSE)
+[![Code style](https://flat.badgen.net/badge/code%20style/prettier/ff69b4)](https://github.com/bokub/prettier-config)
+[![Maintainability](https://flat.badgen.net/codeclimate/maintainability/bokub/vanity-eth)](https://codeclimate.com/github/bokub/vanity-eth/maintainability)
 
 Browser-based ETH vanity address generator
 
@@ -25,8 +26,7 @@ generate lots of random addresses until one matches your input.
 
 Once an address is found, you can reveal the private key, or click the 'save' button to download a password-encrypted keystore file.
 
-You can increase the number of working threads to reach higher speeds, or decrease it if you computer struggles.
-
+You can increase the number of working threads to reach higher speeds, or decrease it if your computer struggles.
 
 ## Security
 
@@ -35,23 +35,21 @@ There is no database, no server-side code. Everything vanishes when you close yo
 
 **Vanity-ETH cannot and will never store your private key**, and if you don't trust it, you have 3 ways to ensure your key remains private:
 
-- Once the web page is loaded, you can turn off the internet and continue playing, it will work seamlessly
-- You can also download the latest build of Vanity-ETH [here](https://git.io/veth-dl)
-and use it on a completely offline computer
-- The code is 100% open source and available on Github. You can review it as much as you want before using it
+-   Once the web page is loaded, you can turn off the internet and continue playing, it will work seamlessly
+-   You can also download the latest build of Vanity-ETH [here](https://git.io/veth-dl)
+    and use it on a completely offline computer
+-   The code is 100% open source and available on GitHub. You can review it as much as you want before using it
 
 Vanity-ETH uses a cryptographically secure pseudorandom number generator (CSPRNG) to generate Ethereum addresses.
 
 The keystore file is encrypted with a AES-128-CTR cipher using the BKDF2-SHA256 derivation function with 65536 hashing rounds.
 
-
 ## Performance
 
-For some reason, the performance of Vanity-ETH can vary a lot from a browser to another. 
+For some reason, the performance of Vanity-ETH can vary a lot from a browser to another.
 Currently, Chrome provides the best results.
 
-Using Vanity-ETH on your phone or tablet will work, but don't expect to reach the speed of a good old computer.
-
+Using Vanity-ETH on your phone or tablet will work, but don't expect to reach the speed of a good computer.
 
 ## Compatibility
 
@@ -60,11 +58,10 @@ to withdraw your funds from an exchange.
 
 The keystore file is 100% compatible with MyEtherWallet, MetaMask, Mist, and geth.
 
-
 ## Build Vanity-ETH from source
 
-The Travis CI bot 🤖 is in charge of building and deploying Vanity-ETH to Github pages, but you can make your own build
-from source is you want
+A GitHub Action is in charge of building and deploying Vanity-ETH to GitHub pages automatically 🤖, but you can make
+your own build from source if you want
 
 ```sh
 git clone https://github.com/bokub/vanity-eth
@@ -75,11 +72,4 @@ npm run build
 
 ## Tips
 
-`0xAceBabe64807cb045505b268ef253D8fC2FeF5Bc`
-
-[build-img]: https://flat.badgen.net/travis/bokub/vanity-eth
-[build-link]: https://travis-ci.org/bokub/vanity-eth
-[license-img]: https://flat.badgen.net/badge/license/MIT/orange
-[license-link]: https://raw.githubusercontent.com/bokub/vanity-eth/master/LICENSE
-[maint-img]: https://flat.badgen.net/codeclimate/maintainability/bokub/vanity-eth
-[maint-link]: https://codeclimate.com/github/bokub/vanity-eth/maintainability
+You can support this project by sending tips to `0xAceBabe64807cb045505b268ef253D8fC2FeF5Bc` 💛
