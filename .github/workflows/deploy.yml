@@ -1,0 +1,51 @@
+name: Build and deploy
+
+on:
+    push:
+        branches:
+            - master
+
+permissions:
+    contents: write
+
+jobs:
+    lint:
+        name: Lint
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 14
+            - run: npm ci
+            - run: npm test
+
+    build-and-deploy:
+        name: Build and deploy
+        runs-on: ubuntu-latest
+        needs:
+            - lint
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 14
+            - run: npm ci
+            - run: npm run build:deploy
+            - run: echo "vanity-eth.tk" > dist/CNAME
+            - run: npx serve dist &
+            - run: sudo snap install monolith
+            - run: mkdir monolith
+            - run: monolith http://localhost:3000 -o monolith/vanity-eth.html
+            - uses: JamesIves/github-pages-deploy-action@v4.3.3
+              with:
+                  branch: production
+                  folder: dist
+                  clean: true
+                  single-commit: true
+            - uses: JamesIves/github-pages-deploy-action@v4.3.3
+              with:
+                  branch: offline
+                  folder: monolith
+                  clean: true
+                  single-commit: true
