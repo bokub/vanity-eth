@@ -22,6 +22,7 @@
         "downloadjs": "^1.4.7",
         "humanize-duration": "^3.27.0",
         "keccak": "^3.0.1",
+        "node-polyfill-webpack-plugin": "^2.0.1",
         "randombytes": "^2.0.6",
         "register-service-worker": "^1.7.1",
         "remodal": "^1.1.1",
