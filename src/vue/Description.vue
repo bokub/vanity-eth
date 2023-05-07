@@ -39,7 +39,7 @@
             <br>
             Vanity-ETH uses a cryptographically secure pseudorandom number generator (CSPRNG) to generate
             Ethereum addresses.<br>
-            The keystore file is encrypted with a AES-128-CTR cipher using the BKDF2-SHA256 derivation function with 65536 hashing rounds.
+            The keystore file is encrypted with a AES-128-CTR cipher using the PBKDF2-SHA256 derivation function with 65536 hashing rounds.
         </p>
         <h2>Performance</h2>
         <p>
