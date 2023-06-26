@@ -1,15 +1,32 @@
 <template>
     <div class="panel" id="input-panel">
-        <form :class="{ error: inputError }" @submit.prevent="startGen">
-            <div class="error-text">Numbers and letters from A to F only</div>
-            <input
-                type="text"
-                class="text-input-large"
-                id="input"
-                :placeholder="suffix ? 'Suffix' : 'Prefix'"
-                v-model="hex"
-                :disabled="running"
-            />
+        <form @submit.prevent="startGen">
+            <div class="error-text" v-if="inputError">Numbers and letters from A to F only</div>
+
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-12 col-lg-6">
+                    <input
+                        :class="{ error: prefixError }"
+                        type="text"
+                        class="text-input-large"
+                        id="input"
+                        placeholder="Prefix"
+                        v-model="prefix"
+                        :disabled="running"
+                    />
+                </div>
+                <div class="col-12 col-sm-6 col-md-12 col-lg-6">
+                    <input
+                        :class="{ error: suffixError }"
+                        type="text"
+                        class="text-input-large"
+                        id="input"
+                        placeholder="Suffix"
+                        v-model="suffix"
+                        :disabled="running"
+                    />
+                </div>
+            </div>
             <div class="row justify-content-center hide-render">
                 <div class="spinner">
                     <div></div>
@@ -20,31 +37,22 @@
             </div>
             <div class="example hide-prerender">
                 E.g.&nbsp;
-                <span class="monospace">
+                <span v-if="inputError" class="monospace">N/A</span>
+                <span v-else class="monospace">
                     0x<!--
-                    --><b v-if="!suffix" v-text="example.chosen"></b
+                    --><b v-if="example.prefix" v-text="example.prefix"></b
                     ><!--
                     --><span v-text="example.random"></span
                     ><!--
-                    --><b v-if="suffix" v-text="example.chosen"></b>
+                    --><b v-if="example.suffix" v-text="example.suffix"></b>
                 </span>
             </div>
-            <div class="row controls hide-prerender">
-                <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                    <label class="checkbox">
-                        <input type="checkbox" name="checkbox" checked="" v-model="checksum" :disabled="running" />
-                        <i class="left"> </i>
-                        Case-sensitive
-                    </label>
-                </div>
-                <div class="col-12 col-sm-6 col-md-12 col-lg-6">
-                    <span>Prefix</span>
-                    <label class="switch">
-                        <input type="checkbox" v-model="suffix" :disabled="running" />
-                        <span class="slider"></span>
-                    </label>
-                    <span>Suffix</span>
-                </div>
+            <div class="controls hide-prerender">
+                <label class="checkbox">
+                    <input type="checkbox" name="checkbox" checked="" v-model="checksum" :disabled="running" />
+                    <i class="left"> </i>
+                    Case-sensitive
+                </label>
             </div>
             <div class="threads hide-prerender">
                 <input
@@ -105,26 +113,33 @@
         data: function () {
             return {
                 threads: this.$props.cores || 4,
-                hex: '',
+                prefix: '',
+                suffix: '',
                 checksum: true,
-                suffix: false,
                 error: false,
             };
         },
         computed: {
+            prefixError: function () {
+                return !isValidHex(this.prefix);
+            },
+            suffixError: function () {
+                return !isValidHex(this.suffix);
+            },
             inputError: function () {
-                return !isValidHex(this.hex);
+                return this.prefixError || this.suffixError;
             },
             example: function () {
                 if (this.inputError) {
-                    return 'N/A';
+                    return null;
                 }
-                const chosen = this.checksum ? this.hex : mixCase(this.hex);
+                const prefix = this.checksum ? this.prefix : mixCase(this.prefix);
+                const suffix = this.checksum ? this.suffix : mixCase(this.suffix);
                 let random = '';
-                for (let i = 0; i < 40 - this.hex.length; i++) {
+                for (let i = 0; i < 40 - this.prefix.length - this.suffix.length; i++) {
                     random += mixCase(Math.floor(Math.random() * 16).toString(16));
                 }
-                return { random, chosen };
+                return { random, prefix, suffix };
             },
         },
         methods: {
@@ -138,14 +153,14 @@
             },
         },
         watch: {
-            hex: function () {
-                this.$emit('input-change', 'hex', this.hex);
-            },
-            checksum: function () {
-                this.$emit('input-change', 'checksum', this.checksum);
+            prefix: function () {
+                this.$emit('input-change', 'prefix', this.prefix);
             },
             suffix: function () {
                 this.$emit('input-change', 'suffix', this.suffix);
+            },
+            checksum: function () {
+                this.$emit('input-change', 'checksum', this.checksum);
             },
             threads: function () {
                 this.$emit('input-change', 'threads', this.threads);
@@ -160,15 +175,11 @@
         min-height: 280px
 
     .error-text
-        display: none
         font-size: 14px
         color: $error
 
-    .error
-        input[type="text"]
-            border: 1px solid $error
-        .error-text
-            display: block
+    input.error
+        border: 1px solid $error
 
     .example
         font-size: 14px
