@@ -61,7 +61,7 @@ The keystore file is 100% compatible with MyEtherWallet, MetaMask, Mist, and get
 ## Build Vanity-ETH from source
 
 A GitHub Action is in charge of building and deploying Vanity-ETH to GitHub pages automatically 🤖, but you can make
-your own build from source if you want
+your own build from source if you want (you will need Node.js 16)
 
 ```sh
 git clone https://github.com/bokub/vanity-eth
