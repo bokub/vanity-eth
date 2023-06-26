@@ -134,6 +134,7 @@
             margin-bottom: 45px
         .remodal-close
             outline: none
+            margin: 8px
             &:before
                 font-size: 2em
             &:hover

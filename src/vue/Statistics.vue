@@ -25,7 +25,8 @@
 <script>
     import humanizeDuration from 'humanize-duration';
 
-    const computeDifficulty = function (pattern, isChecksum) {
+    const computeDifficulty = function (prefix, suffix, isChecksum) {
+        const pattern = prefix + suffix;
         const ret = Math.pow(16, pattern.length);
         return isChecksum ? ret * Math.pow(2, pattern.replace(/[^a-f]/gi, '').length) : ret;
     };
@@ -46,13 +47,17 @@
             };
         },
         props: {
-            hex: String,
+            prefix: String,
+            suffix: String,
             checksum: Boolean,
             status: String,
             firstTick: {},
         },
         watch: {
-            hex() {
+            prefix() {
+                this.count = 0;
+            },
+            suffix() {
                 this.count = 0;
             },
             checksum() {
@@ -61,10 +66,10 @@
         },
         computed: {
             inputError: function () {
-                return !isValidHex(this.hex);
+                return !isValidHex(this.prefix) || !isValidHex(this.suffix);
             },
             difficulty: function () {
-                return this.inputError ? 'N/A' : computeDifficulty(this.hex, this.checksum);
+                return this.inputError ? 'N/A' : computeDifficulty(this.prefix, this.suffix, this.checksum);
             },
             probability50() {
                 return this.inputError ? 0 : Math.floor(Math.log(0.5) / Math.log(1 - 1 / this.difficulty));

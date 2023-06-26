@@ -27,35 +27,42 @@ const getRandomWallet = () => {
 
 /**
  * Check if a wallet respects the input constraints
- * @param address
- * @param input
- * @param isChecksum
- * @param isSuffix
+ * @param address - Wallet address
+ * @param prefix - Prefix chosen by the user
+ * @param suffix - Suffix chosen by the user
+ * @param isChecksum - Is the input case-sensitive
  * @returns {boolean}
  */
-const isValidVanityAddress = (address, input, isChecksum, isSuffix) => {
-    const subStr = isSuffix ? address.substr(40 - input.length) : address.substr(0, input.length);
+const isValidVanityAddress = (address, prefix, suffix, isChecksum) => {
+    const addressPrefix = address.substring(0, prefix.length);
+    const addressSuffix = address.substring(40 - suffix.length);
 
     if (!isChecksum) {
-        return input === subStr;
+        return prefix === addressPrefix && suffix === addressSuffix;
     }
-    if (input.toLowerCase() !== subStr) {
+    if (prefix.toLowerCase() !== addressPrefix || suffix.toLowerCase() !== addressSuffix) {
         return false;
     }
 
-    return isValidChecksum(address, input, isSuffix);
+    return isValidChecksum(address, prefix, suffix);
 };
 
-const isValidChecksum = (address, input, isSuffix) => {
+const isValidChecksum = (address, prefix, suffix) => {
     const hash = keccak('keccak256').update(address).digest().toString('hex');
-    const shift = isSuffix ? 40 - input.length : 0;
 
-    for (let i = 0; i < input.length; i++) {
-        const j = i + shift;
-        if (input[i] !== (parseInt(hash[j], 16) >= 8 ? address[j].toUpperCase() : address[j])) {
+    for (let i = 0; i < prefix.length; i++) {
+        if (prefix[i] !== (parseInt(hash[i], 16) >= 8 ? address[i].toUpperCase() : address[i])) {
             return false;
         }
     }
+
+    for (let i = 0; i < suffix.length; i++) {
+        const j = i + 40 - suffix.length;
+        if (suffix[i] !== (parseInt(hash[j], 16) >= 8 ? address[j].toUpperCase() : address[j])) {
+            return false;
+        }
+    }
+
     return true;
 };
 
@@ -70,18 +77,20 @@ const toChecksumAddress = (address) => {
 
 /**
  * Generate a lot of wallets until one satisfies the input constraints
- * @param input - String chosen by the user
+ * @param prefix - Prefix chosen by the user
+ * @param suffix - Suffix chosen by the user
  * @param isChecksum - Is the input case-sensitive
- * @param isSuffix - Is it a suffix, or a prefix
  * @param cb - Callback called after x attempts, or when an address if found
  * @returns
  */
-const getVanityWallet = (input, isChecksum, isSuffix, cb) => {
-    input = isChecksum ? input : input.toLowerCase();
+const getVanityWallet = (prefix, suffix, isChecksum, cb) => {
     let wallet = getRandomWallet();
     let attempts = 1;
 
-    while (!isValidVanityAddress(wallet.address, input, isChecksum, isSuffix)) {
+    const pre = isChecksum ? prefix : prefix.toLowerCase();
+    const suf = isChecksum ? suffix : suffix.toLowerCase();
+
+    while (!isValidVanityAddress(wallet.address, pre, suf, isChecksum)) {
         if (attempts >= step) {
             cb({ attempts });
             attempts = 0;
@@ -95,7 +104,7 @@ const getVanityWallet = (input, isChecksum, isSuffix, cb) => {
 onmessage = function (event) {
     const input = event.data;
     try {
-        getVanityWallet(input.hex, input.checksum, input.suffix, (message) => postMessage(message));
+        getVanityWallet(input.prefix, input.suffix, input.checksum, (message) => postMessage(message));
     } catch (err) {
         self.postMessage({ error: err.toString() });
     }

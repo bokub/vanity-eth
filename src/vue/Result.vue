@@ -16,7 +16,7 @@
             </div>
             <div class="col-lg-2 col-12">
                 <button data-remodal-target="modal" class="save button-large" :disabled="!privateKey">
-                    <i class="icon-lock"></i>&nbsp;&nbsp;&nbsp;Save
+                    <i class="icon-lock"></i>Save
                 </button>
             </div>
         </div>
@@ -74,6 +74,10 @@
 
     .save
         margin-top: 30px
+        i
+          margin-right: 8px
+          top: 2px
+          position: relative
 
     @media screen and (min-width: 992px)
         .save
