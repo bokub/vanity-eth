@@ -21,11 +21,11 @@
         "crypto-js": "^3.3.0",
         "downloadjs": "^1.4.7",
         "humanize-duration": "^3.27.0",
-        "keccak": "^3.0.1",
-        "randombytes": "^2.0.6",
+        "keccak": "^3.0.3",
+        "randombytes": "^2.1.0",
         "register-service-worker": "^1.7.1",
         "remodal": "^1.1.1",
-        "secp256k1": "^3.8.0",
+        "secp256k1": "^5.0.0",
         "vue": "^2.6.11"
     },
     "devDependencies": {

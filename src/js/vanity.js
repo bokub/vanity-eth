@@ -10,7 +10,7 @@ const step = 500;
  */
 const privateToAddress = (privateKey) => {
     const pub = secp256k1.publicKeyCreate(privateKey, false).slice(1);
-    return keccak('keccak256').update(pub).digest().slice(-20).toString('hex');
+    return keccak('keccak256').update(Buffer.from(pub)).digest().slice(-20).toString('hex');
 };
 
 /**
@@ -21,7 +21,7 @@ const getRandomWallet = () => {
     const randbytes = randomBytes(32);
     return {
         address: privateToAddress(randbytes).toString('hex'),
-        privKey: randbytes.toString('hex')
+        privKey: randbytes.toString('hex'),
     };
 };
 
@@ -83,13 +83,13 @@ const getVanityWallet = (input, isChecksum, isSuffix, cb) => {
 
     while (!isValidVanityAddress(wallet.address, input, isChecksum, isSuffix)) {
         if (attempts >= step) {
-            cb({attempts});
+            cb({ attempts });
             attempts = 0;
         }
         wallet = getRandomWallet();
         attempts++;
     }
-    cb({address: '0x' + toChecksumAddress(wallet.address), privKey: wallet.privKey, attempts});
+    cb({ address: '0x' + toChecksumAddress(wallet.address), privKey: wallet.privKey, attempts });
 };
 
 onmessage = function (event) {
@@ -97,10 +97,10 @@ onmessage = function (event) {
     try {
         getVanityWallet(input.hex, input.checksum, input.suffix, (message) => postMessage(message));
     } catch (err) {
-        self.postMessage({error: err.toString()});
+        self.postMessage({ error: err.toString() });
     }
 };
 
 module.exports = {
-    onmessage
+    onmessage,
 };
