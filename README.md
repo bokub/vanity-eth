@@ -13,43 +13,58 @@ Just type [`vanity-eth.tk`](https://vanity-eth.tk) to use it ⚡️
 
 ## What's a vanity address?
 
-A vanity address is an address which part of it is chosen by yourself, making it look less random.
+A vanity address is an address in which you can choose a part of it to make it appear less random.
 
-Examples: `0xc0ffee254729296a45a3885639AC7E10F9d54979`, or `0x999999cf1046e68e36E1aA2E0E07105eDDD1f08E`
+Examples:
+
+-   `0xc0ffee254729296a45a3885639AC7E10F9d54979`
+-   `0x999999cf1046e68e36E1aA2E0E07105eDDD1f08E`
 
 ## Usage
 
 First of all, visit [`vanity-eth.tk`](https://vanity-eth.tk)
 
-Enter as short prefix/suffix of your choice at the bottom of the page, and click ‘generate’ to start. Your browser will
-generate lots of random addresses until one matches your input.
+Enter a short prefix and/or suffix of your choice and click _Generate_ to start. Your browser will
+generate lots of random addresses until it finds one that matches your input.
 
-Once an address is found, you can reveal the private key, or click the 'save' button to download a password-encrypted keystore file.
+Once an address is found, you can choose to reveal the private key or click the _Save_ button to download a password-encrypted keystore file.
 
-You can increase the number of working threads to reach higher speeds, or decrease it if your computer struggles.
+Adjusting the number of working threads can increase or decrease the speed, depending on your computer's capabilities.
 
 ## Security
 
-As explained above, everything is computed only in your browser. Nothing ever leaves your machine, or even your browser tab.
-There is no database, no server-side code. Everything vanishes when you close your tab.
+As mentioned earlier, all computations occur solely within your browser. Nothing ever leaves your machine, or even your browser tab.
+There is no database, no server-side code. Everything vanishes when you close your browser tab.
 
-**Vanity-ETH cannot and will never store your private key**, and if you don't trust it, you have 3 ways to ensure your key remains private:
+**Vanity-ETH cannot and will never store your private key.** If you have concerns about its trustworthiness, you have three options to ensure the privacy of your key:
 
--   Once the web page is loaded, you can turn off the internet and continue playing, it will work seamlessly
--   You can also download the latest build of Vanity-ETH [here](https://git.io/veth-dl)
-    and use it on a completely offline computer
--   The code is 100% open source and available on GitHub. You can review it as much as you want before using it
+-   After loading the web page, you can disconnect from the internet and continue using it seamlessly
+-   Alternatively, you can download the latest build of Vanity-ETH [here](https://git.io/veth-dl)
+    and use it on an offline computer
+-   The code is 100% open source and available on GitHub, allowing you to review it thoroughly before usage.
 
 Vanity-ETH uses a cryptographically secure pseudorandom number generator (CSPRNG) to generate Ethereum addresses.
 
-The keystore file is encrypted with a AES-128-CTR cipher using the PBKDF2-SHA256 derivation function with 65536 hashing rounds.
+The keystore file is encrypted with an AES-128-CTR cipher using the PBKDF2-SHA256 derivation function with 65536 hashing rounds.
+
+## Other browser-based tools
+
+Be aware that due to its popularity and open-source nature, Vanity-ETH has been widely copied, leading to the existence of websites claiming to provide the same functionality. Sometimes, they are perfect clones hosted on very similar domains.
+
+Most of them do not credit the original code, are not open-source, and may contain malicious code.
+
+Vanity-ETH has always been the **first** browser-based ETH vanity address generator, and remains the most popular and trusted one.
+
+To be sure you're on the real Vanity-ETH website, search for [Vanity-ETH on GitHub](https://github.com/search?o=desc&q=Vanity-ETH&s=stars), find the repository with the most stars (> 600), and click the link in the description. Double check by searching [Vanity-ETH on Google](https://www.google.com/search?q=Vanity-ETH).
 
 ## Performance
 
-For some reason, the performance of Vanity-ETH can vary a lot from a browser to another.
-Currently, Chrome provides the best results.
+Vanity-ETH's performance may vary significantly across different browsers. Currently, Chrome provides the best results.
 
-Using Vanity-ETH on your phone or tablet will work, but don't expect to reach the speed of a good computer.
+While you can use Vanity-ETH on your phone or tablet, it is unlikely to match the speed of a traditional computer.
+
+**N.B:** Vanity-ETH is designed to be a user-friendly tool that runs directly in your browser, providing easy accessibility without the need to download or install additional software.
+However, browser-based tools have inherent limitations that may affect their performance and efficiency. Some dedicated command-line tools are more difficult to use, but may offer better performance.
 
 ## Compatibility
 
