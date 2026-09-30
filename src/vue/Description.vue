@@ -57,8 +57,7 @@
             popular and trusted one.<br /><br />
             To be sure you're on the real Vanity-ETH website, search for
             <a href="https://github.com/search?o=desc&q=Vanity-ETH&s=stars" target="_blank">Vanity-ETH on GitHub</a>,
-            find the repository with the most stars (> 600), and click the link in the description. Double check by
-            searching <a href="https://www.google.com/search?q=Vanity-ETH" target="_blank">Vanity-ETH on Google</a>.
+            find the repository with the most stars (> 800), and click the link in the description.
         </p>
         <h2>Performance</h2>
         <p>

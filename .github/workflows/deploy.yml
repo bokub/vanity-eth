@@ -32,7 +32,7 @@ jobs:
                   node-version: 16
             - run: npm ci
             - run: npm run build:deploy
-            - run: echo "vanity-eth.tk" > dist/CNAME
+            - run: echo "vanity-eth.com" > dist/CNAME
             - run: npx serve dist &
             - run: sudo snap install monolith
             - run: mkdir monolith
