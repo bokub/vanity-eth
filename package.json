@@ -6,8 +6,8 @@
     "main": "index.js",
     "private": true,
     "scripts": {
-        "serve": "vue-cli-service serve",
-        "build": "vue-cli-service build",
+        "serve": "node --openssl-legacy-provider ./node_modules/.bin/vue-cli-service serve",
+        "build": "node --openssl-legacy-provider ./node_modules/.bin/vue-cli-service build",
         "lint": "vue-cli-service lint",
         "build:deploy": "npm i --no-save prerender-spa-plugin && cross-env DEPLOY=true npm run build",
         "test": "vue-cli-service lint --nofix",
@@ -45,5 +45,13 @@
         "sass-loader": "^8.0.2",
         "vue-template-compiler": "^2.6.11",
         "worker-loader": "^3.0.8"
+    },
+    "allowScripts": {
+        "core-js@2.6.12": true,
+        "core-js@3.11.2": true,
+        "ejs@2.7.4": true,
+        "keccak@3.0.3": true,
+        "secp256k1@5.0.0": true,
+        "yorkie@2.0.0": true
     }
 }
