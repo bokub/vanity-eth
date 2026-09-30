@@ -223,7 +223,7 @@
                     this.error = 'insecure_location';
                 }
                 const hostname = window.location.hostname;
-                if (hostname && ['localhost', '127.0.0.1', 'vanity-eth.tk'].indexOf(hostname) === -1) {
+                if (hostname && ['localhost', '127.0.0.1', 'vanity-eth.com', 'vanity-eth.tk'].indexOf(hostname) === -1) {
                     this.error = 'insecure_location';
                 }
             },

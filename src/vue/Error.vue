@@ -9,7 +9,7 @@
             <h3>Security alert</h3>
 
             You are using Vanity-ETH from an unknown website, which could steal your private keys.<br>
-            To stay safe, use Vanity-ETH on <a href="https://vanity-eth.tk" target="_blank">vanity-eth.tk</a>, or
+            To stay safe, use Vanity-ETH on <a href="https://vanity-eth.com" target="_blank">vanity-eth.com</a>, or
             download the latest build <a href="https://git.io/veth-dl" target="_blank">here</a> to use offline.
         </div>
         <p v-else v-html="error.replace('\n', '<br>')"></p>

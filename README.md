@@ -7,9 +7,9 @@
 
 Browser-based ETH vanity address generator
 
-Just type [`vanity-eth.tk`](https://vanity-eth.tk) to use it ⚡️
+Just type [`vanity-eth.com`](https://vanity-eth.com) to use it ⚡️
 
-[![Vanity-ETH](https://i.imgur.com/zmSLeBP.png)](https://vanity-eth.tk)
+[![Vanity-ETH](https://i.imgur.com/zmSLeBP.png)](https://vanity-eth.com)
 
 ## What's a vanity address?
 
@@ -22,7 +22,9 @@ Examples:
 
 ## Usage
 
-First of all, visit [`vanity-eth.tk`](https://vanity-eth.tk)
+First of all, visit [`vanity-eth.com`](https://vanity-eth.com).
+
+> **N.B**: the domain recently changed from [`vanity-eth.tk`](https://vanity-eth.tk) to [`vanity-eth.com`](https://vanity-eth.com)
 
 Enter a short prefix and/or suffix of your choice and click _Generate_ to start. Your browser will
 generate lots of random addresses until it finds one that matches your input.
@@ -55,7 +57,7 @@ Most of them do not credit the original code, are not open-source, and may conta
 
 Vanity-ETH has always been the **first** browser-based ETH vanity address generator, and remains the most popular and trusted one.
 
-To be sure you're on the real Vanity-ETH website, search for [Vanity-ETH on GitHub](https://github.com/search?o=desc&q=Vanity-ETH&s=stars), find the repository with the most stars (> 600), and click the link in the description. Double check by searching [Vanity-ETH on Google](https://www.google.com/search?q=Vanity-ETH).
+To be sure you're on the real Vanity-ETH website, search for [Vanity-ETH on GitHub](https://github.com/search?o=desc&q=Vanity-ETH&s=stars), find the repository with the most stars (> 800), and click the link in the description.
 
 ## Performance
 
