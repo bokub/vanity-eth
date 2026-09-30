@@ -4,6 +4,9 @@ const prettier = require('prettier');
 module.exports = {
     publicPath: '',
     chainWebpack: (config) => {
+        // Disable thread-loader for Node 24 compatibility
+        config.module.rule('js').uses.delete('thread-loader');
+
         // Worker Loader
         config.module
             .rule('worker')

@@ -13,10 +13,10 @@ jobs:
         name: Lint
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
               with:
-                  node-version: 16
+                  node-version: 24
             - run: npm ci
             - run: npm test
 
@@ -26,10 +26,10 @@ jobs:
         needs:
             - lint
         steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
               with:
-                  node-version: 16
+                  node-version: 24
             - run: npm ci
             - run: npm run build:deploy
             - run: echo "vanity-eth.com" > dist/CNAME
@@ -37,13 +37,13 @@ jobs:
             - run: sudo snap install monolith
             - run: mkdir monolith
             - run: monolith http://localhost:3000 -o monolith/vanity-eth.html
-            - uses: JamesIves/github-pages-deploy-action@v4.3.3
+            - uses: JamesIves/github-pages-deploy-action@v4.4.1
               with:
                   branch: production
                   folder: dist
                   clean: true
                   single-commit: true
-            - uses: JamesIves/github-pages-deploy-action@v4.3.3
+            - uses: JamesIves/github-pages-deploy-action@v4.4.1
               with:
                   branch: offline
                   folder: monolith
